@@ -4,7 +4,9 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', function
   });
 
     Event.get({id:$routeParams.id}, function(event) {
+        console.log(event)
         event.nbParticipant = (event.participants != null ? event.participants.length : 0)
+        event.image = 'http://127.0.0.1:9003/' + event.photoURL
         $scope.currentEvent = event
       });
 

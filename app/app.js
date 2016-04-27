@@ -1,4 +1,4 @@
-var app = angular.module('insapp', ['ngRoute','ngResource','ui.bootstrap.datetimepicker']);
+var app = angular.module('insapp', ['ngRoute','ngResource','ui.bootstrap.datetimepicker', 'ngFileUpload']);
 
 app.config(function($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);

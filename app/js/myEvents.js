@@ -5,6 +5,7 @@ app.controller('MyEvents', ['$scope', '$resource', '$location', function($scope,
 
   Association.get({id:"56d3716d0254b40c899f7988"}, function(assos) {
     $scope.myEvents = []
+    assos.events = (assos.events == null ? [] : assos.events)
     for (eventID of assos.events){
       Event.get({id:eventID}, function(event) {
         event.nbParticipant = (event.participants != null ? event.participants.length : 0)
