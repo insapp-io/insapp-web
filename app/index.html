@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html ng-app="insapp">
+<head>
+  <title>Insapp</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular-resource.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular-route.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.3/angular-cookies.min.js"></script>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+  <script src="node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+  <script src="node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+  <script src="node_modules/ng-dialog/js/ngDialog.min.js"></script>
+
+  <script type="text/javascript" src="node_modules/moment/moment.js"></script>
+  <script type="text/javascript" src="node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+  <script type="text/javascript" src="node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
+  <script type="text/javascript" src="node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+  <script type="text/javascript" src="node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+  <script type="text/javascript" src="node_modules/node-vibrant/dist/vibrant.min.js"></script>
+
+  <script type="text/javascript" src="/js/ui-bootstrap-tpls-1.2.5.min.js"></script>
+  <script type="text/javascript" src="/js/color-thief.js"></script>
+  <script type="text/javascript" src="/js/angular-colorthief.js"></script>
+
+  <script src ="app.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/logout.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/myEvents.js"></script>
+  <script src="js/myPosts.js"></script>
+  <script src="js/myEventReader.js"></script>
+  <script src="js/myPostsReader.js"></script>
+  <script src="js/myAssociation.js"></script>
+  <script src="js/createEvent.js"></script>
+  <script src="js/createPost.js"></script>
+  <script src="js/createAssociation.js"></script>
+  <script src="js/validationEvent.js"></script>
+  <script src="js/validationPost.js"></script>
+  <script>
+  function readURL(input) {
+      var preview = document.querySelector('img');
+      var file    = document.querySelector('input[type=file]').files[0];
+      var reader  = new FileReader();
+
+      reader.onloadend = function () {
+        preview.src = reader.result;
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
+      } else {
+        preview.src = "";
+      }
+    }
+
+    function chooseFile() {
+      document.getElementById("imageInput").click();
+    }
+  </script>
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="node_modules/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
+  <link rel="stylesheet" href="node_modules/ng-dialog/css/ngDialog.min.css"/>
+  <link rel="stylesheet" href="node_modules/ng-dialog/css/ngDialog.css">
+  <link rel="stylesheet" href="node_modules/ng-dialog/css/ngDialog-theme-default.css">
+  <link rel="stylesheet" href="node_modules/ng-dialog/css/ngDialog-theme-plain.css">
+  <link rel="stylesheet" href="node_modules/ng-dialog/css/ngDialog-custom-width.css">
+
+  <base href="/">
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavigationController">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/myEvents">Insapp</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li ng-class="{ active: isActive('/myEvents')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="/myEvents">Mes événements</a></li>
+        <li ng-class="{ active: isActive('/myPosts')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="/myPosts">Mes posts</a></li>
+        <li ng-class="{ active: isActive('/myAssociation')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="/myAssociation">Mon association</a></li>
+        <li ng-class="{ active: isActive('/validation')}" ng-show="master" ng-click="isLoggedIn()"class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li ng-show="master" ng-click="isLoggedIn()"><a href="/validationEvent">Event</a></li>
+              <li ng-show="master" ng-click="isLoggedIn()"><a href="/validationPost">Posts</a></li>
+            </ul>
+          </li>
+        <li ng-class="{ active: isActive('/createAssociation')}" ng-show="master" ng-click="isLoggedIn()"><a href="/createAssociation">Créer une association</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-show="loggedIn" ng-click="isLoggedIn()"><a href="/logout"><span class="glyphicon glyphicon-log-out"></span>Log out</a></li>
+      </ul>
+    </div>
+    </nav>
+  <div style="padding-top:50px;" ng-view></div>
+</body>
+</html>
