@@ -6,6 +6,10 @@ app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$locatio
     $location.path('/login')
   }
 
+  $scope.isActive = function (viewLocation) {
+    return viewLocation === $location.path();
+};
+
   $scope.currentAssociation = {
     owner: Session.getAssociation(),
     master : false,
@@ -24,6 +28,9 @@ app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$locatio
             className: 'ngdialog-theme-default'
         });
       });
+    }, function(error) {
+        Session.destroyCredentials()
+        $location.path('/login')
     });
   }
 

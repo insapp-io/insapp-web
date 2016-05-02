@@ -4,7 +4,11 @@ app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', funct
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
-  } 
+  }
+
+  $scope.isActive = function (viewLocation) {
+      return viewLocation === $location.path();
+  };
 
   Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
     $scope.myEvents = []
@@ -15,6 +19,9 @@ app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', funct
         $scope.myEvents.push(event)
       });
     }
+  }, function(error) {
+      Session.destroyCredentials()
+      $location.path('/login')
   });
 
   $scope.onclick = function(event) {

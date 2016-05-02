@@ -1,4 +1,4 @@
-app.controller('NavigationController', ['$scope', 'Session', function($scope, Session) {
+app.controller('NavigationController', ['$scope', 'Session', '$location', function($scope, Session, $location) {
     $scope.master = null;
     $scope.isLoggedIn = isLoggedIn()
     Session.setLoggedInCallback(isLoggedIn)
@@ -7,4 +7,8 @@ app.controller('NavigationController', ['$scope', 'Session', function($scope, Se
       $scope.master = (Session.getMaster() == 'true')
       $scope.loggedIn = Session.getToken() != null && Session.getAssociation() != null
     }
+
+    $scope.isActive = function (viewLocation) {
+      return $location.path().indexOf(viewLocation) > -1
+    };
 }]);
