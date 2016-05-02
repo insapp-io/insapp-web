@@ -1,0 +1,40 @@
+
+  <div ng-controller="CreatePost">
+    <div style="float: none;margin: 0 auto;padding:3%">
+      <form class="form-horizontal col-md-6" name="form" ng-submit="createPost()">
+        <h1 style="padding:10px;">{{ currentPost.title }}</h1>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Image</label>
+          <div class="col-sm-10">
+            <div ng-hide="file" ngf-drop ng-model="file" style="background: #F8F8F8; border: 5px dashed #DDD; width: 300px; text-align: center; padding: 50px 10px;" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Déposer une image ici</div>
+            <img id="img" ng-show="file" class="img-rounded" height="300">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label"></label>
+          <div class="col-sm-10">
+            <div ng-hide="file" class="btn btn-success" ng-model="file" ngf-select="upload($file)" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Selectionner</div>
+            <div ng-show="file" class="btn btn-danger" ng-click="removeFile()">Supprimer</div>
+          </div>
+        </div>
+        <div class="form-group">
+           <label class="col-sm-2 control-label">Titre</label>
+           <div class="col-sm-10">
+             <input type="text" ng-model="currentPost.title" class="form-control" required>
+           </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Description (optionnel)</label>
+          <div class="col-sm-10">
+            <textarea ng-model="currentPost.description" rows="3" class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label"></label>
+          <div class="col-sm-10">
+            <button class="btn btn-success" type="submit" ng-disabled="form.$invalid || !file">Valider</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

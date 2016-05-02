@@ -1,0 +1,78 @@
+
+  <div ng-controller="CreateEvent">
+    <div style="float: none;margin: 0 auto;padding:3%">
+      <form class="form-horizontal col-md-6" name="form" ng-submit="createEvent(form.$valid)" novalidate>
+        <h1 style="padding:10px;">{{ currentEvent.name }}</h1>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Image</label>
+          <div class="col-sm-10">
+            <div ng-hide="file" ngf-drop ng-model="file" style="background: #F8F8F8; border: 5px dashed #DDD; width: 300px; text-align: center; padding: 50px 10px;" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Déposer une image ici</div>
+            <img id="img" ng-show="file" class="img-rounded" height="300">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label"></label>
+          <div class="col-sm-10">
+            <div ng-hide="file" class="btn btn-success" ng-model="file" ngf-select="upload($file)" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Selectionner</div>
+            <div ng-show="file" class="btn btn-danger" ng-click="removeFile()">Supprimer</div>
+          </div>
+        </div>
+        <div class="form-group" ng-show="palette">
+          <label class="col-sm-2 control-label">Couleur</label>
+          <div class="col-sm-10">
+            <div class="form-group" ng-style="{'background-color': 'rgb('+palette[0][0]+', '+palette[0][1]+', '+palette[0][2]+')','height':'40px', 'width':'80px', 'display':'inline-block', 'margin-left':'0px'}">
+              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(0);" checked>
+            </div>
+            <div class="form-group" ng-style="{'background-color': 'rgb('+palette[1][0]+', '+palette[1][1]+', '+palette[1][2]+')','height':'40px', 'width':'80px', 'display':'inline-block', 'margin-left':'20px'}">
+              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(1);">
+            </div>
+            <div class="form-group" ng-style="{'background-color': 'rgb('+palette[2][0]+', '+palette[2][1]+', '+palette[2][2]+')','height':'40px', 'width':'80px', 'display':'inline-block', 'margin-left':'20px'}">
+              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(2);">
+            </div>
+            <div class="form-group" ng-style="{'background-color': 'rgb('+palette[3][0]+', '+palette[3][1]+', '+palette[3][2]+')','height':'40px', 'width':'80px', 'display':'inline-block', 'margin-left':'20px'}">
+              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(3);">
+            </div>
+            <div class="form-group" ng-style="{'background-color': 'rgb('+palette[4][0]+', '+palette[4][1]+', '+palette[4][2]+')','height':'40px', 'width':'80px', 'display':'inline-block', 'margin-left':'20px'}">
+              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(4);">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+           <label class="col-sm-2 control-label">Nom</label>
+           <div class="col-sm-10">
+             <input type="text" ng-model="currentEvent.name" class="form-control" required>
+           </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Description</label>
+          <div class="col-sm-10">
+            <textarea ng-model="currentEvent.description" rows="3" class="form-control" required></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Début</label>
+          <div class="col-sm-10">
+            <fieldset disabled>
+              <input type="text" class="form-control" placeholder="{{ currentEvent.dateStart | date:'yyyy-MM-dd HH:mm' }}">
+            </fieldset>
+            <datetimepicker data-ng-model="currentEvent.dateStart"></datetimepicker>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Fin</label>
+          <div class="col-sm-10">
+            <fieldset disabled>
+              <input type="text" class="form-control" placeholder="{{ currentEvent.dateEnd | date:'yyyy-MM-dd HH:mm' }}">
+            </fieldset>
+            <datetimepicker data-ng-model="currentEvent.dateEnd"></datetimepicker>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label"></label>
+          <div class="col-sm-10">
+            <button class="btn btn-success" type="submit" ng-disabled="form.$invalid || !file || !currentEvent.dateEnd || !currentEvent.dateStart">Valider</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
