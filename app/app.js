@@ -1,5 +1,4 @@
 var app = angular.module('insapp', ['ngRoute','ngResource','ui.bootstrap.datetimepicker', 'ngFileUpload', 'ngDialog', 'ngColorThief', 'ngFileUpload']);
-
 app.config(function($routeProvider, $locationProvider, $colorThiefProvider) {
   $colorThiefProvider.setDefaultQuality(1);
   $colorThiefProvider.setDefaultColorCount(10);

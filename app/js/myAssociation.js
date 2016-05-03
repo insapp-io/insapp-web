@@ -1,5 +1,5 @@
 app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', '$colorThief', 'Upload', 'fileUpload', function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, fileUpload) {
-  var Association = $resource('http://fthomasmorel.ml:9000/association/:id?token=:token', null, {
+  var Association = $resource('http://api.fthomasmorel.ml/association/:id?token=:token', null, {
   'update': { method:'PUT' }
 });
 
@@ -70,8 +70,8 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
     }
 
   Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
-    $scope.file = 'http://fthomasmorel.ml:9003/' + assos.photoURL
-    assos.photo = 'http://fthomasmorel.ml:9003/' + assos.photoURL
+    $scope.file = 'http://cdn.fthomasmorel.ml/' + assos.photoURL
+    assos.photo = 'http://cdn.fthomasmorel.ml/' + assos.photoURL
     $scope.oldAssociation = assos
     $scope.currentAssociation = assos
   }, function(error) {
@@ -83,7 +83,7 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
     Association.update({id:Session.getAssociation(), token:Session.getToken()}, $scope.currentAssociation, function(assos) {
       if($scope.file != $scope.oldAssociation.file){
         var file = $scope.file;
-        var uploadUrl = 'http://fthomasmorel.ml:9000/association/' + $scope.currentAssociation.ID + '/image?token=' + Session.getToken();
+        var uploadUrl = 'http://api.fthomasmorel.ml/association/' + $scope.currentAssociation.ID + '/image?token=' + Session.getToken();
         fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
           if(success){
             ngDialog.open({

@@ -1,7 +1,7 @@
 app.controller('ValidationEvent', ['$scope', '$resource', '$location', 'Session', function($scope, $resource, $location, Session) {
-  var MyAssociations = $resource('http://fthomasmorel.ml:9000/association/:id/myassociations?token=:token');
-  var Association = $resource('http://fthomasmorel.ml:9000/association/:id?token=:token');
-  var Event = $resource('http://fthomasmorel.ml:9000/event/:id?token=:token');
+  var MyAssociations = $resource('http://api.fthomasmorel.ml/association/:id/myassociations?token=:token');
+  var Association = $resource('http://api.fthomasmorel.ml/association/:id?token=:token');
+  var Event = $resource('http://api.fthomasmorel.ml/event/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
