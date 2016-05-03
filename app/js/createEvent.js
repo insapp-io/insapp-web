@@ -1,5 +1,5 @@
 app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$colorThief', 'Upload', 'fileUpload', 'ngDialog', function($scope, $resource, Session, $location, $colorThief, Upload, fileUpload, ngDialog) {
-  var Event = $resource('http://127.0.0.1:9000/event?token=:token');
+  var Event = $resource('http://fthomasmorel.ml:9000/event?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
@@ -84,7 +84,7 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$
     Event.save({token:Session.getToken()}, $scope.currentEvent, function(event) {
       if($scope.file){
         var file = $scope.file;
-        var uploadUrl = 'http://127.0.0.1:9000/event/' + event.ID + '/image?token=' + Session.getToken();
+        var uploadUrl = 'http://fthomasmorel.ml:9000/event/' + event.ID + '/image?token=' + Session.getToken();
         fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
           if(success){
             ngDialog.open({

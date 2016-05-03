@@ -1,7 +1,7 @@
 app.controller('ValidationPost', ['$scope', '$resource', '$location', 'Session', function($scope, $resource, $location, Session) {
-  var MyAssociations = $resource('http://127.0.0.1:9000/association/:id/myassociations?token=:token');
-  var Association = $resource('http://127.0.0.1:9000/association/:id?token=:token');
-  var Post = $resource('http://127.0.0.1:9000/post/:id?token=:token');
+  var MyAssociations = $resource('http://fthomasmorel.ml:9000/association/:id/myassociations?token=:token');
+  var Association = $resource('http://fthomasmorel.ml:9000/association/:id?token=:token');
+  var Post = $resource('http://fthomasmorel.ml:9000/post/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

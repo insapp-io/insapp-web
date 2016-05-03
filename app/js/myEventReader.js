@@ -1,5 +1,5 @@
 app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', 'fileUpload', function($scope, $resource, $routeParams, Session, $location, ngDialog, fileUpload) {
-  var Event = $resource('http://127.0.0.1:9000/event/:id?token=:token', null, {
+  var Event = $resource('http://fthomasmorel.ml:9000/event/:id?token=:token', null, {
     'update': { method:'PUT' }
   });
 
@@ -80,8 +80,8 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
 
     Event.get({id:$routeParams.id, token:Session.getToken()}, function(event) {
         event.nbParticipant = (event.participants != null ? event.participants.length : 0)
-        event.photo = 'http://127.0.0.1:9003/' + event.photoURL
-        $scope.file = 'http://127.0.0.1:9003/' + event.photoURL
+        event.photo = 'http://fthomasmorel.ml:9003/' + event.photoURL
+        $scope.file = 'http://fthomasmorel.ml:9003/' + event.photoURL
         $scope.oldEvent = event
         $scope.currentEvent = event
       }, function(error) {
@@ -93,7 +93,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
         Event.update({id:$scope.currentEvent.ID, token:Session.getToken()}, $scope.currentEvent, function(event) {
           if ($scope.file != $scope.oldEvent.image){
             var file = $scope.file;
-            var uploadUrl = 'http://127.0.0.1:9000/event/' + $scope.currentEvent.ID + '/image?token=' + Session.getToken();
+            var uploadUrl = 'http://fthomasmorel.ml:9000/event/' + $scope.currentEvent.ID + '/image?token=' + Session.getToken();
             fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
               if(success){
                 ngDialog.open({

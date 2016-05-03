@@ -1,6 +1,6 @@
 angular.module('insapp', ['ngResource'])
 .controller('SearchController', ['$scope', '$resource', function($scope, $resource) {
-  var Association = $resource('http://127.0.0.1:9000/association/:id');
+  var Association = $resource('http://fthomasmorel.ml:9000/association/:id');
   console.log("test");
   $scope.newEvent = {
     name: "",

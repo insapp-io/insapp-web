@@ -1,6 +1,6 @@
 app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', function($scope, $resource, $location, Session) {
-  var Association = $resource('http://127.0.0.1:9000/association/:id?token=:token');
-  var Event = $resource('http://127.0.0.1:9000/event/:id?token=:token');
+  var Association = $resource('http://fthomasmorel.ml:9000/association/:id?token=:token');
+  var Event = $resource('http://fthomasmorel.ml:9000/event/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

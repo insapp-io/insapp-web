@@ -1,5 +1,5 @@
 app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload', 'Session', '$location', 'ngDialog', function($scope, $resource, $routeParams, fileUpload, Session, $location, ngDialog) {
-  var Post = $resource('http://127.0.0.1:9000/post?token=:token');
+  var Post = $resource('http://fthomasmorel.ml:9000/post?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
@@ -45,7 +45,7 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
     Post.save({token:Session.getToken()}, $scope.currentPost, function(post) {
       if($scope.file){
         var file = $scope.file;
-        var uploadUrl = 'http://127.0.0.1:9000/post/' + post.ID + '/image?token=' + Session.getToken();
+        var uploadUrl = 'http://fthomasmorel.ml:9000/post/' + post.ID + '/image?token=' + Session.getToken();
         fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
           if(success){
             ngDialog.open({
