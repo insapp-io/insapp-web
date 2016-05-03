@@ -1,4 +1,4 @@
-app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', 'fileUpload', function($scope, $resource, $routeParams, Session, $location, ngDialog, fileUpload) {
+app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', 'fileUpload', '$loadingOverlay', function($scope, $resource, $routeParams, Session, $location, ngDialog, fileUpload, $loadingOverlay) {
   var Event = $resource('http://api.fthomasmorel.ml/event/:id?token=:token', null, {
     'update': { method:'PUT' }
   });
@@ -78,7 +78,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
     }
 
 
-    $scope.promise = Event.get({id:$routeParams.id, token:Session.getToken()}, function(event) {
+    Event.get({id:$routeParams.id, token:Session.getToken()}, function(event) {
         event.nbParticipant = (event.participants != null ? event.participants.length : 0)
         event.photo = 'http://cdn.fthomasmorel.ml/' + event.photoURL
         $scope.file = 'http://cdn.fthomasmorel.ml/' + event.photoURL
@@ -90,11 +90,14 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
       });
 
       $scope.updateEvent = function() {
+        $loadingOverlay.show()
+        $("html, body").animate({ scrollTop: 0 }, "slow");
         Event.update({id:$scope.currentEvent.ID, token:Session.getToken()}, $scope.currentEvent, function(event) {
           if ($scope.file != $scope.oldEvent.image){
             var file = $scope.file;
             var uploadUrl = 'http://api.fthomasmorel.ml/event/' + $scope.currentEvent.ID + '/image?token=' + Session.getToken();
             fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
+              $loadingOverlay.hide()
               if(success){
                 ngDialog.open({
                     template: "<h2 style='text-align:center;'>L'événement a bien été mis à jour</h2>",
@@ -109,13 +112,14 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
                 });
               }
             });
-            return
+          }else{
+            $loadingOverlay.hide()
+            ngDialog.open({
+                template: "<h2 style='text-align:center;'>L'événément à été mis à jour</h2>",
+                plain: true,
+                className: 'ngdialog-theme-default'
+            });
           }
-          ngDialog.open({
-              template: "<h2 style='text-align:center;'>L'événément à été mis à jour</h2>",
-              plain: true,
-              className: 'ngdialog-theme-default'
-          });
         }, function(error) {
             Session.destroyCredentials()
             $location.path('/login')

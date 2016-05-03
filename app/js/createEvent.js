@@ -1,4 +1,4 @@
-app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$colorThief', 'Upload', 'fileUpload', 'ngDialog', function($scope, $resource, Session, $location, $colorThief, Upload, fileUpload, ngDialog) {
+app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$colorThief', 'Upload', 'fileUpload', 'ngDialog', '$loadingOverlay', function($scope, $resource, Session, $location, $colorThief, Upload, fileUpload, ngDialog, $loadingOverlay) {
   var Event = $resource('http://api.fthomasmorel.ml/event?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
@@ -81,11 +81,14 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$
     if (!isValid){
       return
     }
-  $scope.promise = Event.save({token:Session.getToken()}, $scope.currentEvent, function(event) {
+    $loadingOverlay.show()
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    Event.save({token:Session.getToken()}, $scope.currentEvent, function(event) {
       if($scope.file){
         var file = $scope.file;
         var uploadUrl = 'http://api.fthomasmorel.ml/event/' + event.ID + '/image?token=' + Session.getToken();
         fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
+          $loadingOverlay.hide()
           if(success){
             ngDialog.open({
                 template: "<h2 style='text-align:center;'>L'événement a bien été créé</h2>",
@@ -100,6 +103,8 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$
             });
           }
         });
+      }else{
+        $loadingOverlay.hide()
       }
     }, function(error) {
         Session.destroyCredentials()

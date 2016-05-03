@@ -1,4 +1,4 @@
-app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload', 'Session', '$location', 'ngDialog', function($scope, $resource, $routeParams, fileUpload, Session, $location, ngDialog) {
+app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload', 'Session', '$location', 'ngDialog', '$loadingOverlay', function($scope, $resource, $routeParams, fileUpload, Session, $location, ngDialog, $loadingOverlay) {
   var Post = $resource('http://api.fthomasmorel.ml/post?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
@@ -42,11 +42,14 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
     }
 
   $scope.createPost = function() {
+    $loadingOverlay.show()
+    $("html, body").animate({ scrollTop: 0 }, "slow");
     Post.save({token:Session.getToken()}, $scope.currentPost, function(post) {
       if($scope.file){
         var file = $scope.file;
         var uploadUrl = 'http://api.fthomasmorel.ml/post/' + post.ID + '/image?token=' + Session.getToken();
         fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
+          $loadingOverlay.hide()
           if(success){
             ngDialog.open({
                 template: "<h2 style='text-align:center;'>Le post a bien été créé</h2>",
@@ -61,8 +64,10 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
             });
           }
         });
-        return
+      }else{
+        $loadingOverlay.hide()
       }
+
     }, function(error) {
         Session.destroyCredentials()
         $location.path('/login')

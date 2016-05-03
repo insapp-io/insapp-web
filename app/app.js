@@ -1,4 +1,10 @@
-var app = angular.module('insapp', ['ngRoute','ngResource','ui.bootstrap.datetimepicker', 'ngFileUpload', 'ngDialog', 'ngColorThief', 'ngFileUpload']);
+var app = angular.module('insapp', ['ngRoute','ngResource','ui.bootstrap.datetimepicker', 'ngFileUpload', 'ngDialog', 'ngColorThief', 'ngFileUpload', 'ngLoadingOverlay','angular-spinkit']);
+
+app.config(['$loadingOverlayConfigProvider', function ($loadingOverlayConfigProvider) {
+    $loadingOverlayConfigProvider.defaultConfig('<img style="display: block;margin-left: auto;margin-right: auto; width:50px" src="images/loader.gif"></img><h3>Chargement</h3>', 'rgba(0, 0, 0, 0.5)', '#fff');
+  }
+]);
+
 app.config(function($routeProvider, $locationProvider, $colorThiefProvider) {
   $colorThiefProvider.setDefaultQuality(1);
   $colorThiefProvider.setDefaultColorCount(10);

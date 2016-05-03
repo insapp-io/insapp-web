@@ -1,8 +1,7 @@
-app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', '$colorThief', 'Upload', 'fileUpload', function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, fileUpload) {
+app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', '$colorThief', 'Upload', 'fileUpload', '$loadingOverlay', function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, fileUpload, $loadingOverlay) {
   var Association = $resource('http://api.fthomasmorel.ml/association/:id?token=:token', null, {
   'update': { method:'PUT' }
 });
-
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
@@ -80,11 +79,14 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
   });
 
   $scope.updateAssociation = function() {
+    $loadingOverlay.show()
+    $("html, body").animate({ scrollTop: 0 }, "slow");
     Association.update({id:Session.getAssociation(), token:Session.getToken()}, $scope.currentAssociation, function(assos) {
       if($scope.file != $scope.oldAssociation.file){
         var file = $scope.file;
         var uploadUrl = 'http://api.fthomasmorel.ml/association/' + $scope.currentAssociation.ID + '/image?token=' + Session.getToken();
-        fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
+        $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
+          $loadingOverlay.hide()
           if(success){
             ngDialog.open({
                 template: "<h2 style='text-align:center;'>L'association a bien été mise à jour</h2>",
@@ -99,13 +101,14 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
             });
           }
         });
-        return
+      }else{
+        $loadingOverlay.hide()
+        ngDialog.open({
+            template: "<h2 style='text-align:center;'>L'association a bien été mise à jour</h2>",
+            plain: true,
+            className: 'ngdialog-theme-default'
+        });
       }
-      ngDialog.open({
-          template: "<h2 style='text-align:center;'>L'association a bien été mise à jour</h2>",
-          plain: true,
-          className: 'ngdialog-theme-default'
-      });
     }, function(error) {
         Session.destroyCredentials()
         $location.path('/login')
