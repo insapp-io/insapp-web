@@ -1,5 +1,5 @@
 app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload', 'Session', '$location', 'ngDialog', '$loadingOverlay', function($scope, $resource, $routeParams, fileUpload, Session, $location, ngDialog, $loadingOverlay) {
-  var Post = $resource('http://api.fthomasmorel.ml/post?token=:token');
+  var Post = $resource('http://api.thomasmorel.io/post?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
@@ -47,7 +47,7 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
     Post.save({token:Session.getToken()}, $scope.currentPost, function(post) {
       if($scope.file){
         var file = $scope.file;
-        var uploadUrl = 'http://api.fthomasmorel.ml/post/' + post.ID + '/image?token=' + Session.getToken();
+        var uploadUrl = 'http://api.thomasmorel.io/post/' + post.ID + '/image?token=' + Session.getToken();
         fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
           $loadingOverlay.hide()
           if(success){

@@ -1,6 +1,6 @@
 app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', function($scope, $resource, Session, $location, ngDialog) {
-  var Association = $resource('http://api.fthomasmorel.ml/association?token=:token')
-  var User = $resource('http://api.fthomasmorel.ml/association/:id/user?token=:token')
+  var Association = $resource('http://api.thomasmorel.io/association?token=:token')
+  var User = $resource('http://api.thomasmorel.io/association/:id/user?token=:token')
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
