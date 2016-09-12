@@ -102,10 +102,10 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
     }
 
   Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
-    $scope.profilePictureFile = 'https://cdn.thomasmorel.io/' + assos.profilePicture
-    assos.profilePicture = 'https://cdn.thomasmorel.io/' + assos.profilePicture
-    $scope.coverPictureFile = 'https://cdn.thomasmorel.io/' + assos.coverPicture
-    assos.coverPicture = 'https://cdn.thomasmorel.io/' + assos.coverPicture
+    $scope.profilePictureFile = (assos.profile != null ? 'https://cdn.thomasmorel.io/' + assos.profile : null)
+    assos.profilePicture = (assos.profile != null ? 'https://cdn.thomasmorel.io/' + assos.profile : null)
+    $scope.coverPictureFile = (assos.cover != null ? 'https://cdn.thomasmorel.io/' + assos.cover : null)
+    assos.coverPicture = (assos.cover != null ? 'https://cdn.thomasmorel.io/' + assos.cover : null)
     $scope.oldAssociation = assos
     $scope.currentAssociation = assos
   }, function(error) {
@@ -117,8 +117,8 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
     Association.update({id:Session.getAssociation(), token:Session.getToken()}, $scope.currentAssociation, function(assos) {
-      if($scope.coverPicture != $scope.oldAssociation.coverPicture){
-        var file = $scope.coverPicture;
+      if($scope.coverPictureFile != null && $scope.coverPictureFile != $scope.oldAssociation.coverPictureFile){
+        var file = $scope.coverPictureFile;
         var uploadUrl = 'https://api.thomasmorel.io/association/' + $scope.currentAssociation.ID + '/coverimage?token=' + Session.getToken();
         $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
           $loadingOverlay.hide()
@@ -137,8 +137,8 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
           }
         });
       }
-      if($scope.profilePicture != $scope.oldAssociation.profilePicture){
-        var file = $scope.profilePicture;
+      if($scope.profilePictureFile != null && $scope.profilePictureFile != $scope.oldAssociation.profilePictureFile){
+        var file = $scope.profilePictureFile;
         var uploadUrl = 'https://api.thomasmorel.io/association/' + $scope.currentAssociation.ID + '/profileimage?token=' + Session.getToken();
         $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
           $loadingOverlay.hide()

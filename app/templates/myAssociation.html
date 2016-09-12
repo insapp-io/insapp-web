@@ -6,7 +6,7 @@
           <label class="col-sm-2 control-label">Cover Image</label>
           <div class="col-sm-10">
             <div ng-hide="coverPictureFile != null" ngf-drop ng-model="coverPictureFile" style="background: #F8F8F8; border: 5px dashed #DDD; height: 300px; text-align: center; padding: 50px 10px;" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Déposer une image ici</div>
-            <img id="coverPicture" ng-show="coverPictureFile != null" class="img-rounded" height="300" ng-src="{{currentAssociation.cover_picture}}">
+            <img id="coverPicture" ng-show="coverPictureFile != null" class="img-rounded" height="300" ng-src="{{currentAssociation.coverPicture}}">
           </div>
         </div>
         <div class="form-group">
@@ -20,7 +20,7 @@
           <label class="col-sm-2 control-label">Profile Image</label>
           <div class="col-sm-10">
             <div ng-hide="profilePictureFile != null" ngf-drop ng-model="profilePictureFile" style="background: #F8F8F8; border: 5px dashed #DDD; height: 150px; width: 150px; border-radius: 75px; -webkit-border-radius: 75px; -moz-border-radius: 75px; text-align: center; padding: 50px 10px;" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Déposer une image <u>CARRE</u> ici</div>
-            <img id="profilePicture" ng-show="profilePictureFile != null" style="width: 150px; height: 150px; position: relative; overflow: hidden; border-radius: 50%;" ng-src="{{currentAssociation.profile_picture}}">
+            <img id="profilePicture" ng-show="profilePictureFile != null" style="width: 150px; height: 150px; position: relative; overflow: hidden; border-radius: 50%;" ng-src="{{currentAssociation.profilePicture}}">
           </div>
         </div>
         <div class="form-group">
@@ -71,7 +71,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label"></label>
           <div class="col-sm-10">
-            <button class="btn btn-info" type="submit" ng-disabled="form.$invalid || !file">Modifier</button>
+            <button class="btn btn-info" type="submit" ng-disabled="form.$invalid">Modifier</button>
           </div>
         </div>
       </form>
