@@ -11,7 +11,7 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
     return viewLocation === $location.path();
 };
 
-  function distance(v1, v2){
+  $scope.distance = function(v1, v2){
       var i, d = 0;
       for (i = 0; i < v1.length; i++) {
           d += (v1[i] - v2[i])*(v1[i] - v2[i]);
@@ -26,28 +26,35 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
         var file    = $scope.coverPictureFile
         var reader  = new FileReader();
 
-        console.log(file)
-
         $("#coverPicture").on('load',function(){
           if ($scope.coverPictureFile && $scope.coverPictureFile != $scope.oldAssociation.coverPictureFile){
             var colorThief = new ColorThief()
             var palette = colorThief.getPalette(preview, 5, 1);
             $scope.$apply(function (){
               $scope.palette = palette
-              $scope.selectColor(1)
+
+              if ($scope.currentAssociation.bgColor != null) {
+                $scope.selectColor(4)
+                for (index in $scope.palette) {
+                  var dist = $scope.distance($scope.palette[index], $scope.hexToRgb($scope.currentAssociation.bgColor))
+                  if (dist == 0) {
+                    $scope.selectColor(index)
+                    break
+                  }
+                }
+              }else{
+                $scope.selectColor(1)
+              }
             });
           }
         });
 
         reader.onloadend = function () {
-          console.log("on loadend called")
           preview.src = reader.result
         }
 
         if (file) {
-          console.log("read file")
           reader.readAsDataURL(file);
-          console.log("read file finished")
         }
       }
     });
@@ -59,31 +66,25 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
         var file    = $scope.profilePictureFile
         var reader  = new FileReader();
 
-        console.log(file)
-
         reader.onloadend = function () {
-          console.log("on loadend called")
-          console.log(preview)
-          console.log(preview.src)
-          console.log(reader)
-          console.log(reader.result)
           preview.src = reader.result
         }
 
         if (file) {
-          console.log("read file")
           reader.readAsDataURL(file);
-          console.log("read file finished")
         }
       }
     });
 
+
+
      $scope.selectColor = function(radio){
        var bgColor, fgColor = []
        bgColor = $scope.palette[radio]
-       var d1 = distance(bgColor, [51,51,51])
-       var d2 = distance(bgColor, [255,255,255])
+       var d1 = $scope.distance(bgColor, [51,51,51])
+       var d2 = $scope.distance(bgColor, [255,255,255])
        fgColor = (d1 > d2 ? [51,51,51] : [255,255,255])
+       $scope.selectedColor = radio
        $scope.currentAssociation.bgColor = rgbToHex(bgColor[0],bgColor[1],bgColor[2])
        $scope.currentAssociation.fgColor = rgbToHex(fgColor[0],fgColor[1],fgColor[2])
      }
@@ -100,6 +101,14 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
     function rgbToHex(r, g, b) {
         return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     }
+
+     $scope.hexToRgb = function(hex) {
+      var bigint = parseInt(hex, 16);
+      var r = (bigint >> 16) & 255;
+      var g = (bigint >> 8) & 255;
+      var b = bigint & 255;
+      return [r,g,b];
+     }
 
   Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
     $scope.profilePictureFile = (assos.profile != null ? 'https://cdn.thomasmorel.io/' + assos.profile : null)
