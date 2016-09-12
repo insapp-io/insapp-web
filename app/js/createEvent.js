@@ -1,5 +1,5 @@
 app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$colorThief', 'Upload', 'fileUpload', 'ngDialog', '$loadingOverlay', function($scope, $resource, Session, $location, $colorThief, Upload, fileUpload, ngDialog, $loadingOverlay) {
-  var Event = $resource('http://api.thomasmorel.io/event?token=:token');
+  var Event = $resource('https://api.thomasmorel.io/event?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
@@ -86,7 +86,7 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$
     Event.save({token:Session.getToken()}, $scope.currentEvent, function(event) {
       if($scope.file){
         var file = $scope.file;
-        var uploadUrl = 'http://api.thomasmorel.io/event/' + event.ID + '/image?token=' + Session.getToken();
+        var uploadUrl = 'https://api.thomasmorel.io/event/' + event.ID + '/image?token=' + Session.getToken();
         fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
           $loadingOverlay.hide()
           if(success){

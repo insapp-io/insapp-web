@@ -1,5 +1,5 @@
 app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', 'fileUpload', '$loadingOverlay', function($scope, $resource, $routeParams, Session, $location, ngDialog, fileUpload, $loadingOverlay) {
-  var Event = $resource('http://api.thomasmorel.io/event/:id?token=:token', null, {
+  var Event = $resource('https://api.thomasmorel.io/event/:id?token=:token', null, {
     'update': { method:'PUT' }
   });
 
@@ -80,8 +80,8 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
 
     Event.get({id:$routeParams.id, token:Session.getToken()}, function(event) {
         event.nbParticipant = (event.participants != null ? event.participants.length : 0)
-        event.photo = 'http://cdn.thomasmorel.io/' + event.photoURL
-        $scope.file = 'http://cdn.thomasmorel.io/' + event.photoURL
+        event.photo = 'https://cdn.thomasmorel.io/' + event.photoURL
+        $scope.file = 'https://cdn.thomasmorel.io/' + event.photoURL
         $scope.oldEvent = event
         $scope.currentEvent = event
       }, function(error) {
@@ -95,7 +95,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
         Event.update({id:$scope.currentEvent.ID, token:Session.getToken()}, $scope.currentEvent, function(event) {
           if ($scope.file != $scope.oldEvent.image){
             var file = $scope.file;
-            var uploadUrl = 'http://api.thomasmorel.io/event/' + $scope.currentEvent.ID + '/image?token=' + Session.getToken();
+            var uploadUrl = 'https://api.thomasmorel.io/event/' + $scope.currentEvent.ID + '/image?token=' + Session.getToken();
             fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
               $loadingOverlay.hide()
               if(success){

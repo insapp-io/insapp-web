@@ -1,7 +1,7 @@
 app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', function($scope, $resource, $location, Session) {
-  var Association = $resource('http://api.thomasmorel.io/association/:id?token=:token');
-  var Post = $resource('http://api.thomasmorel.io/post/:id?token=:token');
-  var Event = $resource('http://api.thomasmorel.io/event/:id?token=:token');
+  var Association = $resource('https://api.thomasmorel.io/association/:id?token=:token');
+  var Post = $resource('https://api.thomasmorel.io/post/:id?token=:token');
+  var Event = $resource('https://api.thomasmorel.io/event/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

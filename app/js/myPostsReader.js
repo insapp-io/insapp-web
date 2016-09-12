@@ -1,5 +1,5 @@
 app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', function($scope, $resource, $routeParams, Session, $location, ngDialog) {
-  var Post = $resource('http://api.thomasmorel.io/post/:id?token=:token', null, {
+  var Post = $resource('https://api.thomasmorel.io/post/:id?token=:token', null, {
     'update': { method:'PUT' }
   });
 
@@ -16,7 +16,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
     Post.get({id:$routeParams.id, token:Session.getToken()}, function(post) {
       post.nbLikes = (post.likes != null ? post.likes.length : 0)
       post.nbComments = (post.comments != null ? post.comments.length : 0)
-        post.image = 'http://cdn.thomasmorel.io/' + post.photourl
+        post.image = 'https://cdn.thomasmorel.io/' + post.photourl
         $scope.currentPost = post
       }, function(error) {
           Session.destroyCredentials()

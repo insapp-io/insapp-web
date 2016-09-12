@@ -1,5 +1,5 @@
 app.controller('LoginAssociation', ['$scope', '$resource', '$location', 'Session', 'ngDialog', function($scope, $resource, $location, Session, ngDialog) {
-  var Login = $resource('http://api.thomasmorel.io/login/association');
+  var Login = $resource('https://api.thomasmorel.io/login/association');
 
   $scope.currentLogin = {
     username : "",
