@@ -5,32 +5,32 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">Cover Image</label>
           <div class="col-sm-10">
-            <div ng-hide="file" ngf-drop ng-model="file" style="background: #F8F8F8; border: 5px dashed #DDD; height: 300px; text-align: center; padding: 50px 10px;" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Déposer une image ici</div>
-            <img id="coverPicture" ng-show="file" class="img-rounded" height="300" ng-src="{{currentAssociation.cover_picture}}">
+            <div ng-hide="coverPictureFile != null" ngf-drop ng-model="coverPictureFile" style="background: #F8F8F8; border: 5px dashed #DDD; height: 300px; text-align: center; padding: 50px 10px;" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Déposer une image ici</div>
+            <img id="coverPicture" ng-show="coverPictureFile != null" class="img-rounded" height="300" ng-src="{{currentAssociation.cover_picture}}">
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label"></label>
           <div class="col-sm-10">
-            <div ng-hide="file" class="btn btn-success" ng-model="file" ngf-select="uploadCoverPicture($file)" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Selectionner</div>
-            <div ng-show="file" class="btn btn-danger" ng-click="removeCoverPicture()">Supprimer</div>
+            <div ng-hide="coverPictureFile != null" class="btn btn-success" ng-model="coverPictureFile" ngf-select="upload($coverPictureFile)" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Selectionner</div>
+            <div ng-show="coverPictureFile != null" class="btn btn-danger" ng-click="removeCoverPicture()">Supprimer</div>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">Profile Image</label>
           <div class="col-sm-10">
-            <div ng-hide="file" ngf-drop ng-model="file" style="background: #F8F8F8; border: 5px dashed #DDD; height: 150px; width: 150px; border-radius: 75px; -webkit-border-radius: 75px; -moz-border-radius: 75px; text-align: center; padding: 50px 10px;" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Déposer une image ici</div>
-            <img id="profilePicture" ng-show="file" class="img-rounded" height="150" style="border-radius: 75px; -webkit-border-radius: 75px; -moz-border-radius: 75px;" ng-src="{{currentAssociation.profile_picture}}">
+            <div ng-hide="profilePictureFile != null" ngf-drop ng-model="profilePictureFile" style="background: #F8F8F8; border: 5px dashed #DDD; height: 150px; width: 150px; border-radius: 75px; -webkit-border-radius: 75px; -moz-border-radius: 75px; text-align: center; padding: 50px 10px;" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Déposer une image <u>CARRE</u> ici</div>
+            <img id="profilePicture" ng-show="profilePictureFile != null" style="width: 150px; height: 150px; position: relative; overflow: hidden; border-radius: 50%;" ng-src="{{currentAssociation.profile_picture}}">
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label"></label>
           <div class="col-sm-10">
-            <div ng-hide="file" class="btn btn-success" ng-model="file" ngf-select="uploadProfilePicture($file)" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Selectionner</div>
-            <div ng-show="file" class="btn btn-danger" ng-click="removeProfilePicture()">Supprimer</div>
+            <div ng-hide="profilePictureFile != null" class="btn btn-success" ng-model="profilePictureFile" ngf-select="upload($profilePictureFile)" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Selectionner</div>
+            <div ng-show="profilePictureFile != null" class="btn btn-danger" ng-click="removeProfilePicture()">Supprimer</div>
           </div>
         </div>
-        <div class="form-group" ng-show="palette">
+        <div class="form-group" ng-show="palette != null">
           <label class="col-sm-2 control-label">Couleur</label>
           <div class="col-sm-10">
             <div class="form-group" ng-style="{'background-color': 'rgb('+palette[0][0]+', '+palette[0][1]+', '+palette[0][2]+')','height':'40px', 'width':'80px', 'display':'inline-block', 'margin-left':'0px'}">

@@ -19,15 +19,17 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
       return Math.sqrt(d);
   };
 
-    $scope.$watch('coverPicture', function() {
-      if ($scope.coverPicture && $scope.coverPicture != $scope.oldAssociation.coverPicture){
+    $scope.$watch('coverPictureFile', function() {
+      if ($scope.coverPictureFile && $scope.coverPictureFile != $scope.oldAssociation.coverPictureFile){
 
-        var preview = document.querySelector('coverPicture');
-        var file    = $scope.coverPicture
+        var preview = document.querySelector('#coverPicture');
+        var file    = $scope.coverPictureFile
         var reader  = new FileReader();
 
-        $("#img").on('load',function(){
-          if ($scope.coverPicture && $scope.coverPicture != $scope.oldAssociation.coverPicture){
+        console.log(file)
+
+        $("#coverPicture").on('load',function(){
+          if ($scope.coverPictureFile && $scope.coverPictureFile != $scope.oldAssociation.coverPictureFile){
             var colorThief = new ColorThief()
             var palette = colorThief.getPalette(preview, 5, 1);
             $scope.$apply(function (){
@@ -38,39 +40,40 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
         });
 
         reader.onloadend = function () {
+          console.log("on loadend called")
           preview.src = reader.result
         }
 
         if (file) {
+          console.log("read file")
           reader.readAsDataURL(file);
+          console.log("read file finished")
         }
       }
     });
 
-    $scope.$watch('profilePicture', function() {
-      if ($scope.profilePicture && $scope.profilePicture != $scope.oldAssociation.profilePicture){
+    $scope.$watch('profilePictureFile', function() {
+      if ($scope.profilePictureFile && $scope.profilePictureFile != $scope.oldAssociation.profilePictureFile){
 
-        var preview = document.querySelector('profilePicture');
-        var file    = $scope.profilePicture
+        var preview = document.querySelector('#profilePicture');
+        var file    = $scope.profilePictureFile
         var reader  = new FileReader();
 
-        $("#img").on('load',function(){
-          if ($scope.profilePicture && $scope.profilePicture != $scope.oldAssociation.profilePicture){
-            var colorThief = new ColorThief()
-            var palette = colorThief.getPalette(preview, 5, 1);
-            $scope.$apply(function (){
-              $scope.palette = palette
-              $scope.selectColor(1)
-            });
-          }
-        });
+        console.log(file)
 
         reader.onloadend = function () {
+          console.log("on loadend called")
+          console.log(preview)
+          console.log(preview.src)
+          console.log(reader)
+          console.log(reader.result)
           preview.src = reader.result
         }
 
         if (file) {
+          console.log("read file")
           reader.readAsDataURL(file);
+          console.log("read file finished")
         }
       }
     });
@@ -86,12 +89,12 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
      }
 
      $scope.removeCoverPicture = function(){
-       $scope.file = null
+       $scope.coverPictureFile = null
        $scope.palette = null
      }
 
      $scope.removeProfilePicture = function(){
-       $scope.profilePicture = null
+       $scope.profilePictureFile = null
      }
 
     function rgbToHex(r, g, b) {
@@ -99,9 +102,9 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
     }
 
   Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
-    $scope.profilePicture = 'https://cdn.thomasmorel.io/' + assos.profilePicture
+    $scope.profilePictureFile = 'https://cdn.thomasmorel.io/' + assos.profilePicture
     assos.profilePicture = 'https://cdn.thomasmorel.io/' + assos.profilePicture
-    $scope.coverPicture = 'https://cdn.thomasmorel.io/' + assos.coverPicture
+    $scope.coverPictureFile = 'https://cdn.thomasmorel.io/' + assos.coverPicture
     assos.coverPicture = 'https://cdn.thomasmorel.io/' + assos.coverPicture
     $scope.oldAssociation = assos
     $scope.currentAssociation = assos
@@ -116,7 +119,7 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
     Association.update({id:Session.getAssociation(), token:Session.getToken()}, $scope.currentAssociation, function(assos) {
       if($scope.coverPicture != $scope.oldAssociation.coverPicture){
         var file = $scope.coverPicture;
-        var uploadUrl = 'https://api.thomasmorel.io/association/' + $scope.currentAssociation.ID + '/image?token=' + Session.getToken();
+        var uploadUrl = 'https://api.thomasmorel.io/association/' + $scope.currentAssociation.ID + '/coverimage?token=' + Session.getToken();
         $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
           $loadingOverlay.hide()
           if(success){
@@ -136,7 +139,7 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
       }
       if($scope.profilePicture != $scope.oldAssociation.profilePicture){
         var file = $scope.profilePicture;
-        var uploadUrl = 'https://api.thomasmorel.io/association/' + $scope.currentAssociation.ID + '/image?token=' + Session.getToken();
+        var uploadUrl = 'https://api.thomasmorel.io/association/' + $scope.currentAssociation.ID + '/profileimage?token=' + Session.getToken();
         $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
           $loadingOverlay.hide()
           if(success){
