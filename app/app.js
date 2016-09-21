@@ -39,7 +39,7 @@ app.config(function($routeProvider, $locationProvider, $colorThiefProvider) {
           templateUrl: "templates/myPostsReader.html",
           controller:'MyPostsReader',
         })
-        .when('/myAssociation', {
+        .when('/myAssociation/:id', {
          templateUrl: "templates/myAssociation.html",
          controller:'MyAssociation',
         })
@@ -58,6 +58,10 @@ app.config(function($routeProvider, $locationProvider, $colorThiefProvider) {
         .when('/validationPost', {
          templateUrl: "templates/validationPost.html",
          controller:'ValidationPost',
+        })
+        .when('/validationAssociation', {
+         templateUrl: "templates/validationAssociation.html",
+         controller:'ValidationAssociation',
         })
         .when('/createAssociation', {
          templateUrl: "templates/createAssociation.html",
@@ -98,9 +102,11 @@ app.factory('Session', function () {
       },
       getAssociation: function () {
           associationID = window.localStorage.getItem("associationID");
+          console.log("getAssociation called => " + associationID)
           return associationID;
       },
       setAssociation: function (a) {
+          console.log("setAssociation called !!!")
           window.localStorage.setItem("associationID", a);
           associationID = a;
       },

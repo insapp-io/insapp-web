@@ -18,6 +18,7 @@ app.controller('LoginAssociation', ['$scope', '$resource', '$location', 'Session
         $scope.currentLogin.error = auth.error
         if (!auth.error) {
           Session.setToken(auth.token)
+          console.log("heeeeeeeerrre")
           Session.setAssociation(auth.associationID)
           Session.setMaster(auth.master)
           $location.path('/myEvents')

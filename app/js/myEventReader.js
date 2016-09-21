@@ -5,6 +5,10 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
     $location.path('/login')
   }
 
+  $scope.isActive = function (viewLocation) {
+      return viewLocation === "myEvents";
+  };
+
   $scope.master = (Session.getMaster() == 'true')
   $scope.eventImageIsDirty = false
 

@@ -1,5 +1,5 @@
-app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', '$colorThief', 'Upload', 'fileUpload', '$loadingOverlay',
-function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, fileUpload, $loadingOverlay) {
+app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', '$colorThief', 'Upload', 'fileUpload', '$loadingOverlay', '$routeParams',
+function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, fileUpload, $loadingOverlay, $routeParams) {
   var Association = $resource('https://api.thomasmorel.io/association/:id?token=:token', null, { 'update': { method:'PUT' } });
 
   if(Session.getToken() == null || Session.getAssociation() == null){
@@ -13,8 +13,13 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
   $scope.coverPictureIsDirty = false
   $scope.profilePictureIsDirty = false
 
+  if (!$routeParams.id || $routeParams.id === "me") {
+    $scope.associationId = Session.getAssociation()
+  }else{
+    $scope.associationId = $routeParams.id
+  }
 
-  Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
+  Association.get({id:$scope.associationId, token:Session.getToken()}, function(assos) {
     $scope.profilePictureFile = (assos.profile != null ? 'https://cdn.thomasmorel.io/' + assos.profile : null)
     $scope.coverPictureFile = (assos.cover != null ? 'https://cdn.thomasmorel.io/' + assos.cover : null)
 
@@ -86,7 +91,7 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
       $("#profilePicture").on('load',function(){
         if ($scope.profilePictureIsDirty){
           $scope.profilePictureIsDirty = false
-          $scope.uploadImage($scope.coverPictureFile, null, function(response) {
+          $scope.uploadImage($scope.profilePictureFile, null, function(response) {
             console.log(response)
             $scope.currentAssociation.profile = response.file
           })
@@ -159,7 +164,7 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
   $scope.updateAssociation = function() {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    Association.update({id:Session.getAssociation(), token:Session.getToken()}, $scope.currentAssociation, function(assos) {
+    Association.update({id:$scope.associationId, token:Session.getToken()}, $scope.currentAssociation, function(assos) {
         ngDialog.open({
             template: "<h2 style='text-align:center;'>L'association a bien été mise à jour</h2>",
             plain: true,
