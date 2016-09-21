@@ -125,11 +125,11 @@ app.service('fileUpload', ['$http', 'ngDialog',  function ($http, ngDialog) {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         })
-        .success(function(){
-          callback(true)
+        .success(function(data, status, headers, config){
+          callback(true, data)
         })
         .error(function(){
-          callback(false)
+          callback(false, null)
         });
     }
 }]);
