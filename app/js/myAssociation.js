@@ -109,7 +109,6 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
     var d1 = $scope.distance(bgColor, [51,51,51])
     var d2 = $scope.distance(bgColor, [255,255,255])
     fgColor = (d1 > d2 ? [51,51,51] : [255,255,255])
-    $scope.selectedColor = radio
     $scope.currentAssociation.selectedcolor = radio
     $scope.currentAssociation.bgColor = rgbToHex(bgColor[0],bgColor[1],bgColor[2])
     $scope.currentAssociation.fgColor = rgbToHex(fgColor[0],fgColor[1],fgColor[2])
@@ -161,15 +160,13 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
     Association.update({id:Session.getAssociation(), token:Session.getToken()}, $scope.currentAssociation, function(assos) {
-        $loadingOverlay.hide()
         ngDialog.open({
             template: "<h2 style='text-align:center;'>L'association a bien été mise à jour</h2>",
             plain: true,
             className: 'ngdialog-theme-default'
         });
-        console.log($scope.currentAssociation)
+        $loadingOverlay.hide()
         $scope.currentAssociation = assos
-        console.log(assos)
     }, function(error) {
         Session.destroyCredentials()
         $location.path('/login')

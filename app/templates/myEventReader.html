@@ -5,15 +5,15 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">Image</label>
           <div class="col-sm-10">
-            <div ng-hide="file" ngf-drop ng-model="file" style="background: #F8F8F8; border: 5px dashed #DDD; width: 300px; text-align: center; padding: 50px 10px;" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Déposer une image ici</div>
-            <img id="img" ng-show="file" ng-src="{{currentEvent.photo}}" height=300 class="img-rounded"/>
+            <div ng-hide="eventImageFile" ngf-drop ng-model="eventImageFile" style="background: #F8F8F8; border: 5px dashed #DDD; width: 300px; text-align: center; padding: 50px 10px;" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Déposer une image ici</div>
+            <img id="eventImage" ng-show="eventImageFile" ng-src="{{ currentEvent.imageUrl }}" height=300 class="img-rounded"/>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label"></label>
           <div class="col-sm-10">
-            <div ng-hide="file" class="btn btn-success" ng-model="file" ngf-select="upload($file)" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Sélectionner</div>
-            <div ng-show="file" class="btn btn-danger" ng-click="removeFile()">Supprimer</div>
+            <div ng-hide="eventImageFile" class="btn btn-success" ng-model="eventImageFile" ngf-select="upload($eventImageFile)" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Sélectionner</div>
+            <div ng-show="eventImageFile" class="btn btn-danger" ng-click="removeFile()">Supprimer</div>
           </div>
         </div>
         <div class="form-group" ng-show="palette">
@@ -69,7 +69,7 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">Action</label>
           <div class="col-sm-10">
-            <button class="btn btn-info" type="submit" ng-disabled="form.$invalid || !file">Mettre à jour</button>
+            <button class="btn btn-info" type="submit" ng-disabled="form.$invalid || !eventImageFile || !currentEvent.dateEnd || !currentEvent.dateStart">Mettre à jour</button>
             <button class="btn btn-danger" ng-click="deleteEvent()">Supprimer</button>
           </div>
         </div>

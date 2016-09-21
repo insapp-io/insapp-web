@@ -1,13 +1,29 @@
 app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', 'fileUpload', '$loadingOverlay', function($scope, $resource, $routeParams, Session, $location, ngDialog, fileUpload, $loadingOverlay) {
-  var Event = $resource('https://api.thomasmorel.io/event/:id?token=:token', null, {
-    'update': { method:'PUT' }
-  });
-
-  $scope.master = (Session.getMaster() == 'true')
+  var Event = $resource('https://api.thomasmorel.io/event/:id?token=:token', null, { 'update': { method:'PUT' } });
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
   }
+
+  $scope.master = (Session.getMaster() == 'true')
+  $scope.eventImageIsDirty = false
+
+  Event.get({id:$routeParams.id, token:Session.getToken()}, function(event) {
+      event.nbParticipant = (event.participants != null ? event.participants.length : 0)
+      $scope.eventImageFile = 'https://cdn.thomasmorel.io/' + event.image
+      $scope.oldEvent = event
+      $scope.currentEvent = event
+      $scope.currentEvent.imageUrl = 'https://cdn.thomasmorel.io/' + event.image
+
+      if (event.palette && event.palette.length > 1) {
+        $scope.palette = event.palette
+        $scope.selectColor(event.selectedcolor)
+      }
+
+    }, function(error) {
+        Session.destroyCredentials()
+        $location.path('/login')
+  });
 
   $scope.isActive = function (viewLocation) {
     return viewLocation === "myEvents"
@@ -27,163 +43,105 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
       return Math.sqrt(d);
   };
 
-  function distance(v1, v2){
-      var i, d = 0;
-      for (i = 0; i < v1.length; i++) {
-          d += (v1[i] - v2[i])*(v1[i] - v2[i]);
-      }
-      return Math.sqrt(d);
-  };
 
-    $scope.$watch('file', function() {
-      if ($scope.file && $scope.file != $scope.oldEvent.photo){
-        console.log($scope.file)
-        var preview = document.querySelector('img');
-        var file    = $scope.file
-        var reader  = new FileReader();
+  $scope.$watch('eventImageFile', function() {
+    if ($scope.eventImageFile && $scope.eventImageFile != $scope.oldEvent.eventImageFile){
 
-        $("#img").on('load',function(){
-          if ($scope.file && $scope.file != $scope.oldEvent.file){
-          var colorThief = new ColorThief()
-          var palette = colorThief.getPalette(preview, 5, 1);
-          $scope.$apply(function (){
-            $scope.palette = palette
-            $scope.selectColor(1)
-          });
+      var preview = document.querySelector('#eventImage');
+      var file    = $scope.eventImageFile
+      var reader  = new FileReader();
+
+      $("#eventImage").on('load',function(){
+        if ($scope.eventImageIsDirty){
+          $scope.eventPictureIsDirty = false
+          $scope.uploadImage($scope.eventImageFile, null, function(response) {
+            $scope.currentEvent.image = response.file
+            $scope.currentEvent.palette = response.colors
+            $scope.palette = response.colors
+            $scope.selectColor(0)
+          })
         }
-        });
-
-        reader.onloadend = function () {
-          preview.src = reader.result
-        }
-
-        if (file) {
-          reader.readAsDataURL(file);
-        }
-      }
-    });
-
-     $scope.selectColor = function(radio){
-       var bgColor, fgColor = []
-       bgColor = $scope.palette[radio]
-       var d1 = distance(bgColor, [51,51,51])
-       var d2 = distance(bgColor, [255,255,255])
-       fgColor = (d1 > d2 ? [51,51,51] : [255,255,255])
-       $scope.currentEvent.bgColor = rgbToHex(bgColor[0],bgColor[1],bgColor[2])
-       $scope.currentEvent.fgColor = rgbToHex(fgColor[0],fgColor[1],fgColor[2])
-     }
-
-    function rgbToHex(r, g, b) {
-        return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-    }
-
-
-    $scope.removeFile = function(){
-      $scope.file = null
-      $scope.palette = null
-    }
-
-
-    Event.get({id:$routeParams.id, token:Session.getToken()}, function(event) {
-        event.nbParticipant = (event.participants != null ? event.participants.length : 0)
-        event.photo = 'https://cdn.thomasmorel.io/' + event.photoURL
-        $scope.file = 'https://cdn.thomasmorel.io/' + event.photoURL
-        $scope.oldEvent = event
-        $scope.currentEvent = event
-      }, function(error) {
-          Session.destroyCredentials()
-          $location.path('/login')
       });
 
-      $scope.updateEvent = function() {
-        $loadingOverlay.show()
-        $("html, body").animate({ scrollTop: 0 }, "slow");
-        Event.update({id:$scope.currentEvent.ID, token:Session.getToken()}, $scope.currentEvent, function(event) {
-          if ($scope.file != $scope.oldEvent.image){
-            var file = $scope.file;
-            var uploadUrl = 'https://api.thomasmorel.io/event/' + $scope.currentEvent.ID + '/image?token=' + Session.getToken();
-            fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
-              $loadingOverlay.hide()
-              if(success){
-                ngDialog.open({
-                    template: "<h2 style='text-align:center;'>L'événement a bien été mis à jour</h2>",
-                    plain: true,
-                    className: 'ngdialog-theme-default'
-                });
-              }else{
-                ngDialog.open({
-                    template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2>",
-                    plain: true,
-                    className: 'ngdialog-theme-default'
-                });
-              }
-            });
-          }else{
-            $loadingOverlay.hide()
-            ngDialog.open({
-                template: "<h2 style='text-align:center;'>L'événément à été mis à jour</h2>",
-                plain: true,
-                className: 'ngdialog-theme-default'
-            });
-          }
-        }, function(error) {
-            Session.destroyCredentials()
-            $location.path('/login')
-        });
+      reader.onloadend = function () {
+        preview.src = reader.result
       }
 
-      $scope.deleteEvent = function() {
-        Event.remove({id:$scope.currentEvent.ID, token:Session.getToken()}, function(event) {
-          ngDialog.open({
-              template: "<h2 style='text-align:center;'>L'événément à été supprimé</h2>",
-              plain: true,
-              className: 'ngdialog-theme-default'
-          });
-        }, function(error) {
-            Session.destroyCredentials()
-            $location.path('/login')
-        });
+      if (file) {
+        reader.readAsDataURL(file);
       }
+    }
+  });
 
-      $scope.validateEvent = function() {
-        $scope.oldEvent.status = "validated"
-        Event.update({id:$scope.currentEvent.ID, token:Session.getToken()}, $scope.oldEvent, function(event) {
-          ngDialog.open({
-              template: "<h2 style='text-align:center;'>L'événément à été validé</h2>",
-              plain: true,
-              className: 'ngdialog-theme-default'
-          });
-        }, function(error) {
-            Session.destroyCredentials()
-            $location.path('/login')
-        });
-      }
+  $scope.selectColor = function(radio){
+    var bgColor, fgColor = []
+    bgColor = $scope.palette[radio]
+    var d1 = distance(bgColor, [51,51,51])
+    var d2 = distance(bgColor, [255,255,255])
+    fgColor = (d1 > d2 ? [51,51,51] : [255,255,255])
+    $scope.currentEvent.selectedcolor = radio
+    $scope.currentEvent.bgColor = rgbToHex(bgColor[0],bgColor[1],bgColor[2])
+    $scope.currentEvent.fgColor = rgbToHex(fgColor[0],fgColor[1],fgColor[2])
+  }
 
-      $scope.rejectEvent = function() {
-        $scope.oldEvent.status = "rejected"
-        Event.update({id:$scope.currentEvent.ID, token:Session.getToken()}, $scope.oldEvent, function(event) {
-          ngDialog.open({
-              template: "<h2 style='text-align:center;'>L'événément à été rejeté</h2>",
-              plain: true,
-              className: 'ngdialog-theme-default'
-          });
-        }, function(error) {
-            Session.destroyCredentials()
-            $location.path('/login')
-        });
-      }
+  function rgbToHex(r, g, b) {
+    return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
 
-      $scope.waitingEvent = function() {
-        $scope.oldEvent.status = "waiting"
-        Event.update({id:$scope.currentEvent.ID, token:Session.getToken()}, $scope.oldEvent, function(event) {
-          ngDialog.open({
-              template: "<h2 style='text-align:center;'>L'événément à été mis en attente</h2>",
-              plain: true,
-              className: 'ngdialog-theme-default'
-          });
-        }, function(error) {
-            Session.destroyCredentials()
-            $location.path('/login')
+  $scope.removeFile = function(){
+    $scope.eventImageIsDirty = true
+    $scope.eventImageFile = null
+    $scope.palette = null
+  }
+
+  $scope.uploadImage = function (file, fileName, completion) {
+    $loadingOverlay.show()
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    var uploadUrl = 'https://api.thomasmorel.io/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
+      $loadingOverlay.hide()
+      console.log(success)
+      if(success){
+        completion(response)
+      }else{
+        ngDialog.open({
+            template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2>",
+            plain: true,
+            className: 'ngdialog-theme-default'
         });
       }
-    }]);
+    });
+  }
+
+
+  $scope.updateEvent = function() {
+    $loadingOverlay.show()
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    Event.update({id:$scope.currentEvent.ID, token:Session.getToken()}, $scope.currentEvent, function(event) {
+        ngDialog.open({
+            template: "<h2 style='text-align:center;'>L'événément à été mis à jour</h2>",
+            plain: true,
+            className: 'ngdialog-theme-default'
+        });
+        $loadingOverlay.hide()
+        $scope.currentEvent = event
+    }, function(error) {
+        Session.destroyCredentials()
+        $location.path('/login')
+    });
+  }
+
+  $scope.deleteEvent = function() {
+    Event.remove({id:$scope.currentEvent.ID, token:Session.getToken()}, function(event) {
+      ngDialog.open({
+          template: "<h2 style='text-align:center;'>L'événément à été supprimé</h2>",
+          plain: true,
+          className: 'ngdialog-theme-default'
+      });
+    }, function(error) {
+        Session.destroyCredentials()
+        $location.path('/login')
+    });
+  }
+
+}]);
