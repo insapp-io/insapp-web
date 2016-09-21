@@ -11,7 +11,13 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
 
   $scope.isActive = function (viewLocation) {
     return viewLocation === "myEvents"
-};
+  };
+
+  $scope.monitorLength = function (field, maxLength) {
+    if ($scope.currentEvent[field] && $scope.currentEvent[field].length && $scope.currentEvent[field].length > maxLength) {
+      $scope.currentEvent[field] = $scope.currentEvent[field].substring(0, maxLength);
+    }
+  }
 
   function distance(v1, v2){
       var i, d = 0;

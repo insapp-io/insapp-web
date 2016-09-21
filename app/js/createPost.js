@@ -37,9 +37,14 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
       photoURL    : "",
       status      : "waiting",
       comments: [],
-      likes     : [],
-      event: $routeParams.id
+      likes     : []
     }
+
+  $scope.monitorLength = function (field, maxLength) {
+    if ($scope.currentPost[field] && $scope.currentPost[field].length && $scope.currentPost[field].length > maxLength) {
+      $scope.currentPost[field] = $scope.currentPost[field].substring(0, maxLength);
+    }
+  }
 
   $scope.createPost = function() {
     $loadingOverlay.show()

@@ -19,6 +19,12 @@ app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$locatio
     association : "",
   }
 
+  $scope.monitorLength = function (field, maxLength) {
+    if ($scope.currentAssociation[field] && $scope.currentAssociation[field].length && $scope.currentAssociation[field].length > maxLength) {
+      $scope.currentAssociation[field] = $scope.currentAssociation[field].substring(0, maxLength);
+    }
+  }
+
   $scope.createAssociation = function() {
     Association.save({token:Session.getToken()}, $scope.currentAssociation, function(assos) {
       User.save({id:assos.ID, token:Session.getToken()}, $scope.currentAssociation, function(assos){

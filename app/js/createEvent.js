@@ -17,6 +17,13 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$
       return Math.sqrt(d);
   };
 
+  $scope.monitorLength = function (field, maxLength) {
+    if ($scope.currentEvent[field] && $scope.currentEvent[field].length && $scope.currentEvent[field].length > maxLength) {
+      $scope.currentEvent[field] = $scope.currentEvent[field].substring(0, maxLength);
+    }
+  }
+
+
   $scope.$watch('file', function() {
     if ($scope.file){
 
@@ -68,7 +75,6 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$
       association : Session.getAssociation(),
       description : "",
       photoURL    : "",
-      status      : "waiting",
       dateStart   : null,
       dateEnd     : null,
       participants: [],

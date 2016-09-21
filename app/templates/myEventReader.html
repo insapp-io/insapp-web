@@ -37,15 +37,15 @@
           </div>
         </div>
         <div class="form-group">
-           <label class="col-sm-2 control-label">Nom</label>
+           <label class="col-sm-2 control-label">Nom ({{ 15 - currentEvent.name.length }})</label>
            <div class="col-sm-10">
-             <input type="text" ng-model="currentEvent.name" class="form-control" required>
+             <input type="text" ng-model="currentEvent.name" ng-change="monitorLength('name', 15)" class="form-control" required>
            </div>
         </div>
         <div class="form-group">
-          <label class="col-sm-2 control-label">Description</label>
+          <label class="col-sm-2 control-label" ng-maxlength="2000">Description ({{ 2000 - currentEvent.description.length }})</label>
           <div class="col-sm-10">
-            <textarea ng-model="currentEvent.description" rows="3" class="form-control" required></textarea>
+            <textarea ng-model="currentEvent.description" ng-change="monitorLength('description', 2000)" ows="3" class="form-control" required></textarea>
           </div>
         </div>
         <div class="form-group">
@@ -71,14 +71,6 @@
           <div class="col-sm-10">
             <button class="btn btn-info" type="submit" ng-disabled="form.$invalid || !file">Mettre à jour</button>
             <button class="btn btn-danger" ng-click="deleteEvent()">Supprimer</button>
-          </div>
-        </div>
-        <div class="form-group" ng-show="master">
-          <label class="col-sm-2 control-label">Validation</label>
-          <div class="col-sm-10">
-            <button ng-if="master" class="btn btn-warning" ng-click="waitingEvent()">Mettre en attente</button>
-            <button ng-if="master" class="btn btn-success" ng-click="validateEvent()">Valider</button>
-            <button ng-if="master" class="btn btn-danger" ng-click="rejectEvent()">Rejetter</button>
           </div>
         </div>
       </form>

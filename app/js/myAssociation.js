@@ -11,6 +11,12 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
     return viewLocation === $location.path();
 };
 
+  $scope.monitorLength = function (field, maxLength) {
+    if ($scope.currentAssociation[field] && $scope.currentAssociation[field].length && $scope.currentAssociation[field].length > maxLength) {
+      $scope.currentAssociation[field] = $scope.currentAssociation[field].substring(0, maxLength);
+    }
+  }
+
   $scope.distance = function(v1, v2){
       var i, d = 0;
       for (i = 0; i < v1.length; i++) {
@@ -29,18 +35,21 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
         $("#coverPicture").on('load',function(){
           if ($scope.coverPictureFile && $scope.coverPictureFile != $scope.oldAssociation.coverPictureFile){
             var colorThief = new ColorThief()
-            var palette = colorThief.getPalette(preview, 5, 1);
+            var palette = colorThief.getPalette(preview, 5);
             $scope.$apply(function (){
               $scope.palette = palette
 
               if ($scope.currentAssociation.bgColor != null) {
-                $scope.selectColor(4)
+                var currentIndex = 0
                 for (index in $scope.palette) {
                   var dist = $scope.distance($scope.palette[index], $scope.hexToRgb($scope.currentAssociation.bgColor))
                   if (dist == 0) {
-                    $scope.selectColor(index)
+                    console.log(dist)
+                    console.log(currentIndex)
+                    $scope.selectColor(currentIndex)
                     break
                   }
+                  currentIndex++
                 }
               }else{
                 $scope.selectColor(1)
@@ -79,8 +88,11 @@ app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 
 
 
      $scope.selectColor = function(radio){
+       console.log('selectColor called with =>' + radio)
        var bgColor, fgColor = []
        bgColor = $scope.palette[radio]
+       console.log($scope.currentAssociation.bgColor)
+       console.log(rgbToHex(bgColor[0],bgColor[1],bgColor[2]))
        var d1 = $scope.distance(bgColor, [51,51,51])
        var d2 = $scope.distance(bgColor, [255,255,255])
        fgColor = (d1 > d2 ? [51,51,51] : [255,255,255])

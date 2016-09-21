@@ -47,7 +47,7 @@ app.config(function($routeProvider, $locationProvider, $colorThiefProvider) {
          templateUrl: "templates/createEvent.html",
          controller:'CreateEvent',
         })
-        .when('/createPost/:id', {
+        .when('/createPost', {
          templateUrl: "templates/createPost.html",
          controller:'CreatePost',
         })
