@@ -113,7 +113,6 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
     });
   }
 
-
   $scope.updateEvent = function() {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");

@@ -9,36 +9,15 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
       return viewLocation === "myPosts";
   };
 
-    $scope.$watch('file', function() {
-      if ($scope.file){
-
-        var preview = document.querySelector('img');
-        var file    = $scope.file
-        var reader  = new FileReader();
-
-        reader.onloadend = function () {
-          preview.src = reader.result
-        }
-
-        if (file) {
-          reader.readAsDataURL(file);
-        }
-      }
-    });
-
-    $scope.removeFile = function(){
-      $scope.file = null
-    }
-
   $scope.currentPost = {
-      title        : "",
+      title       : "",
       association : Session.getAssociation(),
       description : "",
-      photoURL    : "",
-      status      : "waiting",
-      comments: [],
-      likes     : []
-    }
+      image       : "",
+      imageSize   : {},
+      comments    : [],
+      likes       : []
+  }
 
   $scope.monitorLength = function (field, maxLength) {
     if ($scope.currentPost[field] && $scope.currentPost[field].length && $scope.currentPost[field].length > maxLength) {
@@ -46,33 +25,67 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
     }
   }
 
+  $scope.$watch('postImageFile', function() {
+    if ($scope.postImageFile){
+      var preview = document.querySelector('#postImage');
+      var file    = $scope.postImageFile
+      var reader  = new FileReader();
+
+      $("#postImage").on('load',function(){
+        $scope.uploadImage($scope.postImageFile, null, function(response) {
+          console.log(response)
+          $scope.currentPost.image = response.file
+          $scope.currentPost.imageSize = response.size
+        })
+      });
+
+      reader.onloadend = function () {
+        preview.src = reader.result
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+  });
+
+  $scope.removeFile = function(){
+    $scope.file = null
+  }
+
+
+  $scope.uploadImage = function (file, fileName, completion) {
+    $loadingOverlay.show()
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    var uploadUrl = 'https://api.thomasmorel.io/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
+      $loadingOverlay.hide()
+      console.log(success)
+      if(success){
+        completion(response)
+      }else{
+        ngDialog.open({
+            template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2>",
+            plain: true,
+            className: 'ngdialog-theme-default'
+        });
+      }
+    });
+  }
+
   $scope.createPost = function() {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
+    console.log($scope.currentPost)
     Post.save({token:Session.getToken()}, $scope.currentPost, function(post) {
-      if($scope.file){
-        var file = $scope.file;
-        var uploadUrl = 'https://api.thomasmorel.io/post/' + post.ID + '/image?token=' + Session.getToken();
-        fileUpload.uploadFileToUrl(file, uploadUrl, function(success){
-          $loadingOverlay.hide()
-          if(success){
-            ngDialog.open({
-                template: "<h2 style='text-align:center;'>Le post a bien été créé</h2>",
-                plain: true,
-                className: 'ngdialog-theme-default'
-            });
-          }else{
-            ngDialog.open({
-                template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2>",
-                plain: true,
-                className: 'ngdialog-theme-default'
-            });
-          }
-        });
-      }else{
-        $loadingOverlay.hide()
-      }
-
+      ngDialog.open({
+          template: "<h2 style='text-align:center;'>Le post a bien été créé</h2>",
+          plain: true,
+          className: 'ngdialog-theme-default'
+      });
+      $loadingOverlay.hide()
+      $scope.currentPost = post
+      console.log(post)
     }, function(error) {
         Session.destroyCredentials()
         $location.path('/login')
