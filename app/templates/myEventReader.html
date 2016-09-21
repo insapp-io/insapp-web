@@ -20,19 +20,19 @@
           <label class="col-sm-2 control-label">Couleur</label>
           <div class="col-sm-10">
             <div class="form-group" ng-style="{'background-color': 'rgb('+palette[0][0]+', '+palette[0][1]+', '+palette[0][2]+')','height':'40px', 'width':'80px', 'display':'inline-block', 'margin-left':'0px'}">
-              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(0);" checked>
+              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(0);" ng-checked="currentEvent.selectedcolor == 0">
             </div>
             <div class="form-group" ng-style="{'background-color': 'rgb('+palette[1][0]+', '+palette[1][1]+', '+palette[1][2]+')','height':'40px', 'width':'80px', 'display':'inline-block', 'margin-left':'20px'}">
-              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(1);">
+              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(1);" ng-checked="currentEvent.selectedcolor == 1">
             </div>
             <div class="form-group" ng-style="{'background-color': 'rgb('+palette[2][0]+', '+palette[2][1]+', '+palette[2][2]+')','height':'40px', 'width':'80px', 'display':'inline-block', 'margin-left':'20px'}">
-              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(2);">
+              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(2);" ng-checked="currentEvent.selectedcolor == 2">
             </div>
             <div class="form-group" ng-style="{'background-color': 'rgb('+palette[3][0]+', '+palette[3][1]+', '+palette[3][2]+')','height':'40px', 'width':'80px', 'display':'inline-block', 'margin-left':'20px'}">
-              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(3);">
+              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(3);" ng-checked="currentEvent.selectedcolor == 3">
             </div>
             <div class="form-group" ng-style="{'background-color': 'rgb('+palette[4][0]+', '+palette[4][1]+', '+palette[4][2]+')','height':'40px', 'width':'80px', 'display':'inline-block', 'margin-left':'20px'}">
-              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(4);">
+              <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="selectColor(4);" ng-checked="currentEvent.selectedcolor == 4">
             </div>
           </div>
         </div>
