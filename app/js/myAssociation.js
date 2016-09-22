@@ -120,12 +120,16 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
   }
 
   $scope.removeCoverPicture = function(){
+    var preview = document.querySelector('#coverPicture');
+    preview.src = null
     $scope.coverPictureIsDirty = true
     $scope.coverPictureFile = null
     $scope.palette = null
   }
 
   $scope.removeProfilePicture = function(){
+    var preview = document.querySelector('#profilePicture');
+    preview.src = null
     $scope.profilePictureIsDirty = true
     $scope.profilePictureFile = null
   }
