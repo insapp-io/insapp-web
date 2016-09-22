@@ -50,7 +50,9 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
   });
 
   $scope.removeFile = function(){
-    $scope.file = null
+    var preview = document.querySelector('#postImage');
+    preview.src = null
+    $scope.postImageFile = null
   }
 
 

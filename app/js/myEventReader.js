@@ -93,6 +93,8 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
   }
 
   $scope.removeFile = function(){
+    var preview = document.querySelector('#eventImage');
+    preview.src = null
     $scope.eventImageIsDirty = true
     $scope.eventImageFile = null
     $scope.palette = null
