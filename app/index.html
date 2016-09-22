@@ -59,26 +59,35 @@
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="NavigationController">
     <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/myEvents">Insapp</a>
+      <div class = "navbar-header">
+      <button type = "button" class = "navbar-toggle"
+         data-toggle = "collapse" data-target = "#example-navbar-collapse">
+         <span class = "sr-only">Toggle navigation</span>
+         <span class = "icon-bar"></span>
+         <span class = "icon-bar"></span>
+         <span class = "icon-bar"></span>
+      </button>
+      <a class = "navbar-brand" href = "#">Insapp</a>
       </div>
-      <ul class="nav navbar-nav">
-        <li ng-class="{ active: isActive('/myEvents')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="/myEvents">Mes événements</a></li>
-        <li ng-class="{ active: isActive('/myPosts')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="/myPosts">Mes posts</a></li>
-        <li ng-class="{ active: isActive('/myAssociation')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="/myAssociation/me">Mon association</a></li>
-        <li ng-class="{ active: isActive('/validation')}" ng-show="master" ng-click="isLoggedIn()"class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li ng-show="master" ng-click="isLoggedIn()"><a href="/validationAssociation">Associations</a></li>
-              <li ng-show="master" ng-click="isLoggedIn()"><a href="/validationEvent">Event</a></li>
-              <li ng-show="master" ng-click="isLoggedIn()"><a href="/validationPost">Posts</a></li>
-            </ul>
-          </li>
-        <li ng-class="{ active: isActive('/createAssociation')}" ng-show="master" ng-click="isLoggedIn()"><a href="/createAssociation">Créer une association</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li ng-show="loggedIn" ng-click="isLoggedIn()"><a href="/logout"><span class="glyphicon glyphicon-log-out"></span>Log out</a></li>
-      </ul>
+      <div class = "collapse navbar-collapse" id = "example-navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li ng-class="{ active: isActive('/myEvents')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="/myEvents">Mes événements</a></li>
+          <li ng-class="{ active: isActive('/myPosts')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="/myPosts">Mes posts</a></li>
+          <li ng-class="{ active: isActive('/myAssociation')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="/myAssociation/me">Mon association</a></li>
+          <li ng-class="{ active: isActive('/validation')}" ng-show="master" ng-click="isLoggedIn()"class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li ng-show="master" ng-click="isLoggedIn()"><a href="/validationAssociation">Associations</a></li>
+                <li ng-show="master" ng-click="isLoggedIn()"><a href="/validationEvent">Event</a></li>
+                <li ng-show="master" ng-click="isLoggedIn()"><a href="/validationPost">Posts</a></li>
+              </ul>
+            </li>
+          <li ng-class="{ active: isActive('/createAssociation')}" ng-show="master" ng-click="isLoggedIn()"><a href="/createAssociation">Créer une association</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li ng-show="loggedIn" ng-click="isLoggedIn()"><a href="/logout"><span class="glyphicon glyphicon-log-out"></span>Log out</a></li>
+        </ul>
+      </div>
     </div>
     </nav>
     <div style="padding-top:50px;" ng-view></div>
