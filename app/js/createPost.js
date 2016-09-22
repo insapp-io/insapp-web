@@ -66,8 +66,9 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
       if(success){
         completion(response)
       }else{
+        $scope.removeFile()
         ngDialog.open({
-            template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2>",
+            template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2><p>" + response + "</p>",
             plain: true,
             className: 'ngdialog-theme-default'
         });

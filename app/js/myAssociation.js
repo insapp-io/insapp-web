@@ -156,8 +156,13 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
       if(success){
         completion(response)
       }else{
+        if (file === $scope.coverPictureFile){
+          $scope.removeCoverPicture()
+        }else{
+          $scope.removeProfilePicture()
+        }
         ngDialog.open({
-            template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2>",
+            template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2><p>" + response + "</p>",
             plain: true,
             className: 'ngdialog-theme-default'
         });
