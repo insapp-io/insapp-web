@@ -129,7 +129,7 @@ app.service('fileUpload', ['$http', 'ngDialog',  function ($http, ngDialog) {
         fd.append('file', file);
         $http.post(uploadUrl, fd, {
             transformRequest: angular.identity,
-            headers: {'Content-Type': 'image'}
+            headers: {'Content-Type': 'multipart/form-data'}
         })
         .success(function(data, status, headers, config){
           callback(true, data)
