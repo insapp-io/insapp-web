@@ -9,7 +9,7 @@ app.config(function($routeProvider, $locationProvider, $colorThiefProvider) {
   $colorThiefProvider.setDefaultQuality(1);
   $colorThiefProvider.setDefaultColorCount(10);
   $colorThiefProvider.setReturnObjects(false);
-  $locationProvider.html5Mode(true);
+  $locationProvider.html5Mode(false);
   $routeProvider
         .when('/', {
           templateUrl: "templates/login.html",
@@ -129,13 +129,13 @@ app.service('fileUpload', ['$http', 'ngDialog',  function ($http, ngDialog) {
         fd.append('file', file);
         $http.post(uploadUrl, fd, {
             transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
+            headers: {'Content-Type': 'image'}
         })
         .success(function(data, status, headers, config){
           callback(true, data)
         })
         .error(function(){
-          callback(false, null)
+          callback(false, data)
         });
     }
 }]);
