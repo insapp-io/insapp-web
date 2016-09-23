@@ -139,12 +139,15 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
   }
 
   $scope.deleteEvent = function() {
+    $loadingOverlay.show()
+    $("html, body").animate({ scrollTop: 0 }, "slow");
     Event.remove({id:$scope.currentEvent.ID, token:Session.getToken()}, function(event) {
       ngDialog.open({
           template: "<h2 style='text-align:center;'>L'événément à été supprimé</h2>",
           plain: true,
           className: 'ngdialog-theme-default'
       });
+      $loadingOverlay.hide()
       $location.path('/myEvents')
     }, function(error) {
         Session.destroyCredentials()
