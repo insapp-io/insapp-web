@@ -134,7 +134,7 @@ app.service('fileUpload', ['$http', 'ngDialog',  function ($http, ngDialog) {
         .success(function(data, status, headers, config){
           callback(true, data)
         })
-        .error(function(){
+        .error(function(data, status, headers, config){
           callback(false, data)
         });
     }

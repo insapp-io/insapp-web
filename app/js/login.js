@@ -8,7 +8,7 @@ app.controller('LoginAssociation', ['$scope', '$resource', '$location', 'Session
   }
 
   if(Session.getToken() != null && Session.getAssociation() != null){
-    $location.path('/myEvents')
+    $location.path('/#/myEvents')
   }else{
     $scope.login = false
   }
@@ -18,10 +18,10 @@ app.controller('LoginAssociation', ['$scope', '$resource', '$location', 'Session
         $scope.currentLogin.error = auth.error
         if (!auth.error) {
           Session.setToken(auth.token)
-          console.log("heeeeeeeerrre")
+          //console.log("heeeeeeeerrre")
           Session.setAssociation(auth.associationID)
           Session.setMaster(auth.master)
-          $location.path('/myEvents')
+          $location.path('/#/myEvents')
         }
       });
    };
