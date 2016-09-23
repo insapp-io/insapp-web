@@ -131,6 +131,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
         });
         $loadingOverlay.hide()
         $scope.currentEvent = event
+        $location.path('/myEvents')
     }, function(error) {
         Session.destroyCredentials()
         $location.path('/login')
@@ -144,6 +145,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
           plain: true,
           className: 'ngdialog-theme-default'
       });
+      $location.path('/myEvents')
     }, function(error) {
         Session.destroyCredentials()
         $location.path('/login')

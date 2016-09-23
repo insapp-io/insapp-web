@@ -88,7 +88,7 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
       });
       $loadingOverlay.hide()
       $scope.currentPost = post
-      console.log(post)
+      $location.path('/myPosts')
     }, function(error) {
         Session.destroyCredentials()
         $location.path('/login')

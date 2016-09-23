@@ -65,6 +65,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
           plain: true,
           className: 'ngdialog-theme-default'
       });
+      $location.path('/myPosts')
     }, function(error) {
         Session.destroyCredentials()
         $location.path('/login')

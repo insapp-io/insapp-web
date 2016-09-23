@@ -112,6 +112,7 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$
       });
       $scope.currentEvent = event
       $loadingOverlay.hide()
+      $location.path('/myEvents')
     }, function(error) {
         Session.destroyCredentials()
         $location.path('/login')
