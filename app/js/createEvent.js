@@ -2,7 +2,7 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$
   var Event = $resource('https://insapp.thomasmorel.io/api/v1/event?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('web/#/login')
+    $location.path('/login')
   }
 
   $scope.currentEvent = {
@@ -112,10 +112,10 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$
       });
       $scope.currentEvent = event
       $loadingOverlay.hide()
-      $location.path('web/#/myEvents')
+      $location.path('/myEvents')
     }, function(error) {
         Session.destroyCredentials()
-        $location.path('web/#/login')
+        $location.path('/login')
     });
   }
 
