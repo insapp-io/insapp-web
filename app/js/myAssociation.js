@@ -1,6 +1,6 @@
 app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', '$colorThief', 'Upload', 'fileUpload', '$loadingOverlay', '$routeParams',
 function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, fileUpload, $loadingOverlay, $routeParams) {
-  var Association = $resource('https://api.thomasmorel.io/association/:id?token=:token', null, { 'update': { method:'PUT' } });
+  var Association = $resource('https://insapp.thomasmorel.io/api/v1/association/:id?token=:token', null, { 'update': { method:'PUT' } });
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
@@ -20,11 +20,11 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
   }
 
   Association.get({id:$scope.associationId, token:Session.getToken()}, function(assos) {
-    $scope.profilePictureFile = (assos.profile != null ? 'https://cdn.thomasmorel.io/' + assos.profile : null)
-    $scope.coverPictureFile = (assos.cover != null ? 'https://cdn.thomasmorel.io/' + assos.cover : null)
+    $scope.profilePictureFile = (assos.profile != null ? 'https://insapp.thomasmorel.io/cdn/' + assos.profile : null)
+    $scope.coverPictureFile = (assos.cover != null ? 'https://insapp.thomasmorel.io/cdn/' + assos.cover : null)
 
-    assos.profilePictureUrl = (assos.profile != null ? 'https://cdn.thomasmorel.io/' + assos.profile : null)
-    assos.coverPictureUrl = (assos.cover != null ? 'https://cdn.thomasmorel.io/' + assos.cover : null)
+    assos.profilePictureUrl = (assos.profile != null ? 'https://insapp.thomasmorel.io/cdn/' + assos.profile : null)
+    assos.coverPictureUrl = (assos.cover != null ? 'https://insapp.thomasmorel.io/cdn/' + assos.cover : null)
 
     $scope.oldAssociation = assos
     $scope.currentAssociation = assos
@@ -149,7 +149,7 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
   $scope.uploadImage = function (file, fileName, completion) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = 'https://api.thomasmorel.io/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    var uploadUrl = 'https://insapp.thomasmorel.io/api/v1/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
       console.log(response)

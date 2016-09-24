@@ -1,5 +1,5 @@
 app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$colorThief', 'Upload', 'fileUpload', 'ngDialog', '$loadingOverlay', function($scope, $resource, Session, $location, $colorThief, Upload, fileUpload, ngDialog, $loadingOverlay) {
-  var Event = $resource('https://api.thomasmorel.io/event?token=:token');
+  var Event = $resource('https://insapp.thomasmorel.io/api/v1/event?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('web/#/login')
@@ -83,7 +83,7 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$
   $scope.uploadImage = function (file, fileName, completion) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = 'https://api.thomasmorel.io/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    var uploadUrl = 'https://insapp.thomasmorel.io/api/v1/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
       console.log(success)
