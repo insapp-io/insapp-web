@@ -26,7 +26,7 @@ app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', funct
   });
 
   $scope.onclick = function(event) {
-      $location.path('web/#/myEvents/' + event.ID)
+      $location.path('/myEvents/' + event.ID)
    };
 
 }]);

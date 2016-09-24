@@ -36,7 +36,7 @@ app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$locatio
       });
     }, function(error) {
         Session.destroyCredentials()
-        $location.path('/web/#/login')
+        $location.path('/login')
     });
   }
 
