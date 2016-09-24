@@ -12,59 +12,59 @@ app.config(function($routeProvider, $locationProvider, $colorThiefProvider) {
   $locationProvider.html5Mode(false);
   $routeProvider
         .when('/', {
-          templateUrl: "templates/login.html",
+          templateUrl: "/web/templates/login.html",
           controller:'LoginAssociation',
         })
         .when('/login', {
-          templateUrl: "templates/login.html",
+          templateUrl: "/web/templates/login.html",
           controller:'LoginAssociation',
         })
         .when('/logout', {
-          templateUrl: "templates/logout.html",
+          templateUrl: "/web/templates/logout.html",
           controller:'LogoutAssociation',
         })
         .when('/myEvents', {
-          templateUrl: "templates/myEvents.html",
+          templateUrl: "/web/templates/myEvents.html",
           controller:'MyEvents',
          })
         .when('/myPosts', {
-          templateUrl: "templates/myPosts.html",
+          templateUrl: "/web/templates/myPosts.html",
           controller:'MyPosts',
         })
         .when('/myEvents/:id', {
-          templateUrl: "templates/myEventReader.html",
+          templateUrl: "/web/templates/myEventReader.html",
           controller:'MyEventReader',
          })
         .when('/myPosts/:id', {
-          templateUrl: "templates/myPostsReader.html",
+          templateUrl: "/web/templates/myPostsReader.html",
           controller:'MyPostsReader',
         })
         .when('/myAssociation/:id', {
-         templateUrl: "templates/myAssociation.html",
+         templateUrl: "/web/templates/myAssociation.html",
          controller:'MyAssociation',
         })
         .when('/createEvent', {
-         templateUrl: "templates/createEvent.html",
+         templateUrl: "/web/templates/createEvent.html",
          controller:'CreateEvent',
         })
         .when('/createPost', {
-         templateUrl: "templates/createPost.html",
+         templateUrl: "/web/templates/createPost.html",
          controller:'CreatePost',
         })
         .when('/validationEvent', {
-         templateUrl: "templates/validationEvent.html",
+         templateUrl: "/web/templates/validationEvent.html",
          controller:'ValidationEvent',
         })
         .when('/validationPost', {
-         templateUrl: "templates/validationPost.html",
+         templateUrl: "/web/templates/validationPost.html",
          controller:'ValidationPost',
         })
         .when('/validationAssociation', {
-         templateUrl: "templates/validationAssociation.html",
+         templateUrl: "/web/templates/validationAssociation.html",
          controller:'ValidationAssociation',
         })
         .when('/createAssociation', {
-         templateUrl: "templates/createAssociation.html",
+         templateUrl: "/web/templates/createAssociation.html",
          controller:'CreateAssociation',
         })
         .otherwise({
