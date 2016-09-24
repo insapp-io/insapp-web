@@ -3,7 +3,7 @@ app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$locatio
   var User = $resource('https://api.thomasmorel.io/association/:id/user?token=:token')
 
   if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/web/login')
+    $location.path('/login')
   }
 
   $scope.isActive = function (viewLocation) {
