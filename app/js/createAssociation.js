@@ -3,7 +3,7 @@ app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$locatio
   var User = $resource('https://api.thomasmorel.io/association/:id/user?token=:token')
 
   if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
+    $location.path('/web/login')
   }
 
   $scope.isActive = function (viewLocation) {
@@ -36,7 +36,7 @@ app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$locatio
       });
     }, function(error) {
         Session.destroyCredentials()
-        $location.path('/login')
+        $location.path('/web/login')
     });
   }
 

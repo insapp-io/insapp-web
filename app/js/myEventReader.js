@@ -2,7 +2,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
   var Event = $resource('https://api.thomasmorel.io/event/:id?token=:token', null, { 'update': { method:'PUT' } });
 
   if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
+    $location.path('/web/#login')
   }
 
   $scope.isActive = function (viewLocation) {
@@ -26,7 +26,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
 
     }, function(error) {
         Session.destroyCredentials()
-        $location.path('/login')
+        $location.path('/web/#login')
   });
 
   $scope.isActive = function (viewLocation) {
@@ -131,10 +131,10 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
         });
         $loadingOverlay.hide()
         $scope.currentEvent = event
-        $location.path('/myEvents')
+        $location.path('/web/#myEvents')
     }, function(error) {
         Session.destroyCredentials()
-        $location.path('/login')
+        $location.path('/web/#login')
     });
   }
 
@@ -148,10 +148,10 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
           className: 'ngdialog-theme-default'
       });
       $loadingOverlay.hide()
-      $location.path('/myEvents')
+      $location.path('/web/#myEvents')
     }, function(error) {
         Session.destroyCredentials()
-        $location.path('/login')
+        $location.path('/web/#login')
     });
   }
 

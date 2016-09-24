@@ -3,7 +3,7 @@ app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', functi
   var Post = $resource('https://api.thomasmorel.io/post/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
+    $location.path('/web/#login')
   }
 
   $scope.isActive = function (viewLocation) {
@@ -23,11 +23,11 @@ app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', functi
     }
   }, function(error) {
       Session.destroyCredentials()
-      $location.path('/login')
+      $location.path('/web/#login')
   });
 
   $scope.onclick = function(post) {
-      $location.path('/myPosts/' + post.ID)
+      $location.path('/web/#myPosts/' + post.ID)
    };
 
 }]);

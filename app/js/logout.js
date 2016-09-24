@@ -2,7 +2,7 @@ app.controller('LogoutAssociation', ['$location', 'Session', function($location,
 
 
   Session.destroyCredentials()
-  $location.path('/login')
+  $location.path('/web/#login')
 
 
 }]);
