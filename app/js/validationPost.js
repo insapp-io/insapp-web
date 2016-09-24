@@ -4,7 +4,7 @@ app.controller('ValidationPost', ['$scope', '$resource', '$location', 'Session',
   var Post = $resource('https://api.thomasmorel.io/post/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/web/#login')
+    $location.path('/web/#/login')
   }
 
   $scope.isActive = function (viewLocation) {
@@ -28,11 +28,11 @@ app.controller('ValidationPost', ['$scope', '$resource', '$location', 'Session',
       });
     }
   }, function(error) {
-      $location.path('/web/#login')
+      $location.path('/web/#/login')
   });
 
   $scope.onclick = function(post) {
-      $location.path('/web/#myPosts/' + post.ID)
+      $location.path('/web/#/myPosts/' + post.ID)
    };
 
 }]);

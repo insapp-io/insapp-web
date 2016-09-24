@@ -3,7 +3,7 @@ app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', funct
   var Event = $resource('https://api.thomasmorel.io/event/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('web/#login')
+    $location.path('web/#/login')
   }
 
   $scope.isActive = function (viewLocation) {

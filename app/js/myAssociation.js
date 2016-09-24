@@ -3,7 +3,7 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
   var Association = $resource('https://api.thomasmorel.io/association/:id?token=:token', null, { 'update': { method:'PUT' } });
 
   if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/web/#login')
+    $location.path('/web/#/login')
   }
 
   $scope.isActive = function (viewLocation) {
@@ -35,7 +35,7 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
     }
   }, function(error) {
       Session.destroyCredentials()
-      $location.path('/web/#login')
+      $location.path('/web/#/login')
   });
 
   $scope.monitorLength = function (field, maxLength) {
@@ -152,7 +152,7 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
     var uploadUrl = 'https://api.thomasmorel.io/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
-      console.log(success)
+      console.log(response)
       if(success){
         completion(response)
       }else{
@@ -183,7 +183,7 @@ function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, f
         $scope.currentAssociation = assos
     }, function(error) {
         Session.destroyCredentials()
-        $location.path('/web/#login')
+        $location.path('/web/#/login')
     });
   }
 

@@ -2,7 +2,7 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
   var Post = $resource('https://api.thomasmorel.io/post?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/web/login')
+    $location.path('/web/#/login')
   }
 
   $scope.isActive = function (viewLocation) {
@@ -88,10 +88,10 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
       });
       $loadingOverlay.hide()
       $scope.currentPost = post
-      $location.path('/web/myPosts')
+      $location.path('/web/#/myPosts')
     }, function(error) {
         Session.destroyCredentials()
-        $location.path('/web/login')
+        $location.path('/web/#/login')
     });
   }
 }]);

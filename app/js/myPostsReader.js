@@ -5,7 +5,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
   $scope.master = (Session.getMaster() == 'true')
 
   if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/web/#login')
+    $location.path('/web/#/login')
   }
 
   $scope.isActive = function (viewLocation) {
@@ -19,7 +19,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
       $scope.currentPost.imageUrl = 'https://cdn.thomasmorel.io/' + post.image
     }, function(error) {
         Session.destroyCredentials()
-        $location.path('/web/#login')
+        $location.path('/web/#/login')
     });
 
   $scope.monitorLength = function (field, maxLength) {
@@ -41,7 +41,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
       });
     }, function(error) {
         Session.destroyCredentials()
-        $location.path('/web/#login')
+        $location.path('/web/#/login')
     });
   }
 
@@ -54,7 +54,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
       });
     }, function(error) {
         Session.destroyCredentials()
-        $location.path('/web/#login')
+        $location.path('/web/#/login')
     });
   }
 
@@ -65,10 +65,10 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
           plain: true,
           className: 'ngdialog-theme-default'
       });
-      $location.path('/web/#myPosts')
+      $location.path('/web/#/myPosts')
     }, function(error) {
         Session.destroyCredentials()
-        $location.path('/web/#login')
+        $location.path('/web/#/login')
     });
   }
 
