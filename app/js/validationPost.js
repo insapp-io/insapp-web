@@ -11,6 +11,7 @@ app.controller('ValidationPost', ['$scope', '$resource', '$location', 'Session',
       return viewLocation === $location.path();
   };
 
+  $scope.allPosts = []
   $scope.myPosts = []
 
   MyAssociations.query({id:Session.getAssociation(), token:Session.getToken()}, function(assosId) {
@@ -22,7 +23,9 @@ app.controller('ValidationPost', ['$scope', '$resource', '$location', 'Session',
             post.nbLikes = (post.likes != null ? post.likes.length : 0)
             post.nbComments = (post.comments != null ? post.comments.length : 0)
             post.associationName = association.name
-            $scope.myPosts.push(post)
+            $scope.allPosts.push(post)
+            $scope.allPosts.sort(function(a, b){return new Date(b.date).getTime()-new Date(a.date).getTime()});
+            $scope.myPosts = $scope.allPosts
           });
         }
       });
@@ -33,6 +36,18 @@ app.controller('ValidationPost', ['$scope', '$resource', '$location', 'Session',
 
   $scope.onclick = function(post) {
       $location.path('/myPosts/' + post.ID)
-   };
+  };
+
+  $scope.search= function(val) {
+    var results = $scope.allPosts
+    if(val.length >= 1) {
+      results = results.filter(function(post){
+        return post.title.toLowerCase().includes(val.toLowerCase()) || post.associationName.toLowerCase().includes(val.toLowerCase())
+      })
+    }
+    $scope.$apply(function () {
+      $scope.myPosts = results
+    });
+  }
 
 }]);

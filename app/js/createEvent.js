@@ -1,4 +1,4 @@
-app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', '$colorThief', 'Upload', 'fileUpload', 'ngDialog', '$loadingOverlay', function($scope, $resource, Session, $location, $colorThief, Upload, fileUpload, ngDialog, $loadingOverlay) {
+app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', 'Upload', 'fileUpload', 'ngDialog', '$loadingOverlay', function($scope, $resource, Session, $location, Upload, fileUpload, ngDialog, $loadingOverlay) {
   var Event = $resource('https://insapp.thomasmorel.io/api/v1/event?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){

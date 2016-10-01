@@ -1,14 +1,11 @@
-var app = angular.module('insapp', ['ngRoute','ngResource','ui.bootstrap.datetimepicker', 'ngFileUpload', 'ngDialog', 'ngColorThief', 'ngFileUpload', 'ngLoadingOverlay','angular-spinkit']);
+var app = angular.module('insapp', ['ngRoute','ngResource','ui.bootstrap.datetimepicker', 'ngFileUpload', 'ngDialog', 'ngFileUpload', 'ngLoadingOverlay','angular-spinkit']);
 
 app.config(['$loadingOverlayConfigProvider', function ($loadingOverlayConfigProvider) {
     $loadingOverlayConfigProvider.defaultConfig('<img style="display: block;margin-left: auto;margin-right: auto; width:50px" src="/web/images/loader.gif"></img><h3>Chargement</h3>', 'rgba(0, 0, 0, 0.5)', '#fff');
   }
 ]);
 
-app.config(function($routeProvider, $locationProvider, $colorThiefProvider) {
-  $colorThiefProvider.setDefaultQuality(1);
-  $colorThiefProvider.setDefaultColorCount(10);
-  $colorThiefProvider.setReturnObjects(false);
+app.config(function($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(false);
   $routeProvider
         .when('/', {
@@ -102,11 +99,9 @@ app.factory('Session', function () {
       },
       getAssociation: function () {
           associationID = window.localStorage.getItem("associationID");
-          console.log("getAssociation called => " + associationID)
           return associationID;
       },
       setAssociation: function (a) {
-          console.log("setAssociation called !!!")
           window.localStorage.setItem("associationID", a);
           associationID = a;
       },
@@ -122,6 +117,14 @@ app.factory('Session', function () {
     };
 });
 
+app.directive('search', function () {
+    return function ($scope, element) {
+        element.bind("keyup", function (event) {
+          var val = element.val();
+          $scope.search(val);
+        });
+    };
+});
 
 app.service('fileUpload', ['$http', 'ngDialog',  function ($http, ngDialog) {
     this.uploadFileToUrl = function(file, uploadUrl, callback){

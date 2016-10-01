@@ -11,14 +11,16 @@ app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', functi
   };
 
   Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
-    $scope.myPosts = []
+    $scope.allPosts = []
     assos.posts = (assos.posts == null ? [] : assos.posts)
     for (postId of assos.posts){
       Post.get({id:postId, token:Session.getToken()}, function(post) {
         post.nbLikes = (post.likes != null ? post.likes.length : 0)
         post.nbComments = (post.comments != null ? post.comments.length : 0)
         post.associationName = assos.name
-        $scope.myPosts.push(post)
+        $scope.allPosts.push(post)
+        $scope.allPosts.sort(function(a, b){return new Date(a.date).getTime()-new Date(b.date).getTime()});
+        $scope.myPosts = $scope.allPosts
       });
     }
   }, function(error) {
@@ -29,5 +31,17 @@ app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', functi
   $scope.onclick = function(post) {
       $location.path('/myPosts/' + post.ID)
    };
+
+   $scope.search= function(val) {
+     var results = $scope.allPosts
+     if(val.length >= 1) {
+       results = results.filter(function(post){
+         return post.title.toLowerCase().includes(val.toLowerCase()) || post.associationName.toLowerCase().includes(val.toLowerCase())
+       })
+     }
+     $scope.$apply(function () {
+       $scope.myPosts = results
+     });
+   }
 
 }]);

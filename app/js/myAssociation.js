@@ -1,5 +1,5 @@
-app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', '$colorThief', 'Upload', 'fileUpload', '$loadingOverlay', '$routeParams',
-function($scope, $resource, Session, $location, ngDialog, $colorThief, Upload, fileUpload, $loadingOverlay, $routeParams) {
+app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', 'Upload', 'fileUpload', '$loadingOverlay', '$routeParams',
+function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $loadingOverlay, $routeParams) {
   var Association = $resource('https://insapp.thomasmorel.io/api/v1/association/:id?token=:token', null, { 'update': { method:'PUT' } });
 
   if(Session.getToken() == null || Session.getAssociation() == null){
