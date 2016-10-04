@@ -42,6 +42,9 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
     if ($scope.currentAssociation[field] && $scope.currentAssociation[field].length && $scope.currentAssociation[field].length > maxLength) {
       $scope.currentAssociation[field] = $scope.currentAssociation[field].substring(0, maxLength);
     }
+    if (field == "name" && $scope.currentAssociation[field]){
+      $scope.currentAssociation[field] = $scope.currentAssociation[field].replace(/\s/g, '');
+    }
   }
 
   $scope.distance = function(v1, v2){
