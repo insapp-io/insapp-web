@@ -190,4 +190,21 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
     });
   }
 
+  $scope.deleteAssociation = function() {
+    $loadingOverlay.show()
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    Association.delete({id:$scope.associationId, token:Session.getToken()}, $scope.currentAssociation, function(assos) {
+        ngDialog.open({
+            template: "<h2 style='text-align:center;'>L'association a bien été supprimée</h2>",
+            plain: true,
+            className: 'ngdialog-theme-default'
+        });
+        $loadingOverlay.hide()
+        $scope.currentAssociation = assos
+    }, function(error) {
+        Session.destroyCredentials()
+        $location.path('/login')
+    });
+  }
+
 }]);
