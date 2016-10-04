@@ -19,6 +19,7 @@
       </tr>
     </div>
     </table>
+    <h2 ng-hide="allEvents.length > 0" style="text-align:center;color:#AAAAAA">Il n'y a aucun Event de vos associations</h2>
     <h3 ng-show="pastEvents.length > 0">Évènements passés</h3>
     <table class="table table-striped table-hover" ng-show="pastEvents.length > 0">
       <tr>
@@ -37,5 +38,4 @@
       </tr>
     </div>
     </table>
-    <h2 ng-hide="allEvents.length > 0 && allPastEvents.length > 0" style="text-align:center;color:#AAAAAA">Il n'y a aucun Event de vos associations</h2>
   </div>
