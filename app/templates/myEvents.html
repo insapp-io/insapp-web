@@ -18,7 +18,7 @@
         <td style="vertical-align: middle"> {{ event.nbParticipant }} </td>
       </tr>
     </div>
-    <h2 ng-hide="allEvents.length > 0 && !isAllSetUp" style="text-align:center;color:#AAAAAA">Il n'y a aucun événément à venir, créez en un :)</h2>
+    <h2 ng-show="allEvents.length == 0 && isAllSetUp" style="text-align:center;color:#AAAAAA">Il n'y a aucun événément à venir, créez en un :)</h2>
     <h2 ng-show="!isAllSetUp" style="text-align:center;color:#AAAAAA">Customise d'abord ta page association avant de créer un event :) </h2>
     </table>
     <h3 ng-show="pastEvents.length > 0">Évènements passés</h3>

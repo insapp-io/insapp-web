@@ -17,6 +17,6 @@
         <td style="vertical-align: middle"> {{ post.nbComments }} </td>
       </tr>
     </table>
-    <h2 ng-hide="allPosts.length > 0 && !isAllSetUp" style="text-align:center;color:#AAAAAA">Il n'y a aucun Post, créez en un vite ;)</h2>
+    <h2 ng-show="allPosts.length == 0 && isAllSetUp" style="text-align:center;color:#AAAAAA">Il n'y a aucun Post, créez en un vite ;)</h2>
     <h2 ng-show="!isAllSetUp" style="text-align:center;color:#AAAAAA">Customise d'abord ta page association avant de créer un post :) </h2>
   </div>
