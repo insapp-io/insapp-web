@@ -10,10 +10,12 @@ app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', funct
       return viewLocation === $location.path();
   };
 
+  $scope.isAllSetUp = false
 
   Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
     $scope.allEvents = []
     $scope.allPastEvents = []
+    $scope.isAllSetUp = (assos.profile && assos.profile != "")
     assos.events = (assos.events == null ? [] : assos.events)
     for (eventID of assos.events){
       Event.get({id:eventID, token:Session.getToken()}, function(event) {
