@@ -16,6 +16,7 @@ app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', funct
     $scope.allEvents = []
     $scope.allPastEvents = []
     $scope.isAllSetUp = (assos.profile && assos.profile != "")
+    console.log($scope.isAllSetUp)
     assos.events = (assos.events == null ? [] : assos.events)
     for (eventID of assos.events){
       Event.get({id:eventID, token:Session.getToken()}, function(event) {

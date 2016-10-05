@@ -15,6 +15,7 @@ app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', functi
   Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
     $scope.allPosts = []
     $scope.isAllSetUp = (assos.profile && assos.profile != "")
+    console.log($scope.isAllSetUp)
     assos.posts = (assos.posts == null ? [] : assos.posts)
     for (postId of assos.posts){
       Post.get({id:postId, token:Session.getToken()}, function(post) {
