@@ -1,6 +1,6 @@
 app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', 'Upload', 'fileUpload', '$loadingOverlay', '$routeParams',
 function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $loadingOverlay, $routeParams) {
-  var Association = $resource('https://insapp.insa-rennes.fr/api/v1/association/:id?token=:token', null, { 'update': { method:'PUT' } });
+  var Association = $resource('https://insapp.fr/api/v1/association/:id?token=:token', null, { 'update': { method:'PUT' } });
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
@@ -20,11 +20,11 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
   }
 
   Association.get({id:$scope.associationId, token:Session.getToken()}, function(assos) {
-    $scope.profilePictureFile = (assos.profile != null ? 'https://insapp.insa-rennes.fr/cdn/' + assos.profile : null)
-    $scope.coverPictureFile = (assos.cover != null ? 'https://insapp.insa-rennes.fr/cdn/' + assos.cover : null)
+    $scope.profilePictureFile = (assos.profile != null ? 'https://insapp.fr/cdn/' + assos.profile : null)
+    $scope.coverPictureFile = (assos.cover != null ? 'https://insapp.fr/cdn/' + assos.cover : null)
 
-    assos.profilePictureUrl = (assos.profile != null ? 'https://insapp.insa-rennes.fr/cdn/' + assos.profile : null)
-    assos.coverPictureUrl = (assos.cover != null ? 'https://insapp.insa-rennes.fr/cdn/' + assos.cover : null)
+    assos.profilePictureUrl = (assos.profile != null ? 'https://insapp.fr/cdn/' + assos.profile : null)
+    assos.coverPictureUrl = (assos.cover != null ? 'https://insapp.fr/cdn/' + assos.cover : null)
 
     $scope.oldAssociation = assos
     $scope.currentAssociation = assos
@@ -152,7 +152,7 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
   $scope.uploadImage = function (file, fileName, completion) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = 'https://insapp.insa-rennes.fr/api/v1/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    var uploadUrl = 'https://insapp.fr/api/v1/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
       console.log(response)

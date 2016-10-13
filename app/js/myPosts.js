@@ -1,6 +1,6 @@
 app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', function($scope, $resource, $location, Session) {
-  var Association = $resource('https://insapp.insa-rennes.fr/api/v1/association/:id?token=:token');
-  var Post = $resource('https://insapp.insa-rennes.fr/api/v1/post/:id?token=:token');
+  var Association = $resource('https://insapp.fr/api/v1/association/:id?token=:token');
+  var Post = $resource('https://insapp.fr/api/v1/post/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

@@ -1,5 +1,5 @@
 app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload', 'Session', '$location', 'ngDialog', '$loadingOverlay', function($scope, $resource, $routeParams, fileUpload, Session, $location, ngDialog, $loadingOverlay) {
-  var Post = $resource('https://insapp.insa-rennes.fr/api/v1/post?token=:token');
+  var Post = $resource('https://insapp.fr/api/v1/post?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
@@ -59,7 +59,7 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
   $scope.uploadImage = function (file, fileName, completion) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = 'https://insapp.insa-rennes.fr/api/v1/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    var uploadUrl = 'https://insapp.fr/api/v1/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
       console.log(success)

@@ -1,5 +1,5 @@
 app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', 'fileUpload', '$loadingOverlay', function($scope, $resource, $routeParams, Session, $location, ngDialog, fileUpload, $loadingOverlay) {
-  var Event = $resource('https://insapp.insa-rennes.fr/api/v1/event/:id?token=:token', null, { 'update': { method:'PUT' } });
+  var Event = $resource('https://insapp.fr/api/v1/event/:id?token=:token', null, { 'update': { method:'PUT' } });
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
@@ -14,10 +14,10 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
 
   Event.get({id:$routeParams.id, token:Session.getToken()}, function(event) {
       event.nbParticipant = (event.participants != null ? event.participants.length : 0)
-      $scope.eventImageFile = 'https://insapp.insa-rennes.fr/cdn/' + event.image
+      $scope.eventImageFile = 'https://insapp.fr/cdn/' + event.image
       $scope.oldEvent = event
       $scope.currentEvent = event
-      $scope.currentEvent.imageUrl = 'https://insapp.insa-rennes.fr/cdn/' + event.image
+      $scope.currentEvent.imageUrl = 'https://insapp.fr/cdn/' + event.image
 
       if (event.palette && event.palette.length > 1) {
         $scope.palette = event.palette
@@ -103,7 +103,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
   $scope.uploadImage = function (file, fileName, completion) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = 'https://insapp.insa-rennes.fr/api/v1/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    var uploadUrl = 'https://insapp.fr/api/v1/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
       console.log(success)

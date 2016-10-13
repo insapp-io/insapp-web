@@ -1,7 +1,7 @@
 app.controller('ValidationEvent', ['$scope', '$resource', '$location', 'Session', function($scope, $resource, $location, Session) {
-  var MyAssociations = $resource('https://insapp.insa-rennes.fr/api/v1/association/:id/myassociations?token=:token');
-  var Association = $resource('https://insapp.insa-rennes.fr/api/v1/association/:id?token=:token');
-  var Event = $resource('https://insapp.insa-rennes.fr/api/v1/event/:id?token=:token');
+  var MyAssociations = $resource('https://insapp.fr/api/v1/association/:id/myassociations?token=:token');
+  var Association = $resource('https://insapp.fr/api/v1/association/:id?token=:token');
+  var Event = $resource('https://insapp.fr/api/v1/event/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

@@ -1,6 +1,6 @@
 app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', function($scope, $resource, $routeParams, Session, $location, ngDialog) {
-  var Post = $resource('https://insapp.insa-rennes.fr/api/v1/post/:id?token=:token', null, { 'update': { method:'PUT' } });
-  var Comment = $resource('https://insapp.insa-rennes.fr/api/v1/post/:id/comment/:commentId?token=:token');
+  var Post = $resource('https://insapp.fr/api/v1/post/:id?token=:token', null, { 'update': { method:'PUT' } });
+  var Comment = $resource('https://insapp.fr/api/v1/post/:id/comment/:commentId?token=:token');
 
   $scope.master = (Session.getMaster() == 'true')
 
@@ -16,7 +16,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
     post.nbLikes = (post.likes != null ? post.likes.length : 0)
     post.nbComments = (post.comments != null ? post.comments.length : 0)
       $scope.currentPost = post
-      $scope.currentPost.imageUrl = 'https://insapp.insa-rennes.fr/cdn/' + post.image
+      $scope.currentPost.imageUrl = 'https://insapp.fr/cdn/' + post.image
     }, function(error) {
         Session.destroyCredentials()
         $location.path('/login')
@@ -32,7 +32,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
     Comment.remove({id:$scope.currentPost.ID, commentId: commentId, token:Session.getToken()}, function(post) {
       post.nbLikes = (post.likes != null ? post.likes.length : 0)
       post.nbComments = (post.comments != null ? post.comments.length : 0)
-        post.image = 'https://insapp.insa-rennes.fr/cdn/' + post.photourl
+        post.image = 'https://insapp.fr/cdn/' + post.photourl
         $scope.currentPost = post
       ngDialog.open({
           template: "<h2 style='text-align:center;'>Le commentaire a été supprimé</h2>",
