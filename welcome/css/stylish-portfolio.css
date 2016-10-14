@@ -151,10 +151,22 @@ hr.small {
 /* Header */
 
 .header h1 {
+    color: #fff;
     margin: 40px;
 }
 
 .header h3 {
+    color: #fff;
+    margin: 20px;
+}
+
+.header h4 {
+    color: #fff;
+    margin: 20px;
+}
+
+.header a {
+    color: #EC5D57;
     margin: 20px;
 }
 
