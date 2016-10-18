@@ -10,19 +10,6 @@ app.controller('Users', ['$scope', '$resource', '$location', 'Session', '$loadin
       return viewLocation === $location.path();
   };
 
-
-  $loadingOverlay.show()
-  ngDialog.open({
-      template: "<h2 style='text-align:center;'>Attention !! Sur cette page, vous pouvez supprimer des utilisateurs. Ne le faites uniquement après un signalement. Il n'y a pas de confirmation</h2>",
-      plain: true,
-      className: 'ngdialog-theme-default'
-  });
-  $loadingOverlay.hide()
-  $location.path('/users')
-
-
-  $scope.getUsers()
-
   $scope.getUsers = function(){
     Users.query({token:Session.getToken()}, function(users) {
       $scope.allUsers = users
@@ -66,5 +53,16 @@ app.controller('Users', ['$scope', '$resource', '$location', 'Session', '$loadin
        $scope.users = results
      });
    }
+
+   $scope.getUsers()
+
+   $loadingOverlay.show()
+   ngDialog.open({
+       template: "<h2 style='text-align:center;'>Attention !! Sur cette page, vous pouvez supprimer des utilisateurs. Ne le faites uniquement après un signalement. Il n'y a pas de confirmation</h2>",
+       plain: true,
+       className: 'ngdialog-theme-default'
+   });
+   $loadingOverlay.hide()
+   $location.path('/users')
 
 }]);
