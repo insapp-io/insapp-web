@@ -58,11 +58,10 @@ app.controller('Users', ['$scope', '$resource', '$location', 'Session', '$loadin
 
    $loadingOverlay.show()
    ngDialog.open({
-       template: "<h2 style='text-align:center;'>Attention !! Sur cette page, vous pouvez supprimer des utilisateurs. Ne le faites uniquement après un signalement. Il n'y a pas de confirmation</h2>",
+       template: "<h2 style='text-align:center;'>Attention !!</h2><p>Sur cette page, vous pouvez supprimer des utilisateurs. Ne le faites uniquement après un signalement. Il n'y a pas de confirmation</p>",
        plain: true,
        className: 'ngdialog-theme-default'
    });
    $loadingOverlay.hide()
-   $location.path('/users')
 
 }]);
