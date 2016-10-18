@@ -48,6 +48,10 @@ app.config(function($routeProvider, $locationProvider) {
          templateUrl: "/web/templates/createPost.html",
          controller:'CreatePost',
         })
+        .when('/useres', {
+         templateUrl: "/web/templates/users.html",
+         controller:'Users',
+        })
         .when('/validationEvent', {
          templateUrl: "/web/templates/validationEvent.html",
          controller:'ValidationEvent',
