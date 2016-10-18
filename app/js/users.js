@@ -1,4 +1,4 @@
-app.controller('Users', ['$scope', '$resource', '$location', 'Session', function($scope, $resource, $location, Session) {
+app.controller('Users', ['$scope', '$resource', '$location', 'Session', '$loadingOverlay', 'ngDialog', function($scope, $resource, $location, Session, $loadingOverlay, ngDialog) {
   var Users = $resource('https://insapp.fr/api/v1/user?token=:token');
   var User = $resource('https://insapp.fr/api/v1/user/:id?token=:token');
 
