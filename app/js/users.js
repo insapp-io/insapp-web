@@ -12,7 +12,11 @@ app.controller('Users', ['$scope', '$resource', '$location', 'Session', '$loadin
 
   Users.query({token:Session.getToken()}, function(users) {
     $scope.allUsers = users
-    //$scope.allUsers.sort(function(a, b){return new Date(a.date).getTime()-new Date(b.date).getTime()});
+    $scope.allUsers.sort(function(a, b){
+      if(a.username < b.username) return -1;
+      if(a.username > b.username) return 1;
+      return 0;
+    });
     $scope.users = $scope.allUsers
   }, function(error) {
       Session.destroyCredentials()
