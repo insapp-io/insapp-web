@@ -10,18 +10,33 @@ app.controller('Users', ['$scope', '$resource', '$location', 'Session', '$loadin
       return viewLocation === $location.path();
   };
 
-  Users.query({token:Session.getToken()}, function(users) {
-    $scope.allUsers = users
-    $scope.allUsers.sort(function(a, b){
-      if(a.username < b.username) return -1;
-      if(a.username > b.username) return 1;
-      return 0;
-    });
-    $scope.users = $scope.allUsers
-  }, function(error) {
-      Session.destroyCredentials()
-      $location.path('/login')
+
+  $loadingOverlay.show()
+  ngDialog.open({
+      template: "<h2 style='text-align:center;'>Attention !! Sur cette page, vous pouvez supprimer des utilisateurs. Ne le faites uniquement après un signalement. Il n'y a pas de confirmation</h2>",
+      plain: true,
+      className: 'ngdialog-theme-default'
   });
+  $loadingOverlay.hide()
+  $location.path('/users')
+
+
+  $scope.getUsers()
+
+  $scope.getUsers = function(){
+    Users.query({token:Session.getToken()}, function(users) {
+      $scope.allUsers = users
+      $scope.allUsers.sort(function(a, b){
+        if(a.username < b.username) return -1;
+        if(a.username > b.username) return 1;
+        return 0;
+      });
+      $scope.users = $scope.allUsers
+    }, function(error) {
+        Session.destroyCredentials()
+        $location.path('/login')
+    });
+  }
 
   $scope.delete = function(user) {
     $loadingOverlay.show()
