@@ -73,7 +73,7 @@
           <li ng-class="{ active: isActive('/myEvents')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="web/#/myEvents">Mes événements</a></li>
           <li ng-class="{ active: isActive('/myPosts')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="web/#/myPosts">Mes posts</a></li>
           <li ng-class="{ active: isActive('/myAssociation')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="web/#/myAssociation/me">Mon association</a></li>
-          <li ng-class="{ active: isActive('/users')}" ng-show="loggedIn" ng-click="isLoggedIn()"><a href="web/#/users">Utilisateurs</a></li>
+          <li ng-class="{ active: isActive('/users')}" ng-show="master" ng-click="isLoggedIn()"><a href="web/#/users">Utilisateurs</a></li>
           <li ng-class="{ active: isActive('/validation')}" ng-show="master" ng-click="isLoggedIn()"class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation<span class="caret"></span></a>
               <ul class="dropdown-menu">
