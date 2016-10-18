@@ -48,7 +48,7 @@ app.config(function($routeProvider, $locationProvider) {
          templateUrl: "/web/templates/createPost.html",
          controller:'CreatePost',
         })
-        .when('/useres', {
+        .when('/users', {
          templateUrl: "/web/templates/users.html",
          controller:'Users',
         })
