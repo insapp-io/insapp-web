@@ -1,4 +1,5 @@
 app.controller('Users', ['$scope', '$resource', '$location', 'Session', function($scope, $resource, $location, Session) {
+  var Users = $resource('https://insapp.fr/api/v1/user?token=:token');
   var User = $resource('https://insapp.fr/api/v1/user/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
@@ -9,7 +10,7 @@ app.controller('Users', ['$scope', '$resource', '$location', 'Session', function
       return viewLocation === $location.path();
   };
 
-  User.query({token:Session.getToken()}, function(users) {
+  Users.query({token:Session.getToken()}, function(users) {
     $scope.allUsers = users
     //$scope.allUsers.sort(function(a, b){return new Date(a.date).getTime()-new Date(b.date).getTime()});
     $scope.users = $scope.allUsers
@@ -18,8 +19,21 @@ app.controller('Users', ['$scope', '$resource', '$location', 'Session', function
       $location.path('/login')
   });
 
-  $scope.delete = function(user){
-    console.log("delete user")
+  $scope.delete = function(user) {
+    $loadingOverlay.show()
+    $("html, body").animate({ scrollTop: 0 }, "slow");
+    User.remove({id:user.ID, token:Session.getToken()}, function(user) {
+      ngDialog.open({
+          template: "<h2 style='text-align:center;'>L'utilisateur a été supprimé</h2>",
+          plain: true,
+          className: 'ngdialog-theme-default'
+      });
+      $loadingOverlay.hide()
+      $location.path('/users')
+    }, function(error) {
+        Session.destroyCredentials()
+        $location.path('/login')
+    });
   }
 
    $scope.search= function(val) {
