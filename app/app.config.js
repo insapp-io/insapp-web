@@ -2,5 +2,5 @@ var app = angular.module('insapp', ['ngRoute','ngResource','ui.bootstrap.dateti
 
 app.constant('configuration', {
   api: 'https://insapp.fr/api/v1/',
-  baseUrl: '/dev',
+  baseUrl: '/web',
 });
