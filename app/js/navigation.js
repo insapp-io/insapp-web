@@ -1,5 +1,6 @@
-app.controller('NavigationController', ['$scope', 'Session', '$location', function($scope, Session, $location) {
+app.controller('NavigationController', ['$scope', 'Session', '$location', 'configuration', function($scope, Session, $location, configuration) {
     $scope.master = null;
+    $scope.baseUrl = configuration.baseUrl
     $scope.isLoggedIn = isLoggedIn()
     Session.setLoggedInCallback(isLoggedIn)
 

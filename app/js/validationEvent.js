@@ -1,7 +1,7 @@
-app.controller('ValidationEvent', ['$scope', '$resource', '$location', 'Session', function($scope, $resource, $location, Session) {
-  var MyAssociations = $resource('https://insapp.fr/api/v1/association/:id/myassociations?token=:token');
-  var Association = $resource('https://insapp.fr/api/v1/association/:id?token=:token');
-  var Event = $resource('https://insapp.fr/api/v1/event/:id?token=:token');
+app.controller('ValidationEvent', ['$scope', '$resource', '$location', 'Session', 'configuration', function($scope, $resource, $location, Session, configuration) {
+  var MyAssociations = $resource(configuration.api + '/association/:id/myassociations?token=:token');
+  var Association = $resource(configuration.api + '/association/:id?token=:token');
+  var Event = $resource(configuration.api + '/event/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

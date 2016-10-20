@@ -1,5 +1,5 @@
-app.controller('LoginAssociation', ['$scope', '$resource', '$location', 'Session', 'ngDialog', function($scope, $resource, $location, Session, ngDialog) {
-  var Login = $resource('https://insapp.fr/api/v1/login/association');
+app.controller('LoginAssociation', ['$scope', '$resource', '$location', 'Session', 'ngDialog', 'configuration', function($scope, $resource, $location, Session, ngDialog, configuration) {
+  var Login = $resource(configuration.api + '/login/association');
 
   $scope.currentLogin = {
     username : "",

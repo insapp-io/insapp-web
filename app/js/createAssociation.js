@@ -1,6 +1,6 @@
-app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', function($scope, $resource, Session, $location, ngDialog) {
-  var Association = $resource('https://insapp.fr/api/v1/association?token=:token')
-  var User = $resource('https://insapp.fr/api/v1/association/:id/user?token=:token')
+app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', 'configuration', function($scope, $resource, Session, $location, ngDialog, configuration) {
+  var Association = $resource(configuration.api + '/association?token=:token')
+  var User = $resource(configuration.api + '/association/:id/user?token=:token')
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

@@ -1,8 +1,29 @@
-app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', 'Upload', 'fileUpload', 'ngDialog', '$loadingOverlay', function($scope, $resource, Session, $location, Upload, fileUpload, ngDialog, $loadingOverlay) {
-  var Event = $resource('https://insapp.fr/api/v1/event?token=:token');
+app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', 'Upload', 'fileUpload', 'ngDialog', '$loadingOverlay', 'configuration', function($scope, $resource, Session, $location, Upload, fileUpload, ngDialog, $loadingOverlay, configuration) {
+  var Event = $resource(configuration.api + '/event?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
+  }
+
+  $scope.showAdvancedSettings = false
+
+  $scope.promotions = {
+    "1stpi": true,
+    "2stpi": true,
+    "eii": true,
+    "gm": true,
+    "gma": true,
+    "gcu": true,
+    "info": true,
+    "sgm": true,
+    "src": true,
+    "personnel": true,
+    "other": true,
+  }
+
+  $scope.plateforms = {
+    "android": true,
+    "iOS": true,
   }
 
   $scope.currentEvent = {
@@ -14,6 +35,8 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', 'U
       selectedcolor: 0,
       dateStart   : null,
       dateEnd     : null,
+      promotions  : [],
+      plateforms  : [],
       participants: [],
       bgColor     : "",
       fgColor     : ""
@@ -83,7 +106,7 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', 'U
   $scope.uploadImage = function (file, fileName, completion) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = 'https://insapp.fr/api/v1/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    var uploadUrl = configuration.api + '/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
       console.log(success)
@@ -100,8 +123,42 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', 'U
     });
   }
 
+  $scope.selectAllPromo = function(selected){
+    Object.keys($scope.promotions).forEach(function (key) {
+      $scope.promotions[key] = selected
+    })
+  }
+
+  $scope.selectAllPlatform = function(selected){
+    Object.keys($scope.plateforms).forEach(function (key) {
+      $scope.promotions[key] = selected
+    })
+  }
+
   $scope.createEvent = function(isValid) {
     if (!isValid){ return }
+    promotions = Object.keys($scope.promotions).filter(function(promotion){
+      return $scope.promotions[promotion]
+    })
+
+    $scope.currentEvent.promotions = []
+    for (i in promotions) {
+      promotion = promotions[i]
+      if (!promotion.includes("stpi") && promotion != "other" && promotion != "personnel") {
+        $scope.currentEvent.promotions.push("3" + promotion.toUpperCase())
+        $scope.currentEvent.promotions.push("4" + promotion.toUpperCase())
+        $scope.currentEvent.promotions.push("5" + promotion.toUpperCase())
+      }else{
+        if (promotion == "other") $scope.currentEvent.promotions.push("")
+        else if (promotion == "personnel") $scope.currentEvent.promotions.push("Personnel/Enseignant")
+        else $scope.currentEvent.promotions.push(promotion.toUpperCase())
+      }
+    }
+
+    $scope.currentEvent.plateforms = Object.keys($scope.plateforms).filter(function(plateform){
+      return $scope.plateforms[plateform]
+    })
+
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
     Event.save({token:Session.getToken()}, $scope.currentEvent, function(event) {

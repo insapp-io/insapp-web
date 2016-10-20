@@ -1,6 +1,6 @@
-app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', function($scope, $resource, $location, Session) {
-  var Association = $resource('https://insapp.fr/api/v1/association/:id?token=:token');
-  var Event = $resource('https://insapp.fr/api/v1/event/:id?token=:token');
+app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', 'configuration', function($scope, $resource, $location, Session, configuration) {
+  var Association = $resource(configuration.api + '/association/:id?token=:token');
+  var Event = $resource(configuration.api + '/event/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
@@ -16,7 +16,6 @@ app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', funct
     $scope.allEvents = []
     $scope.allPastEvents = []
     $scope.isAllSetUp = (assos.profile && assos.profile != "")
-    console.log($scope.isAllSetUp)
     assos.events = (assos.events == null ? [] : assos.events)
     for (eventID of assos.events){
       Event.get({id:eventID, token:Session.getToken()}, function(event) {

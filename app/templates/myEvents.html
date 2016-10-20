@@ -1,6 +1,6 @@
 
   <div ng-controller="MyEvents" style="padding:30px">
-    <a href="web/#/createEvent"><button class="btn btn-success" style="margin-bottom:10px" ng-show="isAllSetUp">Créer un événément</button></a>
+    <a href="/createEvent"><button class="btn btn-success" style="margin-bottom:10px" ng-show="isAllSetUp">Créer un événément</button></a>
     </br>
     <input type="text" style="margin-bottom:10px" placeholder="Rechercher" search ng-show="(allEvents.length > 0 || allPastEvents.length > 0) && isAllSetUp">
     <h3 ng-show="myEvents.length > 0">Évènements à venir</h3>

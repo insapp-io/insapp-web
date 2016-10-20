@@ -1,6 +1,6 @@
-app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', function($scope, $resource, $location, Session) {
-  var Association = $resource('https://insapp.fr/api/v1/association/:id?token=:token');
-  var Post = $resource('https://insapp.fr/api/v1/post/:id?token=:token');
+app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', 'configuration', function($scope, $resource, $location, Session, configuration) {
+  var Association = $resource(configuration.api + '/association/:id?token=:token');
+  var Post = $resource(configuration.api + '/post/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
@@ -15,7 +15,6 @@ app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', functi
   Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
     $scope.allPosts = []
     $scope.isAllSetUp = (assos.profile && assos.profile != "")
-    console.log($scope.isAllSetUp)
     assos.posts = (assos.posts == null ? [] : assos.posts)
     for (postId of assos.posts){
       Post.get({id:postId, token:Session.getToken()}, function(post) {

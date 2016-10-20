@@ -67,9 +67,45 @@
           </div>
         </div>
         <div class="form-group">
+          <label class="col-sm-2 control-label">Réglages</label>
+          <div class="col-sm-10">
+            <input type="button" ng-click="showAdvancedSettings = !showAdvancedSettings" ng-show="!showAdvancedSettings" value="Afficher les réglages avancés"/>
+            <input type="button" ng-click="showAdvancedSettings = !showAdvancedSettings" ng-show="showAdvancedSettings" value="Masquer les réglages avancés"/>
+          </div>
+        </div>
+        <div class="form-group" ng-show="showAdvancedSettings">
+          <label class="col-sm-2 control-label">Promotion</label>
+          <div class="col-sm-10">
+            <p><input type="checkbox" name="1STPI" value="1STPI" ng-model="promotions['1stpi']"/> 1STPI<p/>
+            <p><input type="checkbox" name="2STPI" value="2STPI" ng-model="promotions['2stpi']"/> 2STPI<p/>
+            <p><input type="checkbox" name="EII" value="EII" ng-model="promotions['eii']"/> EII<p/>
+            <p><input type="checkbox" name="GM" value="GM" ng-model="promotions['gm']"/> GM<p/>
+            <p><input type="checkbox" name="GMA" value="GMA" ng-model="promotions['gma']"/> GMA<p/>
+            <p><input type="checkbox" name="GCU" value="GCU" ng-model="promotions['gcu']"/> GCU<p/>
+            <p><input type="checkbox" name="INFO" value="INFO" ng-model="promotions['info']"/> INFO<p/>
+            <p><input type="checkbox" name="SGM" value="SGM" ng-model="promotions['sgm']"/> SGM<p/>
+            <p><input type="checkbox" name="SRC" value="SRC" ng-model="promotions['src']"/> SRC<p/>
+            <p><input type="checkbox" name="Personnel/Enseignant" value="Personnel/Enseignant" ng-model="promotions['personnel']"/> Personnel/Enseignant<p/>
+            <p><input type="checkbox" name="Inconnu" value="" ng-model="promotions['other']"/> Inconnu<p/>
+            <br/>
+            <input type="button" ng-click="selectAllPromo(true)" value="Tout sélectionner"/>
+            <input type="button" ng-click="selectAllPromo(false)" value="Tout désélectionner"/>
+          </div>
+        </div>
+
+        <div class="form-group" ng-show="showAdvancedSettings">
+          <label class="col-sm-2 control-label">Plateforme</label>
+          <div class="col-sm-10">
+            <p><input type="checkbox" name="android" value="android" ng-model="plateforms['android']"/> Android</p>
+            <p><input type="checkbox" name="ios" value="ios" ng-model="plateforms['iOS']"/> iOS</p>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label class="col-sm-2 control-label"></label>
           <div class="col-sm-10">
-            <button class="btn btn-success" type="submit" ng-disabled="form.$invalid || !eventImageFile || !currentEvent.dateEnd || !currentEvent.dateStart">Valider</button>
+            <button class="btn btn-success" type="submit" >Valider</button>
+            <!-- ng-disabled="form.$invalid || !eventImageFile || !currentEvent.dateEnd || !currentEvent.dateStart" -->
           </div>
         </div>
       </form>
