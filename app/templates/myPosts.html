@@ -1,6 +1,6 @@
 
   <div ng-controller="MyPosts"style="padding:30px">
-    <a href="{{ baseUrl + '/createPost' }}"><button class="btn btn-success" style="margin-bottom:10px" ng-show="isAllSetUp">Créer un post</button></a>
+    <a href="{{ baseUrl + '/#/createPost' }}"><button class="btn btn-success" style="margin-bottom:10px" ng-show="isAllSetUp">Créer un post</button></a>
     </br>
     <input type="text" style="margin-bottom:10px" placeholder="Rechercher" search ng-show="allPosts.length > 0 && isAllSetUp">
     <table class="table table-striped table-hover" ng-show="myPosts.length > 0">
