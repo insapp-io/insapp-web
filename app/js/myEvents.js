@@ -11,6 +11,7 @@ app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', 'conf
   };
 
   $scope.isAllSetUp = false
+  $scope.baseUrl = configuration.baseUrl
 
   Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
     $scope.allEvents = []

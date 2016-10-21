@@ -11,6 +11,7 @@ app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', 'confi
   };
 
   $scope.isAllSetUp = false
+  $scope.baseUrl = configuration.baseUrl
 
   Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
     $scope.allPosts = []
