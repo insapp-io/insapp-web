@@ -152,7 +152,12 @@ hr.small {
 
 .header h1 {
     color: #fff;
+    font-weight: normal;
     margin: 40px;
+}
+
+.header p {
+    color: #fff;
 }
 
 .header h3 {
