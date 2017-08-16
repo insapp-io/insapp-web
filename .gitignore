@@ -1,3 +1,5 @@
+.DS_Store
+
 # Logs
 logs
 *.log
@@ -32,3 +34,5 @@ build/Release
 # Optional REPL history
 .node_repl_history
 
+app/app.config.js
+./app/app.config.js

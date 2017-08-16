@@ -13,8 +13,8 @@
       <tr ng-repeat="post in myPosts" ng-click='onclick(post)'>
         <td style="vertical-align: middle"> {{ post.title }} </td>
         <td style="vertical-align: middle"> {{ post.date | date:'yyyy-MM-dd HH:mm' }} </td>
-        <td style="vertical-align: middle"> {{ post.nbLikes }} </td>
-        <td style="vertical-align: middle"> {{ post.nbComments }} </td>
+        <td style="vertical-align: middle"> {{ post.nbLikes }} </td>
+        <td style="vertical-align: middle"> {{ post.nbComments }} </td>
       </tr>
     </table>
     <h2 ng-show="allPosts.length == 0 && isAllSetUp" style="text-align:center;color:#AAAAAA">Il n'y a aucun Post, créez en un vite ;)</h2>

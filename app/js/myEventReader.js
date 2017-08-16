@@ -1,5 +1,6 @@
 app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', 'fileUpload', '$loadingOverlay', 'configuration', function($scope, $resource, $routeParams, Session, $location, ngDialog, fileUpload, $loadingOverlay, configuration) {
   var Event = $resource(configuration.api + '/event/:id?token=:token', null, { 'update': { method:'PUT' } });
+  var Comment = $resource(configuration.api + '/event/:id/comment/:commentId?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
@@ -12,12 +13,109 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
   $scope.master = (Session.getMaster() == 'true')
   $scope.eventImageIsDirty = false
 
-  Event.get({id:$routeParams.id, token:Session.getToken()}, function(event) {
+    String.prototype.isPromotion = function(str){
+      var lastIndex = this.lastIndexOf(str);
+      return (lastIndex == 1 && str.length == this.length-1)|| (lastIndex == 0 && str.length == this.length)
+    }
+
+    $scope.promotionNames = ["EII", "GM", "GMA", "GCU", "INFO", "SGM", "SRC", "STPI", "Personnel/Enseignant", "Alternant", "Sans Promotion"]
+    $scope.showAdvancedSettings = false
+    $scope.promotions = {
+      "1STPI": true,
+      "2STPI": true,
+      "3EII": true,
+      "4EII": true,
+      "5EII": true,
+      "3GM": true,
+      "4GM": true,
+      "5GM": true,
+      "3GMA": true,
+      "4GMA": true,
+      "5GMA": true,
+      "3GCU": true,
+      "4GCU": true,
+      "5GCU": true,
+      "3INFO": true,
+      "4INFO": true,
+      "5INFO": true,
+      "3SGM": true,
+      "4SGM": true,
+      "5SGM": true,
+      "3SRC": true,
+      "4SRC": true,
+      "5SRC": true,
+      "Personnel/Enseignant": true,
+      "Alternant": true,
+      "Sans Promotion": true,
+    }
+
+    $scope.plateforms = {
+      "android": true,
+      "iOS": true,
+    }
+
+    $scope.select = function(promotion){
+        Object.keys($scope.promotions).forEach(function (key) {
+            if (key.isPromotion(promotion)) {
+                $scope.promotions[key] = true
+            }
+        })
+    }
+
+    $scope.deselect = function(promotion){
+        Object.keys($scope.promotions).forEach(function (key) {
+            if (key.isPromotion(promotion)) {
+                $scope.promotions[key] = false
+            }
+        })
+    }
+
+    $scope.selectYear = function(year){
+        Object.keys($scope.promotions).forEach(function (key) {
+            if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && (key == "Alternant" || key == "Personnel/Enseignant" || key == "Sans Promotion"))) {
+                $scope.promotions[key] = true
+            }
+        })
+    }
+
+    $scope.deselectYear = function(year){
+        Object.keys($scope.promotions).forEach(function (key) {
+            if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && (key == "Alternant" || key == "Personnel/Enseignant" || key == "Sans Promotion"))) {
+                $scope.promotions[key] = false
+            }
+        })
+    }
+
+    $scope.selectAllPromo = function(selected){
+      Object.keys($scope.promotions).forEach(function (key) {
+        $scope.promotions[key] = selected
+      })
+    }
+
+    $scope.invertPromo = function(){
+      Object.keys($scope.promotions).forEach(function (key) {
+        $scope.promotions[key] = !$scope.promotions[key]
+      })
+    }
+
+
+  Event.get({id:$routeParams.id, token:Session.getToken()}, function(event) {
       event.nbParticipant = (event.participants != null ? event.participants.length : 0)
-      $scope.eventImageFile = 'https://insapp.fr/cdn/' + event.image
+      event.enableNotification = !event.nonotification
+
+      $scope.eventImageFile = configuration.cdn + event.image
       $scope.oldEvent = event
       $scope.currentEvent = event
-      $scope.currentEvent.imageUrl = 'https://insapp.fr/cdn/' + event.image
+      $scope.currentEvent.imageUrl = configuration.cdn + event.image
+
+      for (promo in $scope.promotions) {
+          $scope.promotions[promo] = $scope.currentEvent.promotions.includes(promo.toUpperCase())
+          if (promo == "Sans Promotion") $scope.promotions[promo] = $scope.currentEvent.promotions.includes("")
+      }
+
+      for (plateform in $scope.plateforms) {
+          $scope.plateforms[plateform] = $scope.currentEvent.plateforms.includes(plateform)
+      }
 
       if (event.palette && event.palette.length > 1) {
         $scope.palette = event.palette
@@ -121,6 +219,33 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
   }
 
   $scope.updateEvent = function() {
+
+      $scope.currentEvent.nonotification = !$scope.currentEvent.enableNotification
+
+      var promotions = Object.keys($scope.promotions).filter(function(promotion){
+        return $scope.promotions[promotion]
+      })
+
+      $scope.currentEvent.promotions = []
+      for (i in promotions) {
+        var promotion = promotions[i]
+        if (promotion == "Sans Promotion") $scope.currentEvent.promotions.push("")
+        else $scope.currentEvent.promotions.push(promotion.toUpperCase())
+      }
+
+      $scope.currentEvent.plateforms = Object.keys($scope.plateforms).filter(function(plateform){
+        return $scope.plateforms[plateform]
+      })
+
+      if ($scope.currentEvent.plateforms.length == 0 || $scope.currentEvent.promotions.length == 0) {
+          ngDialog.open({
+              template: "<h2 style='text-align:center;'>Choisis au moins 1 promotion et 1 plateforme</h2>",
+              plain: true,
+              className: 'ngdialog-theme-default'
+          });
+          return
+      }
+
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
     Event.update({id:$scope.currentEvent.ID, token:Session.getToken()}, $scope.currentEvent, function(event) {
@@ -154,5 +279,25 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
         $location.path('/login')
     });
   }
+
+
+    $scope.deleteComment = function(commentId) {
+      Comment.remove({id:$scope.currentEvent.ID, commentId: commentId, token:Session.getToken()}, function(event) {
+        event.nbComments = (event.comments != null ? event.comments.length : 0)
+        event.nbParticipant = (event.participants != null ? event.participants.length : 0)
+        $scope.currentEvent = event
+        $scope.currentEvent.imageUrl = configuration.cdn + event.image
+        $scope.currentEvent.enableNotification = !$scope.currentEvent.nonotification
+        $scope.oldEvent = $scope.currentEvent
+        ngDialog.open({
+            template: "<h2 style='text-align:center;'>Le commentaire a été supprimé</h2>",
+            plain: true,
+            className: 'ngdialog-theme-default'
+        });
+      }, function(error) {
+          Session.destroyCredentials()
+          $location.path('/login')
+      });
+    }
 
 }]);

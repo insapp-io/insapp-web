@@ -18,7 +18,7 @@ app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', 'confi
     $scope.isAllSetUp = (assos.profile && assos.profile != "")
     assos.posts = (assos.posts == null ? [] : assos.posts)
     for (postId of assos.posts){
-      Post.get({id:postId, token:Session.getToken()}, function(post) {
+      Post.get({id:postId, token:Session.getToken()}, function(post) {
         post.nbLikes = (post.likes != null ? post.likes.length : 0)
         post.nbComments = (post.comments != null ? post.comments.length : 0)
         post.associationName = assos.name
