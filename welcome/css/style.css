@@ -4,6 +4,15 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 
+::selection {
+    color: #ec5d57;
+    background: white;
+}
+::-moz-selection {
+    color: #ec5d57;
+    background: white;
+}
+
 /* Global Styles */
 
 html,
