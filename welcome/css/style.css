@@ -1,10 +1,10 @@
 ::selection {
     color: #ec5d57;
-    background: white;
+    background: #fff;
 }
 ::-moz-selection {
     color: #ec5d57;
-    background: white;
+    background: #fff;
 }
 
 /* Global Styles */
@@ -28,6 +28,13 @@ header#top h1 {
     font-size: 4.5em;
 }
 
+@media screen and (max-width: 768px) {
+    header#top h1 {
+        margin: 25px;
+        font-size: 2.5em;
+    }
+}
+
 header#top p {
     color: #fff;
 }
@@ -47,13 +54,25 @@ header#top a {
     margin: 20px;
 }
 
-header#top .badges {
-    margin: 20px;
+header#top .download-badge {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 10vh;
+}
+
+header#top .hero-img {
+    max-width: 50vw;
+    height: auto;
+    width: auto;
+    max-height: 40vh;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Video */
 
- #video {
+#video {
     height: 100vh;
 }
 
