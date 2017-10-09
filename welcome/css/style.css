@@ -1,32 +1,92 @@
-/*!
- * Start Bootstrap - Stylish Portfolio (http://startbootstrap.com/)
- * Copyright 2013-2016 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
- */
+::selection {
+    color: #ec5d57;
+    background: #fff;
+}
+::-moz-selection {
+    color: #ec5d57;
+    background: #fff;
+}
 
 /* Global Styles */
 
-html,
 body {
-    width: 100%;
-    height: 100%;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-body {
-    font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
-}
+/* Header */
 
-.text-vertical-center {
-    display: table-cell;
+header#top {
     text-align: center;
-    vertical-align: middle;
+    height: 100vh;
+    background-color: #EC5D57;
 }
 
-.text-vertical-center h1 {
-    margin: 0;
-    padding: 0;
+header#top h1 {
+    color: #fff;
+    font-weight: normal;
+    margin: 40px;
     font-size: 4.5em;
-    font-weight: 700;
+}
+
+@media screen and (max-width: 768px) {
+    header#top h1 {
+        margin: 25px;
+        font-size: 2.5em;
+    }
+}
+
+header#top p {
+    color: #fff;
+}
+
+header#top h3 {
+    color: #fff;
+    margin: 20px;
+}
+
+header#top h4 {
+    color: #fff;
+    margin: 20px;
+}
+
+header#top a {
+    color: #EC5D57;
+    margin: 20px;
+}
+
+header#top .download-badge {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 10vh;
+}
+
+header#top .hero-img {
+    max-width: 50vw;
+    height: auto;
+    width: auto;
+    max-height: 40vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Video */
+
+#video {
+    height: 100vh;
+}
+
+/* Footer */
+
+footer {
+    padding: 100px 0;
+}
+
+#to-top {
+  display: none;
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
 }
 
 /* Custom Button Styles */
@@ -148,47 +208,6 @@ hr.small {
     margin: 5px 5px 0 0;
 }
 
-/* Header */
-
-.header h1 {
-    color: #fff;
-    font-weight: normal;
-    margin: 40px;
-}
-
-.header p {
-    color: #fff;
-}
-
-.header h3 {
-    color: #fff;
-    margin: 20px;
-}
-
-.header h4 {
-    color: #fff;
-    margin: 20px;
-}
-
-.header a {
-    color: #EC5D57;
-    margin: 20px;
-}
-
-.header {
-    display: table;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: #EC5D57;
-}
-
-/* About */
-
-.about {
-    padding: 50px 0;
-}
-
 /* Services */
 
 .services {
@@ -239,33 +258,4 @@ hr.small {
 
 .call-to-action .btn {
     margin: 10px;
-}
-
-/* Map */
-
-.map {
-    height: 500px;
-}
-
-@media(max-width:768px) {
-    .map {
-        height: 75%;
-    }
-}
-
-.map iframe {
-    pointer-events: none;
-}
-
-/* Footer */
-
-footer {
-    padding: 100px 0;
-}
-
-#to-top {
-  display: none;
-  position: fixed;
-  bottom: 5px;
-  right: 5px;
 }

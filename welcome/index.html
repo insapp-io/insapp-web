@@ -2,14 +2,21 @@
 <html lang="fr">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Insapp est une application promouvant l'associatif au sein de l'INSA Rennes. Découvrez les associations de l'INSA, participez à leurs évènements, commentez leurs actualités !">
-    <meta name="author" content="Florent THOMAS-MOREL">
+    <meta name="theme-color" content="#ec5d57">
 
     <title>Insapp</title>
+    <link rel="icon" type="image/png" href="../icon.png">
+
+    <!-- Open Graph Protocol -->
+
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Insapp">
+    <meta property="og:url" content="https://insapp.fr/">
+    <meta property="og:description" content="Insapp est une application promouvant l'associatif au sein de l'INSA Rennes. Découvrez les associations de l'INSA, participez à leurs évènements, commentez leurs actualités !">
 
     <!-- Bootstrap Core CSS -->
 
@@ -28,27 +35,34 @@
 <body>
     <!-- Header -->
 
-    <header id="top" class="header">
-
-        <div class="text-vertical-center">
+    <header id="top">
+        <div class="container">
             <h1>Insapp</h1>
             <p>Insapp est une application promouvant l'associatif au sein de l'INSA Rennes.<br>Découvrez les associations de l'INSA, participez à leurs évènements, commentez leurs actualités !</p>
-            <img src="img/insapp_screen.png" style="margin:10px;" width="40%"></img>
+
             <br>
-            <a href="https://play.google.com/store/apps/details?id=fr.insapp.insapp"><img src="img/android_available.png" height="10%"></img></a>
-            <a href="https://appsto.re/fr/t2Ohfb.i"><img src="img/ios_available.png" height="10%"></img></a>
+
+            <img src="img/insapp_screen.png" class="img-responsive hero-img"></img>
+
             <br>
-            <a href="#about" class="btn btn-dark btn-lg">Regarder la vidéo</a>
+
+            <a href="https://play.google.com/store/apps/details?id=fr.insapp.insapp">
+                <img class="download-badge" border="0" src="img/android_available.png"></img>
+            </a>
+            <a href="https://appsto.re/fr/t2Ohfb.i">
+                <img class="download-badge" border="0" src="img/ios_available.png"></img>
+            </a>
+
+            <br>
+
+            <a href="#video" class="btn btn-dark btn-lg">Regarder la vidéo</a>
         </div>
     </header>
 
-    <!-- About -->
+    <!-- Video -->
 
-    <section id="about" class="header">
-        <div class="text-vertical-center">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/GZnw1KQJRt8" frameborder="0" allowfullscreen></iframe>
-        </div>
-        <!-- /.container -->
+    <section id="video" class="header">
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/GZnw1KQJRt8" frameborder="0" allowfullscreen></iframe>
     </section>
 
     <!-- Footer -->
