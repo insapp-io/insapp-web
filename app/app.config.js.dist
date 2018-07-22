@@ -1,7 +1,7 @@
 var app = angular.module('insapp', ['ngRoute','ngResource','ui.bootstrap.datetimepicker', 'ngFileUpload', 'ngDialog', 'ngFileUpload', 'ngLoadingOverlay','angular-spinkit']);
 
 app.constant('configuration', {
-  api: 'https://REPLACE_WITH_YOUR_HOST/api/v1',
-  cdn: 'https://REPLACE_WITH_YOUR_HOST/cdn/',
+  api: 'https://REPLACE_WITH_THE_HOST_DOMAIN/api/v1',
+  cdn: 'https://REPLACE_WITH_THE_HOST_DOMAIN/cdn/',
   baseUrl: '/web',
 });
