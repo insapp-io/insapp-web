@@ -1,5 +1,5 @@
 app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', 'Upload', 'fileUpload', 'ngDialog', '$loadingOverlay', 'configuration', function($scope, $resource, Session, $location, Upload, fileUpload, ngDialog, $loadingOverlay, configuration) {
-  var Event = $resource(configuration.api + '/event?token=:token');
+  var Event = $resource(configuration.api + '/events?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

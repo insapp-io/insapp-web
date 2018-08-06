@@ -1,6 +1,6 @@
 app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', 'configuration', '$loadingOverlay', function($scope, $resource, Session, $location, ngDialog, configuration, $loadingOverlay) {
-  var Association = $resource(configuration.api + '/association?token=:token')
-  var User = $resource(configuration.api + '/association/:id/user?token=:token')
+  var Association = $resource(configuration.api + '/associations?token=:token')
+  var User = $resource(configuration.api + '/associations/:id/user?token=:token')
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

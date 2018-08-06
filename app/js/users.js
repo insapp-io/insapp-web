@@ -1,6 +1,6 @@
 app.controller('Users', ['$scope', '$resource', '$location', 'Session', '$loadingOverlay', 'ngDialog', 'configuration', function($scope, $resource, $location, Session, $loadingOverlay, ngDialog, configuration) {
-  var Users = $resource(configuration.api + '/user?token=:token');
-  var User = $resource(configuration.api + '/user/:id?token=:token');
+  var Users = $resource(configuration.api + '/users?token=:token');
+  var User = $resource(configuration.api + '/users/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

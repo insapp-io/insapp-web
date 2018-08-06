@@ -1,7 +1,7 @@
 app.controller('ValidationEvent', ['$scope', '$resource', '$location', 'Session', 'configuration', function($scope, $resource, $location, Session, configuration) {
-  var MyAssociations = $resource(configuration.api + '/association/:id/myassociations?token=:token');
-  var Association = $resource(configuration.api + '/association/:id?token=:token');
-  var Event = $resource(configuration.api + '/event/:id?token=:token');
+  var MyAssociations = $resource(configuration.api + '/associations/:id/myassociations?token=:token');
+  var Association = $resource(configuration.api + '/associations/:id?token=:token');
+  var Event = $resource(configuration.api + '/events/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

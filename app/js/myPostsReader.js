@@ -1,6 +1,6 @@
 app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', 'configuration', function($scope, $resource, $routeParams, Session, $location, ngDialog, configuration) {
-  var Post = $resource(configuration.api + '/post/:id?token=:token', null, { 'update': { method:'PUT' } });
-  var Comment = $resource(configuration.api + '/post/:id/comment/:commentId?token=:token');
+  var Post = $resource(configuration.api + '/posts/:id?token=:token', null, { 'update': { method:'PUT' } });
+  var Comment = $resource(configuration.api + '/posts/:id/comment/:commentId?token=:token');
 
   $scope.master = (Session.getMaster() == 'true')
 

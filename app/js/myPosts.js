@@ -1,6 +1,6 @@
 app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', 'configuration', function($scope, $resource, $location, Session, configuration) {
-  var Association = $resource(configuration.api + '/association/:id?token=:token');
-  var Post = $resource(configuration.api + '/post/:id?token=:token');
+  var Association = $resource(configuration.api + '/associations/:id?token=:token');
+  var Post = $resource(configuration.api + '/posts/:id?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

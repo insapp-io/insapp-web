@@ -1,6 +1,6 @@
 app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', 'fileUpload', '$loadingOverlay', 'configuration', function($scope, $resource, $routeParams, Session, $location, ngDialog, fileUpload, $loadingOverlay, configuration) {
-  var Event = $resource(configuration.api + '/event/:id?token=:token', null, { 'update': { method:'PUT' } });
-  var Comment = $resource(configuration.api + '/event/:id/comment/:commentId?token=:token');
+  var Event = $resource(configuration.api + '/events/:id?token=:token', null, { 'update': { method:'PUT' } });
+  var Comment = $resource(configuration.api + '/events/:id/comment/:commentId?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

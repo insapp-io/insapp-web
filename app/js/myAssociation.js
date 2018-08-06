@@ -1,6 +1,6 @@
 app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', 'Upload', 'fileUpload', '$loadingOverlay', '$routeParams', 'configuration',
 function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $loadingOverlay, $routeParams, configuration) {
-  var Association = $resource(configuration.api + '/association/:id?token=:token', null, { 'update': { method:'PUT' } });
+  var Association = $resource(configuration.api + '/associations/:id?token=:token', null, { 'update': { method:'PUT' } });
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')

@@ -1,5 +1,5 @@
 app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload', 'Session', '$location', 'ngDialog', '$loadingOverlay', 'configuration', '$window', function($scope, $resource, $routeParams, fileUpload, Session, $location, ngDialog, $loadingOverlay, configuration, $window) {
-  var Post = $resource(configuration.api + '/post?token=:token');
+  var Post = $resource(configuration.api + '/posts?token=:token');
 
   if(Session.getToken() == null || Session.getAssociation() == null){
     $location.path('/login')
