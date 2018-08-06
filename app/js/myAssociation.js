@@ -152,7 +152,7 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
   $scope.uploadImage = function (file, fileName, completion) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = configuration.api + '/image' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    var uploadUrl = configuration.api + '/images' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
       console.log(response)
