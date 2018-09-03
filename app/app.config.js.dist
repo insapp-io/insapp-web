@@ -3,5 +3,5 @@ var app = angular.module('insapp', ['ngRoute','ngResource','ui.bootstrap.datetim
 app.constant('configuration', {
   api: 'https://REPLACE_WITH_THE_HOST_DOMAIN/api/v1',
   cdn: 'https://REPLACE_WITH_THE_HOST_DOMAIN/cdn/',
-  baseUrl: '/web',
+  baseUrl: '/admin',
 });
