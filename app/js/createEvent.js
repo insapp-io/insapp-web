@@ -229,8 +229,16 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', 'U
       $loadingOverlay.hide()
       $location.path('/myEvents')
     }, function(error) {
-        Session.destroyCredentials()
-        $location.path('/login')
+      displayError = error.status + " " + error.statusText
+      if(error.data.error){
+        displayError += " -- " + error.data.error
+      }
+      ngDialog.open({
+          template: "<h3 style='text-align:center;'>Une erreur est survenue :\n" + displayError + "</h3>",
+          plain: true,
+          className: 'ngdialog-theme-default'
+      });
+      $loadingOverlay.hide()
     });
   }
 

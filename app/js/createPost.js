@@ -210,8 +210,16 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
       $scope.currentPost = post
       $location.path('/myPosts')
     }, function(error) {
-        Session.destroyCredentials()
-        $location.path('/login')
+      displayError = error.status + " " + error.statusText
+      if(error.data.error){
+        displayError += " -- " + error.data.error
+      }
+      ngDialog.open({
+          template: "<h3 style='text-align:center;'>Une erreur est survenue :\n" + displayError + "</h3>",
+          plain: true,
+          className: 'ngdialog-theme-default'
+      });
+      $loadingOverlay.hide()
     });
   }
 }]);
