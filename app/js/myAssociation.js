@@ -20,11 +20,11 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
   }
 
   Association.get({id:$scope.associationId, token:Session.getToken()}, function(assos) {
-    $scope.profilePictureFile = (assos.profile != null ? configuration.cdn + assos.profile : null)
+    $scope.profilePictureFile = (assos.profileuploaded != null ? configuration.cdn + assos.profileuploaded : null)
     $scope.coverPictureFile = (assos.cover != null ? configuration.cdn + assos.cover : null)
 
-    assos.profilePictureUrl = (assos.profile != null ? configuration.cdn + assos.profile : null)
-    assos.coverPictureUrl = (assos.cover != null ? configuration.cdn + assos.cover : null)
+    assos.profilePictureUrl = $scope.profilePictureFile
+    assos.coverPictureUrl = $scope.coverPictureFile
 
     $scope.oldAssociation = assos
     $scope.currentAssociation = assos
@@ -34,8 +34,21 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
       $scope.selectColor(assos.selectedcolor)
     }
   }, function(error) {
+    if(error.status == 401){
       Session.destroyCredentials()
       $location.path('/login')
+      return
+    }
+    displayError = error.status + " " + error.statusText
+    if(error.data.error){
+      displayError += " -- " + error.data.error
+    }
+    ngDialog.open({
+        template: "<h3 style='text-align:center;'>Une erreur est survenue :\n" + displayError + "</h3>",
+        plain: true,
+        className: 'ngdialog-theme-default'
+    });
+    $loadingOverlay.hide()
   });
 
   $scope.monitorLength = function (field, maxLength) {
@@ -66,7 +79,7 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
         if ($scope.coverPictureIsDirty){
           $scope.coverPictureIsDirty = false
           $scope.uploadImage($scope.coverPictureFile, null, function(response) {
-            console.log(response)
+            //console.log(response)
             $scope.currentAssociation.cover = response.file
             $scope.currentAssociation.palette = response.colors
             $scope.palette = response.colors
@@ -79,7 +92,7 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
         preview.src = reader.result
       }
 
-      if (file) {
+      if (file instanceof File) {
         reader.readAsDataURL(file);
       }
     }
@@ -95,8 +108,7 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
         if ($scope.profilePictureIsDirty){
           $scope.profilePictureIsDirty = false
           $scope.uploadImage($scope.profilePictureFile, null, function(response) {
-            console.log(response)
-            $scope.currentAssociation.profile = response.file
+            $scope.currentAssociation.profileuploaded = response.file
           })
         }
       });
@@ -105,7 +117,7 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
         preview.src = reader.result
       }
 
-      if (file) {
+      if (file instanceof File) {
         reader.readAsDataURL(file);
       }
     }
@@ -152,20 +164,16 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
   $scope.uploadImage = function (file, fileName, completion) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = configuration.api + '/images' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    var uploadUrl = configuration.api + '/images' + '?token=' + Session.getToken();
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
-      console.log(response)
+      //console.log(response)
       if(success){
         completion(response)
       }else{
-        if (file === $scope.coverPictureFile){
-          $scope.removeCoverPicture()
-        }else{
-          $scope.removeProfilePicture()
-        }
+        $scope.removeCoverPicture()
         ngDialog.open({
-            template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2><p>" + response + "</p>",
+            template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2><p style='text-align:center;'>" + response + "</p>",
             plain: true,
             className: 'ngdialog-theme-default'
         });
@@ -185,8 +193,21 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
         $loadingOverlay.hide()
         $scope.currentAssociation = assos
     }, function(error) {
+      if(error.status == 401){
         Session.destroyCredentials()
         $location.path('/login')
+        return
+      }
+      displayError = error.status + " " + error.statusText
+      if(error.data.error){
+        displayError += " -- " + error.data.error
+      }
+      ngDialog.open({
+          template: "<h3 style='text-align:center;'>Une erreur est survenue :\n" + displayError + "</h3>",
+          plain: true,
+          className: 'ngdialog-theme-default'
+      });
+      $loadingOverlay.hide()
     });
   }
 
