@@ -14,11 +14,14 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
     return (lastIndex == 1 && str.length == this.length-1)|| (lastIndex == 0 && str.length == this.length)
   }
 
-  $scope.promotionNames = ["EII", "GM", "GMA", "GCU", "INFO", "SGM", "SRC", "STPI", "Personnel/Enseignant", "Alternant", "Sans Promotion"]
+  $scope.promotionNames = ["CDTI", "EII", "GM", "GMA", "GCU", "INFO", "SGM", "SRC", "STPI", "STAFF"]
   $scope.showAdvancedSettings = false
   $scope.promotions = {
     "1STPI": true,
     "2STPI": true,
+    "3CDTI": true,
+    "4CDTI": true,
+    "5CDTI": true,
     "3EII": true,
     "4EII": true,
     "5EII": true,
@@ -40,9 +43,7 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
     "3SRC": true,
     "4SRC": true,
     "5SRC": true,
-    "Personnel/Enseignant": true,
-    "Alternant": true,
-    "Sans Promotion": true,
+    "STAFF": true
   }
 
   $scope.plateforms = {
@@ -117,19 +118,21 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
   }
 
   $scope.selectYear = function(year){
-      Object.keys($scope.promotions).forEach(function (key) {
-          if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && (key == "Alternant" || key == "Personnel/Enseignant" || key == "Sans Promotion"))) {
-              $scope.promotions[key] = true
-          }
-      })
+    // year equals 1, 2, or 3
+    Object.keys($scope.promotions).forEach(function (key) {
+        if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
+            $scope.promotions[key] = true
+        }
+    })
   }
 
   $scope.deselectYear = function(year){
-      Object.keys($scope.promotions).forEach(function (key) {
-          if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && (key == "Alternant" || key == "Personnel/Enseignant" || key == "Sans Promotion"))) {
-              $scope.promotions[key] = false
-          }
-      })
+    // year equals 1, 2, or 3
+    Object.keys($scope.promotions).forEach(function (key) {
+        if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
+            $scope.promotions[key] = false
+        }
+    })
   }
 
   $scope.selectAllPromo = function(selected){
@@ -179,8 +182,7 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
     $scope.currentPost.promotions = []
     for (i in promotions) {
         promotion = promotions[i]
-        if (promotion == "Sans Promotion") $scope.currentPost.promotions.push("")
-        else $scope.currentPost.promotions.push(promotion.toUpperCase())
+        $scope.currentPost.promotions.push(promotion.toUpperCase())
     }
 
     $scope.currentPost.plateforms = Object.keys($scope.plateforms).filter(function(plateform){

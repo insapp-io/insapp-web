@@ -18,11 +18,14 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
       return (lastIndex == 1 && str.length == this.length-1)|| (lastIndex == 0 && str.length == this.length)
     }
 
-    $scope.promotionNames = ["EII", "GM", "GMA", "GCU", "INFO", "SGM", "SRC", "STPI", "Personnel/Enseignant", "Alternant", "Sans Promotion"]
+    $scope.promotionNames = ["CDTI", "EII", "GM", "GMA", "GCU", "INFO", "SGM", "SRC", "STPI", "STAFF"]
     $scope.showAdvancedSettings = false
     $scope.promotions = {
       "1STPI": true,
       "2STPI": true,
+      "3CDTI": true,
+      "4CDTI": true,
+      "5CDTI": true,
       "3EII": true,
       "4EII": true,
       "5EII": true,
@@ -44,9 +47,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
       "3SRC": true,
       "4SRC": true,
       "5SRC": true,
-      "Personnel/Enseignant": true,
-      "Alternant": true,
-      "Sans Promotion": true,
+      "STAFF": true
     }
 
     $scope.plateforms = {
@@ -71,19 +72,21 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
     }
 
     $scope.selectYear = function(year){
-        Object.keys($scope.promotions).forEach(function (key) {
-            if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && (key == "Alternant" || key == "Personnel/Enseignant" || key == "Sans Promotion"))) {
-                $scope.promotions[key] = true
-            }
-        })
+      // year equals 1, 2 or 3
+      Object.keys($scope.promotions).forEach(function (key) {
+          if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
+              $scope.promotions[key] = true
+          }
+      })
     }
 
     $scope.deselectYear = function(year){
-        Object.keys($scope.promotions).forEach(function (key) {
-            if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && (key == "Alternant" || key == "Personnel/Enseignant" || key == "Sans Promotion"))) {
-                $scope.promotions[key] = false
-            }
-        })
+      // year equals 1, 2 or 3
+      Object.keys($scope.promotions).forEach(function (key) {
+          if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
+              $scope.promotions[key] = false
+          }
+      })
     }
 
     $scope.selectAllPromo = function(selected){
@@ -110,7 +113,6 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
 
       for (promo in $scope.promotions) {
           $scope.promotions[promo] = $scope.currentEvent.promotions.includes(promo.toUpperCase())
-          if (promo == "Sans Promotion") $scope.promotions[promo] = $scope.currentEvent.promotions.includes("")
       }
 
       for (plateform in $scope.plateforms) {
@@ -229,8 +231,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
       $scope.currentEvent.promotions = []
       for (i in promotions) {
         var promotion = promotions[i]
-        if (promotion == "Sans Promotion") $scope.currentEvent.promotions.push("")
-        else $scope.currentEvent.promotions.push(promotion.toUpperCase())
+        $scope.currentEvent.promotions.push(promotion.toUpperCase())
       }
 
       $scope.currentEvent.plateforms = Object.keys($scope.plateforms).filter(function(plateform){
@@ -299,5 +300,4 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
           $location.path('/login')
       });
     }
-
 }]);
