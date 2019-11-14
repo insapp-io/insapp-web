@@ -1,44 +1,58 @@
-app.factory('session', function() {
-    var associationID = '';
-    var master = false;
-    var loggedInCallback;
+var app = angular.module('insapp', ['ngRoute','ngResource','ui.bootstrap.datetimepicker', 'ngFileUpload', 'ngDialog', 'ngFileUpload', 'ngLoadingOverlay','angular-spinkit']);
 
-    return {
-      destroyCredentials: function() {
-        window.localStorage.removeItem("associationID");
-        window.localStorage.removeItem("master");
-        token = ''
-        associationID = ''
-        master = false
-        loggedInCallback()
-      },
-      setLoggedInCallback: function(f) {
-        loggedInCallback = f
-      },
-      getAssociation: function () {
-        associationID = window.localStorage.getItem("associationID");
-        return associationID;
-      },
-      setAssociation: function (a) {
-        window.localStorage.setItem("associationID", a);
-        associationID = a;
-      },
-      setMaster: function(m){
-        window.localStorage.setItem("master", m);
-        master = m;
-        loggedInCallback()
-      },
-      getMaster: function(){
-        master = window.localStorage.getItem("master");
-        return master;
-      }
-    };
+app.constant('configuration', {
+  api: 'https://REPLACE_WITH_THE_HOST_DOMAIN/api/v1',
+  cdn: 'https://REPLACE_WITH_THE_HOST_DOMAIN/cdn/',
+  baseUrl: '/admin',
 });
 
-app.service('fileUpload', ['$http', 'ngDialog',  function ($http, ngDialog) {
+app.factory('session', function() {
+  var associationID = '';
+  var master = false;
+  var loggedInCallback;
+
+  return {
+    destroyCredentials: function() {
+      window.localStorage.removeItem("associationID");
+      window.localStorage.removeItem("master");
+      token = ''
+      associationID = ''
+      master = false
+      loggedInCallback()
+    },
+
+    setLoggedInCallback: function(f) {
+      loggedInCallback = f
+    },
+
+    getAssociation: function () {
+      associationID = window.localStorage.getItem("associationID");
+      return associationID;
+    },
+
+    setAssociation: function (a) {
+      window.localStorage.setItem("associationID", a);
+      associationID = a;
+    },
+
+    setMaster: function(m){
+      window.localStorage.setItem("master", m);
+      master = m;
+      loggedInCallback()
+    },
+
+    getMaster: function(){
+      master = window.localStorage.getItem("master");
+      return master;
+    }
+  };
+});
+
+app.service('fileUpload', ['$http', 'ngDialog',  function($http, ngDialog) {
   this.uploadFileToUrl = function(file, uploadUrl, callback){
     var fd = new FormData();
     fd.append('file', file);
+
     $http.post(uploadUrl, fd, {
         transformRequest: angular.identity,
         headers: {'Content-Type': undefined}
@@ -52,13 +66,22 @@ app.service('fileUpload', ['$http', 'ngDialog',  function ($http, ngDialog) {
   }
 }]);
 
-app.config(function($httpProvider) {
-  $httpProvider.interceptors.push('AuthInterceptor');
+app.service('authInterceptor', function($q, $location) {
+  var service = this;
+
+  service.responseError = function(response) {
+    if (response.status == 401) {
+      session.destroyCredentials()
+      $location.path('/login');
+    }
+
+    return $q.reject(response);
+  };
 })
 
-app.config(['$loadingOverlayConfigProvider', 'configuration', function ($loadingOverlayConfigProvider, configuration) {
-  $loadingOverlayConfigProvider.defaultConfig('<img style="display: block;margin-left: auto;margin-right: auto; width:50px" src="' + configuration.baseUrl + '/images/loader.gif"></img><h3>Chargement</h3>', 'rgba(0, 0, 0, 0.5)', '#fff');
-}]);
+app.config(['$httpProvider', function($httpProvider) {
+  $httpProvider.interceptors.push('authInterceptor');
+}])
 
 app.config(function($routeProvider, $locationProvider, configuration) {
   $locationProvider.html5Mode(false);
@@ -129,9 +152,13 @@ app.config(function($routeProvider, $locationProvider, configuration) {
     });
 });
 
-app.directive('search', function () {
+app.config(['$loadingOverlayConfigProvider', 'configuration', function ($loadingOverlayConfigProvider, configuration) {
+  $loadingOverlayConfigProvider.defaultConfig('<img style="display: block;margin-left: auto;margin-right: auto; width:50px" src="' + configuration.baseUrl + '/images/loader.gif"></img><h3>Chargement</h3>', 'rgba(0, 0, 0, 0.5)', '#fff');
+}]);
+
+app.directive('search', function() {
   return function ($scope, element) {
-    element.bind("keyup", function (event) {
+    element.bind("keyup", function(event) {
       var val = element.val();
       $scope.search(val);
     });

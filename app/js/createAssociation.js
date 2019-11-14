@@ -3,7 +3,7 @@ app.controller('CreateAssociation', ['$scope', '$resource', 'session', '$locatio
 
   $scope.isActive = function (viewLocation) {
     return viewLocation === $location.path();
-};
+  };
 
   $scope.currentAssociation = {
     owner: session.getAssociation(),
