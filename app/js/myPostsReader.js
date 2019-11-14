@@ -1,20 +1,16 @@
-app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', 'configuration', function($scope, $resource, $routeParams, Session, $location, ngDialog, configuration) {
-  var Post = $resource(configuration.api + '/posts/:id?token=:token', null, { 'update': { method:'PUT' } });
-  var Comment = $resource(configuration.api + '/posts/:id/comment/:commentId?token=:token');
+app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'session', '$location', 'ngDialog', 'configuration', function($scope, $resource, $routeParams, session, $location, ngDialog, configuration) {
+  var Post = $resource(configuration.api + '/posts/:id', null, { 'update': { method:'PUT' }});
+  var Comment = $resource(configuration.api + '/posts/:id/comment/:commentId');
 
-  $scope.master = (Session.getMaster() == 'true')
-
-  if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
-  }
+  $scope.master = (session.getMaster() == 'true')
 
   $scope.isActive = function (viewLocation) {
-      return viewLocation === "myPosts";
+    return viewLocation === "myPosts";
   };
 
   String.prototype.isPromotion = function(str){
     var lastIndex = this.lastIndexOf(str);
-    return (lastIndex == 1 && str.length == this.length-1)|| (lastIndex == 0 && str.length == this.length)
+    return (lastIndex == 1 && str.length == this.length-1) || (lastIndex == 0 && str.length == this.length)
   }
 
   $scope.promotionNames = ["CDTI", "EII", "GM", "GMA", "GCU", "INFO", "SGM", "SRC", "STPI", "STAFF"]
@@ -54,7 +50,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
     "iOS": true,
   }
 
-  $scope.select = function(promotion){
+  $scope.select = function(promotion) {
     Object.keys($scope.promotions).forEach(function (key) {
       if (key.isPromotion(promotion)) {
           $scope.promotions[key] = true
@@ -62,7 +58,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
     })
   }
 
-  $scope.deselect = function(promotion){
+  $scope.deselect = function(promotion) {
     Object.keys($scope.promotions).forEach(function (key) {
         if (key.isPromotion(promotion)) {
             $scope.promotions[key] = false
@@ -88,19 +84,19 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
     })
   }
 
-  $scope.selectAllPromo = function(selected){
+  $scope.selectAllPromo = function(selected) {
     Object.keys($scope.promotions).forEach(function (key) {
       $scope.promotions[key] = selected
     })
   }
 
-  $scope.invertPromo = function(){
+  $scope.invertPromo = function() {
     Object.keys($scope.promotions).forEach(function (key) {
       $scope.promotions[key] = !$scope.promotions[key]
     })
   }
 
-  Post.get({id:$routeParams.id, token:Session.getToken()}, function(post) {
+  Post.get({id:$routeParams.id}, function(post) {
     post.nbLikes = (post.likes != null ? post.likes.length : 0)
     post.nbComments = (post.comments != null ? post.comments.length : 0)
       $scope.currentPost = post
@@ -116,7 +112,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
       }
 
     }, function(error) {
-        Session.destroyCredentials()
+        session.destroyCredentials()
         $location.path('/login')
     });
 
@@ -127,7 +123,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
   }
 
   $scope.deleteComment = function(commentId) {
-    Comment.remove({id:$scope.currentPost.ID, commentId: commentId, token:Session.getToken()}, function(post) {
+    Comment.remove({id:$scope.currentPost.ID, commentId: commentId}, function(post) {
         post.nbLikes = (post.likes != null ? post.likes.length : 0)
         post.nbComments = (post.comments != null ? post.comments.length : 0)
         post.image = configuration.cdn + post.photourl
@@ -139,16 +135,16 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
           className: 'ngdialog-theme-default'
       });
     }, function(error) {
-        Session.destroyCredentials()
+        session.destroyCredentials()
         $location.path('/login')
     });
   }
 
   $scope.updatePost = function() {
 
-      $scope.currentPost.nonotification = !$scope.currentPost.enableNotification
+    $scope.currentPost.nonotification = !$scope.currentPost.enableNotification
 
-    var promotions = Object.keys($scope.promotions).filter(function(promotion){
+    var promotions = Object.keys($scope.promotions).filter(function(promotion) {
       return $scope.promotions[promotion]
     })
 
@@ -170,20 +166,20 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
         });
         return
     }
-    Post.update({id:$scope.currentPost.ID, token:Session.getToken()}, $scope.currentPost, function(post) {
+    Post.update({id:$scope.currentPost.ID}, $scope.currentPost, function(post) {
       ngDialog.open({
           template: "<h2 style='text-align:center;'>Le post a été mis à jour</h2>",
           plain: true,
           className: 'ngdialog-theme-default'
       });
     }, function(error) {
-        Session.destroyCredentials()
+        session.destroyCredentials()
         $location.path('/login')
     });
   }
 
   $scope.deletePost = function() {
-    Post.remove({id:$scope.currentPost.ID, token:Session.getToken()}, function(post) {
+    Post.remove({id:$scope.currentPost.ID}, function(post) {
       ngDialog.open({
           template: "<h2 style='text-align:center;'>Le post a été supprimé</h2>",
           plain: true,
@@ -191,7 +187,7 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'Session
       });
       $location.path('/myPosts')
     }, function(error) {
-        Session.destroyCredentials()
+        session.destroyCredentials()
         $location.path('/login')
     });
   }

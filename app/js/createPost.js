@@ -1,9 +1,5 @@
-app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload', 'Session', '$location', 'ngDialog', '$loadingOverlay', 'configuration', '$window', function($scope, $resource, $routeParams, fileUpload, Session, $location, ngDialog, $loadingOverlay, configuration, $window) {
-  var Post = $resource(configuration.api + '/posts?token=:token');
-
-  if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
-  }
+app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload', 'session', '$location', 'ngDialog', '$loadingOverlay', 'configuration', '$window', function($scope, $resource, $routeParams, fileUpload, session, $location, ngDialog, $loadingOverlay, configuration, $window) {
+  var Post = $resource(configuration.api + '/posts');
 
   $scope.isActive = function (viewLocation) {
       return viewLocation === "myPosts";
@@ -54,7 +50,7 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
 
   $scope.currentPost = {
       title       : "",
-      association : Session.getAssociation(),
+      association : session.getAssociation(),
       description : "",
       image       : "",
       imageSize   : {},
@@ -154,7 +150,7 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
   $scope.uploadImage = function (file, fileName, completion) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = configuration.api + '/images' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    var uploadUrl = configuration.api + '/images' + (fileName && fileName.length > 10 ? "/" + fileName : "");
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
       console.log(success)
@@ -202,7 +198,7 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
     console.log($scope.currentPost)
-    Post.save({token:Session.getToken()}, $scope.currentPost, function(post) {
+    Post.save({}, $scope.currentPost, function(post) {
       ngDialog.open({
           template: "<h2 style='text-align:center;'>Le post a bien été créé</h2>",
           plain: true,

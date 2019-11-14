@@ -1,10 +1,6 @@
-app.controller('MyAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', 'Upload', 'fileUpload', '$loadingOverlay', '$routeParams', 'configuration',
-function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $loadingOverlay, $routeParams, configuration) {
-  var Association = $resource(configuration.api + '/associations/:id?token=:token', null, { 'update': { method:'PUT' } });
-
-  if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
-  }
+app.controller('MyAssociation', ['$scope', '$resource', 'session', '$location', 'ngDialog', 'Upload', 'fileUpload', '$loadingOverlay', '$routeParams', 'configuration',
+function($scope, $resource, session, $location, ngDialog, Upload, fileUpload, $loadingOverlay, $routeParams, configuration) {
+  var Association = $resource(configuration.api + '/associations/:id', null, { 'update': { method:'PUT' } });
 
   $scope.isActive = function (viewLocation) {
     return viewLocation === $location.path();
@@ -14,12 +10,12 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
   $scope.profilePictureIsDirty = false
 
   if (!$routeParams.id || $routeParams.id === "me") {
-    $scope.associationId = Session.getAssociation()
+    $scope.associationId = session.getAssociation()
   }else{
     $scope.associationId = $routeParams.id
   }
 
-  Association.get({id:$scope.associationId, token:Session.getToken()}, function(assos) {
+  Association.get({id:$scope.associationId}, function(assos) {
     $scope.profilePictureFile = (assos.profileuploaded != null ? configuration.cdn + assos.profileuploaded : null)
     $scope.coverPictureFile = (assos.cover != null ? configuration.cdn + assos.cover : null)
 
@@ -34,11 +30,6 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
       $scope.selectColor(assos.selectedcolor)
     }
   }, function(error) {
-    if(error.status == 401){
-      Session.destroyCredentials()
-      $location.path('/login')
-      return
-    }
     displayError = error.status + " " + error.statusText
     if(error.data.error){
       displayError += " -- " + error.data.error
@@ -164,7 +155,7 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
   $scope.uploadImage = function (file, fileName, completion) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = configuration.api + '/images' + '?token=' + Session.getToken();
+    var uploadUrl = configuration.api + '/images';
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
       //console.log(response)
@@ -184,7 +175,7 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
   $scope.updateAssociation = function() {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    Association.update({id:$scope.associationId, token:Session.getToken()}, $scope.currentAssociation, function(assos) {
+    Association.update({id:$scope.associationId}, $scope.currentAssociation, function(assos) {
         ngDialog.open({
             template: "<h2 style='text-align:center;'>L'association a bien été mise à jour</h2>",
             plain: true,
@@ -193,11 +184,6 @@ function($scope, $resource, Session, $location, ngDialog, Upload, fileUpload, $l
         $loadingOverlay.hide()
         $scope.currentAssociation = assos
     }, function(error) {
-      if(error.status == 401){
-        Session.destroyCredentials()
-        $location.path('/login')
-        return
-      }
       displayError = error.status + " " + error.statusText
       if(error.data.error){
         displayError += " -- " + error.data.error

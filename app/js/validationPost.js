@@ -1,25 +1,21 @@
-app.controller('ValidationPost', ['$scope', '$resource', '$location', 'Session', 'configuration',function($scope, $resource, $location, Session, configuration) {
-  var MyAssociations = $resource(configuration.api + '/associations/:id/myassociations?token=:token');
-  var Association = $resource(configuration.api + '/associations/:id?token=:token');
-  var Post = $resource(configuration.api + '/posts/:id?token=:token');
-
-  if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
-  }
+app.controller('ValidationPost', ['$scope', '$resource', '$location', 'session', 'configuration',function($scope, $resource, $location, session, configuration) {
+  var MyAssociations = $resource(configuration.api + '/associations/:id/myassociations');
+  var Association = $resource(configuration.api + '/associations/:id');
+  var Post = $resource(configuration.api + '/posts/:id');
 
   $scope.isActive = function (viewLocation) {
-      return viewLocation === $location.path();
+    return viewLocation === $location.path();
   };
 
   $scope.allPosts = []
   $scope.myPosts = []
 
-  MyAssociations.query({id:Session.getAssociation(), token:Session.getToken()}, function(assosId) {
+  MyAssociations.query({id:session.getAssociation()}, function(assosId) {
     for (assoId of assosId){
-      Association.get({id:assoId, token:Session.getToken()}, function(association){
+      Association.get({id:assoId}, function(association){
         var posts = (association.posts != null ? association.posts : [])
         for (postId of posts){
-          Post.get({id:postId, token:Session.getToken()}, function(post){
+          Post.get({id:postId}, function(post){
             post.nbLikes = (post.likes != null ? post.likes.length : 0)
             post.nbComments = (post.comments != null ? post.comments.length : 0)
             post.associationName = association.name

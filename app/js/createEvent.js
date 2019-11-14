@@ -1,13 +1,9 @@
-app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', 'Upload', 'fileUpload', 'ngDialog', '$loadingOverlay', 'configuration', function($scope, $resource, Session, $location, Upload, fileUpload, ngDialog, $loadingOverlay, configuration) {
-  var Event = $resource(configuration.api + '/events?token=:token');
+app.controller('CreateEvent', ['$scope', '$resource', 'session', '$location', 'fileUpload', 'ngDialog', '$loadingOverlay', 'configuration', function($scope, $resource, session, $location, fileUpload, ngDialog, $loadingOverlay, configuration) {
+  var Event = $resource(configuration.api + '/events');
 
-  if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
-  }
-
-  String.prototype.isPromotion = function(str){
+  String.prototype.isPromotion = function(str) {
     var lastIndex = this.lastIndexOf(str);
-    return (lastIndex == 1 && str.length == this.length-1)|| (lastIndex == 0 && str.length == this.length)
+    return (lastIndex == 1 && str.length == this.length-1) || (lastIndex == 0 && str.length == this.length)
   }
 
   $scope.promotionNames = ["CDTI", "EII", "GM", "GMA", "GCU", "INFO", "SGM", "SRC", "STPI", "STAFF"]
@@ -49,7 +45,7 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', 'U
 
   $scope.currentEvent = {
       name        : "",
-      association : Session.getAssociation(),
+      association : session.getAssociation(),
       description : "",
       image       : "",
       palette     : [],
@@ -128,7 +124,7 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', 'U
   $scope.uploadImage = function (file, fileName, completion) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = configuration.api + '/images' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    var uploadUrl = configuration.api + '/images' + (fileName && fileName.length > 10 ? "/" + fileName : "");
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
       console.log(success)
@@ -221,7 +217,7 @@ app.controller('CreateEvent', ['$scope', '$resource', 'Session', '$location', 'U
 
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    Event.save({token:Session.getToken()}, $scope.currentEvent, function(event) {
+    Event.save({}, $scope.currentEvent, function(event) {
       ngDialog.open({
           template: "<h2 style='text-align:center;'>L'événement a bien été créé</h2>",
           plain: true,

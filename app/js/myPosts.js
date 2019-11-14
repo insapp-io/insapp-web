@@ -1,10 +1,6 @@
-app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', 'configuration', function($scope, $resource, $location, Session, configuration) {
-  var Association = $resource(configuration.api + '/associations/:id?token=:token');
-  var Post = $resource(configuration.api + '/posts/:id?token=:token');
-
-  if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
-  }
+app.controller('MyPosts', ['$scope', '$resource', '$location', 'session', 'configuration', function($scope, $resource, $location, session, configuration) {
+  var Association = $resource(configuration.api + '/associations/:id');
+  var Post = $resource(configuration.api + '/posts/:id');
 
   $scope.isActive = function (viewLocation) {
       return viewLocation === $location.path();
@@ -13,12 +9,12 @@ app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', 'confi
   $scope.isAllSetUp = false
   $scope.baseUrl = configuration.baseUrl
 
-  Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
+  Association.get({id:session.getAssociation()}, function(assos) {
     $scope.allPosts = []
     $scope.isAllSetUp = (assos.profile && assos.profile != "")
     assos.posts = (assos.posts == null ? [] : assos.posts)
     for (postId of assos.posts){
-      Post.get({id:postId, token:Session.getToken()}, function(post) {
+      Post.get({id:postId}, function(post) {
         post.nbLikes = (post.likes != null ? post.likes.length : 0)
         post.nbComments = (post.comments != null ? post.comments.length : 0)
         post.associationName = assos.name
@@ -28,7 +24,7 @@ app.controller('MyPosts', ['$scope', '$resource', '$location', 'Session', 'confi
       });
     }
   }, function(error) {
-      Session.destroyCredentials()
+      session.destroyCredentials()
       $location.path('/login')
   });
 

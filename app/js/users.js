@@ -1,17 +1,13 @@
-app.controller('Users', ['$scope', '$resource', '$location', 'Session', '$loadingOverlay', 'ngDialog', 'configuration', function($scope, $resource, $location, Session, $loadingOverlay, ngDialog, configuration) {
-  var Users = $resource(configuration.api + '/users?token=:token');
-  var User = $resource(configuration.api + '/users/:id?token=:token');
-
-  if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
-  }
+app.controller('Users', ['$scope', '$resource', '$location', 'session', '$loadingOverlay', 'ngDialog', 'configuration', function($scope, $resource, $location, session, $loadingOverlay, ngDialog, configuration) {
+  var Users = $resource(configuration.api + '/users');
+  var User = $resource(configuration.api + '/users/:id');
 
   $scope.isActive = function (viewLocation) {
-      return viewLocation === $location.path();
+    return viewLocation === $location.path();
   };
 
   $scope.getUsers = function(){
-    Users.query({token:Session.getToken()}, function(users) {
+    Users.query({}, function(users) {
       $scope.allUsers = users
       $scope.allUsers.sort(function(a, b){
         if(a.username < b.username) return -1;
@@ -20,7 +16,7 @@ app.controller('Users', ['$scope', '$resource', '$location', 'Session', '$loadin
       });
       $scope.users = $scope.allUsers
     }, function(error) {
-        Session.destroyCredentials()
+        session.destroyCredentials()
         $location.path('/login')
     });
   }
@@ -28,7 +24,7 @@ app.controller('Users', ['$scope', '$resource', '$location', 'Session', '$loadin
   $scope.delete = function(user) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    User.remove({id:user.ID, token:Session.getToken()}, function(user) {
+    User.remove({id:user.ID}, function(user) {
       ngDialog.open({
           template: "<h2 style='text-align:center;'>L'utilisateur a été supprimé</h2>",
           plain: true,
@@ -37,12 +33,12 @@ app.controller('Users', ['$scope', '$resource', '$location', 'Session', '$loadin
       $loadingOverlay.hide()
       $location.path('/users')
     }, function(error) {
-        Session.destroyCredentials()
+        session.destroyCredentials()
         $location.path('/login')
     });
   }
 
-   $scope.search= function(val) {
+   $scope.search = function(val) {
      var results = $scope.allUsers
      if(val.length >= 1) {
        results = results.filter(function(user){

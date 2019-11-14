@@ -1,12 +1,12 @@
-app.controller('NavigationController', ['$scope', 'Session', '$location', 'configuration', function($scope, Session, $location, configuration) {
+app.controller('NavigationController', ['$scope', 'session', '$location', 'configuration', function($scope, session, $location, configuration) {
     $scope.master = null;
     $scope.baseUrl = configuration.baseUrl
     $scope.isLoggedIn = isLoggedIn()
-    Session.setLoggedInCallback(isLoggedIn)
+    session.setLoggedInCallback(isLoggedIn)
 
     function isLoggedIn(){
-      $scope.master = (Session.getMaster() == 'true')
-      $scope.loggedIn = Session.getToken() != null && Session.getAssociation() != null
+      $scope.master = (session.getMaster() == 'true')
+      $scope.loggedIn = session.getToken() != null && session.getAssociation() != null
     }
 
     $scope.isActive = function (viewLocation) {

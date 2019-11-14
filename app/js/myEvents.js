@@ -1,25 +1,21 @@
-app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', 'configuration', function($scope, $resource, $location, Session, configuration) {
-  var Association = $resource(configuration.api + '/associations/:id?token=:token');
-  var Event = $resource(configuration.api + '/events/:id?token=:token');
-
-  if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
-  }
+app.controller('MyEvents', ['$scope', '$resource', '$location', 'session', 'configuration', function($scope, $resource, $location, session, configuration) {
+  var Association = $resource(configuration.api + '/associations/:id');
+  var Event = $resource(configuration.api + '/events/:id');
 
   $scope.isActive = function (viewLocation) {
-      return viewLocation === $location.path();
+    return viewLocation === $location.path();
   };
 
   $scope.isAllSetUp = false
   $scope.baseUrl = configuration.baseUrl
 
-  Association.get({id:Session.getAssociation(), token:Session.getToken()}, function(assos) {
+  Association.get({id:session.getAssociation()}, function(assos) {
     $scope.allEvents = []
     $scope.allPastEvents = []
     $scope.isAllSetUp = (assos.profile && assos.profile != "")
     assos.events = (assos.events == null ? [] : assos.events)
     for (eventID of assos.events){
-      Event.get({id:eventID, token:Session.getToken()}, function(event) {
+      Event.get({id:eventID}, function(event) {
         event.nbParticipant = (event.participants != null ? event.participants.length : 0)
         event.nbMaybe = (event.maybe != null ? event.maybe.length : 0)
         event.nbNotgoing = (event.notgoing != null ? event.notgoing.length : 0)
@@ -36,7 +32,7 @@ app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', 'conf
       });
     }
   }, function(error) {
-      Session.destroyCredentials()
+      session.destroyCredentials()
       $location.path('/login')
   });
 
@@ -60,5 +56,4 @@ app.controller('MyEvents', ['$scope', '$resource', '$location', 'Session', 'conf
       $scope.pastEvents = results2
     });
   }
-
 }]);

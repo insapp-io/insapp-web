@@ -1,17 +1,12 @@
-app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$location', 'ngDialog', 'configuration', '$loadingOverlay', function($scope, $resource, Session, $location, ngDialog, configuration, $loadingOverlay) {
-  var Association = $resource(configuration.api + '/associations?token=:token')
-  var User = $resource(configuration.api + '/associations/:id/user?token=:token')
-
-  if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
-  }
+app.controller('CreateAssociation', ['$scope', '$resource', 'session', '$location', 'ngDialog', 'configuration', '$loadingOverlay', function($scope, $resource, session, $location, ngDialog, configuration, $loadingOverlay) {
+  var Association = $resource(configuration.api + '/associations')
 
   $scope.isActive = function (viewLocation) {
     return viewLocation === $location.path();
 };
 
   $scope.currentAssociation = {
-    owner: Session.getAssociation(),
+    owner: session.getAssociation(),
     master : false,
     username : "",
     password : "",
@@ -19,7 +14,7 @@ app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$locatio
     association : "",
   }
 
-  $scope.monitorLength = function (field, maxLength) {
+  $scope.monitorLength = function(field, maxLength) {
     if ($scope.currentAssociation[field] && $scope.currentAssociation[field].length && $scope.currentAssociation[field].length > maxLength) {
       $scope.currentAssociation[field] = $scope.currentAssociation[field].substring(0, maxLength);
     }
@@ -31,27 +26,25 @@ app.controller('CreateAssociation', ['$scope', '$resource', 'Session', '$locatio
   $scope.createAssociation = function() {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    Association.save({token:Session.getToken()}, $scope.currentAssociation, function(assos) {
-        ngDialog.open({
-            template: "<h3 style='text-align:center;'>L'association à été créée</h3>",
-            plain: true,
-            className: 'ngdialog-theme-default'
-        });
-        $loadingOverlay.hide()
-        $location.path('/myEvents')
+    Association.save({}, $scope.currentAssociation, function(assos) {
+      ngDialog.open({
+        template: "<h3 style='text-align:center;'>L'association à été créée</h3>",
+        plain: true,
+        className: 'ngdialog-theme-default'
+      });
+      $loadingOverlay.hide()
+      $location.path('/myEvents')
     }, function(error) {
       displayError = error.status + " " + error.statusText
       if(error.data.error){
         displayError += " -- " + error.data.error
       }
       ngDialog.open({
-          template: "<h3 style='text-align:center;'>Une erreur est survenue :\n" + displayError + "</h3>",
-          plain: true,
-          className: 'ngdialog-theme-default'
+        template: "<h3 style='text-align:center;'>Une erreur est survenue :\n" + displayError + "</h3>",
+        plain: true,
+        className: 'ngdialog-theme-default'
       });
       $loadingOverlay.hide()
     });
   }
-
-}])
-;
+}]);

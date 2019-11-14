@@ -1,21 +1,17 @@
-app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session', '$location', 'ngDialog', 'fileUpload', '$loadingOverlay', 'configuration', function($scope, $resource, $routeParams, Session, $location, ngDialog, fileUpload, $loadingOverlay, configuration) {
-  var Event = $resource(configuration.api + '/events/:id?token=:token', null, { 'update': { method:'PUT' } });
-  var Comment = $resource(configuration.api + '/events/:id/comment/:commentId?token=:token');
-
-  if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
-  }
+app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'session', '$location', 'ngDialog', 'fileUpload', '$loadingOverlay', 'configuration', function($scope, $resource, $routeParams, session, $location, ngDialog, fileUpload, $loadingOverlay, configuration) {
+  var Event = $resource(configuration.api + '/events/:id', null, { 'update': { method:'PUT' }});
+  var Comment = $resource(configuration.api + '/events/:id/comment/:commentId');
 
   $scope.isActive = function (viewLocation) {
-      return viewLocation === "myEvents";
+    return viewLocation === "myEvents";
   };
 
-  $scope.master = (Session.getMaster() == 'true')
+  $scope.master = (session.getMaster() == 'true')
   $scope.eventImageIsDirty = false
 
     String.prototype.isPromotion = function(str){
       var lastIndex = this.lastIndexOf(str);
-      return (lastIndex == 1 && str.length == this.length-1)|| (lastIndex == 0 && str.length == this.length)
+      return (lastIndex == 1 && str.length == this.length-1) || (lastIndex == 0 && str.length == this.length)
     }
 
     $scope.promotionNames = ["CDTI", "EII", "GM", "GMA", "GCU", "INFO", "SGM", "SRC", "STPI", "STAFF"]
@@ -56,36 +52,36 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
     }
 
     $scope.select = function(promotion){
-        Object.keys($scope.promotions).forEach(function (key) {
-            if (key.isPromotion(promotion)) {
-                $scope.promotions[key] = true
-            }
-        })
+      Object.keys($scope.promotions).forEach(function (key) {
+          if (key.isPromotion(promotion)) {
+              $scope.promotions[key] = true
+          }
+      })
     }
 
     $scope.deselect = function(promotion){
-        Object.keys($scope.promotions).forEach(function (key) {
-            if (key.isPromotion(promotion)) {
-                $scope.promotions[key] = false
-            }
-        })
+      Object.keys($scope.promotions).forEach(function (key) {
+          if (key.isPromotion(promotion)) {
+              $scope.promotions[key] = false
+          }
+      })
     }
 
     $scope.selectYear = function(year){
       // year equals 1, 2 or 3
       Object.keys($scope.promotions).forEach(function (key) {
-          if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
-              $scope.promotions[key] = true
-          }
+        if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
+            $scope.promotions[key] = true
+        }
       })
     }
 
     $scope.deselectYear = function(year){
       // year equals 1, 2 or 3
       Object.keys($scope.promotions).forEach(function (key) {
-          if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
-              $scope.promotions[key] = false
-          }
+        if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
+            $scope.promotions[key] = false
+        }
       })
     }
 
@@ -102,7 +98,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
     }
 
 
-  Event.get({id:$routeParams.id, token:Session.getToken()}, function(event) {
+  Event.get({id:$routeParams.id}, function(event) {
       event.nbParticipant = (event.participants != null ? event.participants.length : 0)
       event.enableNotification = !event.nonotification
 
@@ -125,7 +121,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
       }
 
     }, function(error) {
-        Session.destroyCredentials()
+        session.destroyCredentials()
         $location.path('/login')
   });
 
@@ -203,7 +199,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
   $scope.uploadImage = function (file, fileName, completion) {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = configuration.api + '/images' + (fileName && fileName.length > 10 ? "/" + fileName : "") + '?token=' + Session.getToken();
+    var uploadUrl = configuration.api + '/images' + (fileName && fileName.length > 10 ? "/" + fileName : "");
     $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
       $loadingOverlay.hide()
       console.log(success)
@@ -249,7 +245,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
 
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    Event.update({id:$scope.currentEvent.ID, token:Session.getToken()}, $scope.currentEvent, function(event) {
+    Event.update({id:$scope.currentEvent.ID}, $scope.currentEvent, function(event) {
         ngDialog.open({
             template: "<h2 style='text-align:center;'>L'événément à été mis à jour</h2>",
             plain: true,
@@ -259,7 +255,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
         $scope.currentEvent = event
         $location.path('/myEvents')
     }, function(error) {
-        Session.destroyCredentials()
+        session.destroyCredentials()
         $location.path('/login')
     });
   }
@@ -267,7 +263,7 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
   $scope.deleteEvent = function() {
     $loadingOverlay.show()
     $("html, body").animate({ scrollTop: 0 }, "slow");
-    Event.remove({id:$scope.currentEvent.ID, token:Session.getToken()}, function(event) {
+    Event.remove({id:$scope.currentEvent.ID}, function(event) {
       ngDialog.open({
           template: "<h2 style='text-align:center;'>L'événément à été supprimé</h2>",
           plain: true,
@@ -276,14 +272,14 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
       $loadingOverlay.hide()
       $location.path('/myEvents')
     }, function(error) {
-        Session.destroyCredentials()
+        session.destroyCredentials()
         $location.path('/login')
     });
   }
 
 
     $scope.deleteComment = function(commentId) {
-      Comment.remove({id:$scope.currentEvent.ID, commentId: commentId, token:Session.getToken()}, function(event) {
+      Comment.remove({id:$scope.currentEvent.ID, commentId: commentId}, function(event) {
         event.nbComments = (event.comments != null ? event.comments.length : 0)
         event.nbParticipant = (event.participants != null ? event.participants.length : 0)
         $scope.currentEvent = event
@@ -296,8 +292,8 @@ app.controller('MyEventReader', ['$scope', '$resource', '$routeParams', 'Session
             className: 'ngdialog-theme-default'
         });
       }, function(error) {
-          Session.destroyCredentials()
-          $location.path('/login')
+        session.destroyCredentials()
+        $location.path('/login')
       });
     }
 }]);

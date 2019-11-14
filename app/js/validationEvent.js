@@ -1,25 +1,21 @@
-app.controller('ValidationEvent', ['$scope', '$resource', '$location', 'Session', 'configuration', function($scope, $resource, $location, Session, configuration) {
-  var MyAssociations = $resource(configuration.api + '/associations/:id/myassociations?token=:token');
-  var Association = $resource(configuration.api + '/associations/:id?token=:token');
-  var Event = $resource(configuration.api + '/events/:id?token=:token');
-
-  if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
-  }
+app.controller('ValidationEvent', ['$scope', '$resource', '$location', 'session', 'configuration', function($scope, $resource, $location, session, configuration) {
+  var MyAssociations = $resource(configuration.api + '/associations/:id/myassociations');
+  var Association = $resource(configuration.api + '/associations/:id');
+  var Event = $resource(configuration.api + '/events/:id');
 
   $scope.isActive = function (viewLocation) {
-      return viewLocation === $location.path();
+    return viewLocation === $location.path();
   };
 
   $scope.allEvents = []
   $scope.allPastEvents = []
 
-  MyAssociations.query({id:Session.getAssociation(), token:Session.getToken()}, function(assosId) {
+  MyAssociations.query({id:session.getAssociation()}, function(assosId) {
     for (assoId of assosId){
-      Association.get({id:assoId, token:Session.getToken()}, function(association){
+      Association.get({id:assoId}, function(association){
         var events = (association.events != null ? association.events : [])
         for (eventId of events){
-          Event.get({id:eventId, token:Session.getToken()}, function(event){
+          Event.get({id:eventId}, function(event){
             event.nbParticipant = (event.participants != null ? event.participants.length : 0)
             event.nbParticipant = (event.participants != null ? event.participants.length : 0)
             event.nbMaybe = (event.maybe != null ? event.maybe.length : 0)
@@ -63,6 +59,4 @@ app.controller('ValidationEvent', ['$scope', '$resource', '$location', 'Session'
       $scope.pastEvents = results2
     });
   }
-
-
 }]);

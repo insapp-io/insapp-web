@@ -1,25 +1,20 @@
-app.controller('ValidationAssociation', ['$scope', '$resource', '$location', 'Session', 'configuration', function($scope, $resource, $location, Session, configuration) {
-  var MyAssociations = $resource(configuration.api + '/associations/:id/myassociations?token=:token');
-  var Association = $resource(configuration.api + '/associations/:id?token=:token');
-  var Post = $resource(configuration.api + '/posts/:id?token=:token');
-
-  if(Session.getToken() == null || Session.getAssociation() == null){
-    $location.path('/login')
-  }
+app.controller('ValidationAssociation', ['$scope', '$resource', '$location', 'session', 'configuration', function($scope, $resource, $location, session, configuration) {
+  var MyAssociations = $resource(configuration.api + '/associations/:id/myassociations');
+  var Association = $resource(configuration.api + '/associations/:id');
 
   $scope.isActive = function (viewLocation) {
-      return viewLocation === $location.path();
+    return viewLocation === $location.path();
   };
 
   $scope.allAssocations = []
 
-  MyAssociations.query({id:Session.getAssociation(), token:Session.getToken()}, function(assosId) {
+  MyAssociations.query({id:session.getAssociation()}, function(assosId) {
     for (assoId of assosId){
-      Association.get({id:assoId, token:Session.getToken()}, function(association){
+      Association.get({id:assoId}, function(association){
         $scope.allAssocations.push(association)
         $scope.allAssocations.sort(function(a, b){
-          if(a.name < b.name) return -1;
-          if(a.name > b.name) return 1;
+          if (a.name < b.name) return -1;
+          if (a.name > b.name) return 1;
           return 0;
         });
         $scope.myAssociations = $scope.allAssocations
@@ -44,6 +39,4 @@ app.controller('ValidationAssociation', ['$scope', '$resource', '$location', 'Se
       $scope.myAssociations = results
     });
   }
-
-
 }]);

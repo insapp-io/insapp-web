@@ -1,8 +1,4 @@
-app.controller('LogoutAssociation', ['$location', 'Session', function($location, Session) {
-
-
-  Session.destroyCredentials()
+app.controller('LogoutAssociation', ['$location', 'session', function($location, session) {
+  session.destroyCredentials()
   $location.path('/login')
-
-
 }]);
