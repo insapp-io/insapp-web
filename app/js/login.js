@@ -17,12 +17,10 @@ app.controller('LoginAssociation', ['$scope', '$resource', '$location', 'Session
       Login.save({}, $scope.currentLogin, function(auth){
         $scope.currentLogin.error = auth.error
         if (!auth.error) {
-          Session.setToken(auth.token)
           Session.setAssociation(auth.associationID)
           Session.setMaster(auth.master)
-          $location.path('/myEvents')
+          $location.path('/myPosts')
         }
       });
    };
-
 }]);

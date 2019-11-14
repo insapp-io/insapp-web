@@ -68,34 +68,23 @@ app.config(function($routeProvider, $locationProvider, configuration) {
          controller:'CreateAssociation',
         })
         .otherwise({
-            template: 'does not exists'
+            template: 'does not exist'
         });
 });
 
 app.factory('Session', function () {
-
-    var token = '';
     var associationID = '';
     var master = false;
     var loggedInCallback;
 
     return {
       destroyCredentials: function(){
-        window.localStorage.removeItem("authToken");
         window.localStorage.removeItem("associationID");
         window.localStorage.removeItem("master");
         token = ''
         associationID = ''
         master = false
         loggedInCallback()
-      },
-      getToken: function () {
-          token = window.localStorage.getItem("authToken");
-          return token;
-      },
-      setToken: function (t) {
-          window.localStorage.setItem("authToken", t);
-          token = t;
       },
       setLoggedInCallback: function (f) {
           loggedInCallback = f
