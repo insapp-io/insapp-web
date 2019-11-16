@@ -1,0 +1,18 @@
+{
+    "name": "insapp-web",
+    "version": "1.0.0",
+    "description": "AngularJS frontend for Insapp",
+    "author": "Thomas Bouvier <contact@thomas-bouvier.io>",
+    "license": "GPL",
+    "dependencies": {
+        "angular": "~1.5.3",
+        "angular-animate": "~1.3.20",
+        "angular-busy": "~4.1.3",
+        "angular-loading-overlay": "~0.3.1",
+        "angular-spinkit": "~0.3.4",
+        "ng-loading-overlay": "~1.2.0",
+        "ng-file-upload": "~12.0.4",
+        "ng-dialog": "~0.6.0",
+        "angular-bootstrap-datetimepicker": "~1.0.1"
+    }
+}
