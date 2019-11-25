@@ -9,10 +9,11 @@ const rename        = require('gulp-rename')
 const templateCache = require('gulp-angular-templatecache')
 const uglify        = require('gulp-uglify')
 const merge         = require('merge-stream')
+const log           = require('fancy-log')
 
 // Where our files are located
-const jsFiles   = "src/js/**/*.js"
-const viewFiles = "src/js/**/*.html"
+const jsFiles   = "src/js/*.js"
+const viewFiles = "src/js/*.html"
 
 const interceptErrors = function(error) {
     const args = Array.prototype.slice.call(arguments)
@@ -23,11 +24,17 @@ const interceptErrors = function(error) {
         message: '<%= error.message %>'
     }).apply(this, args)
 
-    // Keep gulp from hanging on this task
+    log.error(error)
     this.emit('end')
 }
 
-function views() {
+function moveHtml() {
+    return src("src/index.html")
+        .on('error', interceptErrors)
+        .pipe(dest('./build/'))
+}
+
+function buildViews() {
     return src(viewFiles)
         .pipe(templateCache({
             standalone: true
@@ -37,40 +44,16 @@ function views() {
         .pipe(dest('./src/js/config/'))
 }
 
-function pack() {
-    series(views, function() {
-        return browserify('./src/js/app.js')
-            .transform(babelify, {presets: ["es2015"]})
-            .transform(ngAnnotate)
-            .bundle()
-            .on('error', interceptErrors)
-            //Pass desired output filename to vinyl-source-stream
-            .pipe(source('main.js'))
-            // Start piping stream to tasks!
-            .pipe(dest('./build/'))
-    })
-}
-
-function html() {
-    return src("src/index.html")
+function buildJs() {
+    return browserify('./src/js/app.js')
+        .transform(babelify, {presets: ["@babel/preset-env"]})
+        .transform(ngAnnotate)
+        .bundle()
         .on('error', interceptErrors)
+        //Pass desired output filename to vinyl-source-stream
+        .pipe(source('main.js'))
+        // Start piping stream to tasks!
         .pipe(dest('./build/'))
-}
-
-/*
-* Build production ready minified JS/CSS files into dist/ folder.
-*/
-function build() {
-    series(html, pack, function() {
-        const html = src("build/index.html")
-            .pipe(dest('./dist/'));
-
-        const js = gulp.src("build/main.js")
-            .pipe(uglify())
-            .pipe(dest('./dist/'))
-
-        return merge(html, js)
-    })
 }
 
 function liveReload() {
@@ -83,12 +66,29 @@ function liveReload() {
         }
     })
 
-    watch("src/index.html", html)
-    watch(viewFiles, views)
-    watch(jsFiles, pack)
+    watch("src/index.html", moveHtml)
+    watch(viewFiles, buildViews)
+    watch(jsFiles, buildJs)
+}
+
+/*
+* Build production ready minified JS/CSS files into dist/ folder.
+*/
+function build() {
+    series(html, pack, () => {
+        const html = src("build/index.html")
+            .pipe(dest('./dist/'));
+
+        const js = gulp.src("build/main.js")
+            .pipe(uglify())
+            .pipe(dest('./dist/'))
+
+        return merge(html, js)
+    })
 }
 
 module.exports = {
-    build,
-    default: parallel(html, pack, liveReload)
+    default: parallel(moveHtml, buildViews, buildJs, liveReload),
+    build: parallel(buildViews, buildJs),
+    buildProduction: build
 }

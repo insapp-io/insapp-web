@@ -1,10 +1,21 @@
-var app = angular.module('insapp', ['ngRoute','ngResource','ui.bootstrap.datetimepicker', 'ngFileUpload', 'ngDialog', 'ngFileUpload', 'ngLoadingOverlay','angular-spinkit']);
+import angular from 'angular'
+import config from './config/app.config'
+import './config/app.templates'
 
-app.constant('configuration', {
-  api: 'https://REPLACE_WITH_THE_HOST_DOMAIN/api/v1',
-  cdn: 'https://REPLACE_WITH_THE_HOST_DOMAIN/cdn/',
-  baseUrl: '/admin',
-});
+const requires = [
+  'ngRoute',
+  'ngResource',
+  'ui.bootstrap.datetimepicker',
+  'ngFileUpload',
+  'ngDialog',
+  'ngFileUpload',
+  'ngLoadingOverlay',
+  'angular-spinkit'
+]
+
+var app = angular.module('insapp', requires)
+
+app.constant('configuration', config)
 
 app.factory('session', function() {
   var associationID = '';

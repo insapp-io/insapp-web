@@ -1,4 +1,7 @@
 build/
+dist/
+app.templates.js
+
 .DS_Store
 
 # Logs
@@ -34,6 +37,3 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
-
-app/app.config.js
-./app/app.config.js
