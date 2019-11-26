@@ -2,6 +2,7 @@ import angular from 'angular'
 import config from './config/app.config'
 
 import './config/app.templates'
+
 import 'angular-route'
 import 'angular-resource'
 import 'angular-ui-bootstrap'
@@ -9,10 +10,11 @@ import 'angular-ui-bootstrap-datetimepicker'
 import 'ng-dialog'
 import 'ng-file-upload'
 import 'ng-loading-overlay'
+import 'angular-ui-router'
 
 const requires = [
-  'ngRoute',
   'ngResource',
+  'ui.router',
   'ui.bootstrap',
   'ui.bootstrap.datetimepicker',
   'ngDialog',
@@ -84,19 +86,7 @@ app.service('fileUpload', ['$http', 'ngDialog',  function($http, ngDialog) {
   }
 }]);
 
-app.service('authInterceptor', function($q, $location) {
-  var service = this;
-
-  service.responseError = function(response) {
-    if (response.status == 401) {
-      session.destroyCredentials()
-      $location.path('/login');
-    }
-
-    return $q.reject(response);
-  };
-})
-
+/*
 app.config(['$httpProvider', function($httpProvider) {
   $httpProvider.interceptors.push('authInterceptor');
 }])
@@ -169,32 +159,69 @@ app.config(function($routeProvider, $locationProvider, configuration) {
         template: 'does not exist'
     });
 });
+*/
 
-app.config(['$loadingOverlayConfigProvider', 'configuration', function ($loadingOverlayConfigProvider, configuration) {
+app.config(['$loadingOverlayConfigProvider', 'configuration', function($loadingOverlayConfigProvider, configuration) {
   $loadingOverlayConfigProvider.defaultConfig('<img style="display: block;margin-left: auto;margin-right: auto; width:50px" src="' + configuration.baseUrl + '/images/loader.gif"></img><h3>Chargement</h3>', 'rgba(0, 0, 0, 0.5)', '#fff');
 }]);
 
 app.directive('search', function() {
   return function ($scope, element) {
     element.bind("keyup", function(event) {
-      var val = element.val();
-      $scope.search(val);
-    });
-  };
-});
-
-app.controller('NavigationController', ['$scope', 'session', '$location', 'configuration', function($scope, session, $location, configuration) {
-  $scope.master = null;
-  $scope.baseUrl = configuration.baseUrl
-  $scope.isLoggedIn = isLoggedIn()
-  session.setLoggedInCallback(isLoggedIn)
-
-  function isLoggedIn(){
-    $scope.master = (session.getMaster() == 'true')
-    $scope.loggedIn = session.getAssociation() != null
+      var val = element.val()
+      $scope.search(val)
+    })
   }
+})
 
-  $scope.isActive = function (viewLocation) {
-    return $location.path().indexOf(viewLocation) > -1
-  };
-}]);
+app.config(($httpProvider, $stateProvider, $urlRouterProvider) => {
+  'ngInject'
+
+  // Auth middleware
+  $httpProvider.interceptors.push(($window, $q) => {   
+    return {
+      // Handle 401
+      responseError: rejection => {
+        if (rejection.status === 401) {
+          // Hard page refresh
+          $window.location.reload()
+        }
+
+        return $q.reject(rejection)
+      }
+    }
+  })
+
+  $stateProvider.state('app', {
+    abstract: true,
+    templateUrl: 'layout/app-view.html',
+    resolve: {
+      auth: function(User) {
+        return User.verifyAuth()
+      }
+    }
+  })
+
+  $urlRouterProvider.otherwise('/')
+})
+
+app.run((configuration, $rootScope) => {
+  'ngInject'
+
+  // Change page title based on state
+  $rootScope.$on('$stateChangeSuccess', toState => {
+    $rootScope.setPageTitle(toState.title)
+  })
+
+  // Helper method for setting the page title
+  $rootScope.setPageTitle = (title) => {
+    $rootScope.pageTitle = ''
+
+    if (title) {
+      $rootScope.pageTitle += title;
+      $rootScope.pageTitle += ' \u2014 '
+    }
+
+    $rootScope.pageTitle += configuration.appName
+  }
+})
