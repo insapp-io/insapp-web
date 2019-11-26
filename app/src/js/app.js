@@ -1,16 +1,23 @@
 import angular from 'angular'
 import config from './config/app.config'
+
 import './config/app.templates'
+import 'angular-route'
+import 'angular-resource'
+import 'angular-ui-bootstrap'
+import 'angular-ui-bootstrap-datetimepicker'
+import 'ng-dialog'
+import 'ng-file-upload'
+import 'ng-loading-overlay'
 
 const requires = [
   'ngRoute',
   'ngResource',
+  'ui.bootstrap',
   'ui.bootstrap.datetimepicker',
-  'ngFileUpload',
   'ngDialog',
   'ngFileUpload',
-  'ngLoadingOverlay',
-  'angular-spinkit'
+  'ngLoadingOverlay'
 ]
 
 var app = angular.module('insapp', requires)
@@ -99,63 +106,63 @@ app.config(function($routeProvider, $locationProvider, configuration) {
 
   $routeProvider
     .when('/', {
-      templateUrl: configuration.baseUrl + "/templates/login.html",
+      templateUrl: configuration.baseUrl + "/login.html",
       controller:'LoginAssociation',
     })
     .when('/login', {
-      templateUrl: configuration.baseUrl + "/templates/login.html",
+      templateUrl: configuration.baseUrl + "/login.html",
       controller:'LoginAssociation',
     })
     .when('/logout', {
-      templateUrl: configuration.baseUrl + "/templates/logout.html",
+      templateUrl: configuration.baseUrl + "/logout.html",
       controller:'LogoutAssociation',
     })
     .when('/myEvents', {
-      templateUrl: configuration.baseUrl + "/templates/myEvents.html",
+      templateUrl: configuration.baseUrl + "/myEvents.html",
       controller:'MyEvents',
       })
     .when('/myPosts', {
-      templateUrl: configuration.baseUrl + "/templates/myPosts.html",
+      templateUrl: configuration.baseUrl + "/myPosts.html",
       controller:'MyPosts',
     })
     .when('/myEvents/:id', {
-      templateUrl: configuration.baseUrl + "/templates/myEventReader.html",
+      templateUrl: configuration.baseUrl + "/myEventReader.html",
       controller:'MyEventReader',
       })
     .when('/myPosts/:id', {
-      templateUrl: configuration.baseUrl + "/templates/myPostsReader.html",
+      templateUrl: configuration.baseUrl + "/myPostsReader.html",
       controller:'MyPostsReader',
     })
     .when('/myAssociation/:id', {
-      templateUrl: configuration.baseUrl + "/templates/myAssociation.html",
+      templateUrl: configuration.baseUrl + "/myAssociation.html",
       controller:'MyAssociation',
     })
     .when('/createEvent', {
-      templateUrl: configuration.baseUrl + "/templates/createEvent.html",
+      templateUrl: configuration.baseUrl + "/createEvent.html",
       controller:'CreateEvent',
     })
     .when('/createPost', {
-      templateUrl: configuration.baseUrl + "/templates/createPost.html",
+      templateUrl: configuration.baseUrl + "/createPost.html",
       controller:'CreatePost',
     })
     .when('/users', {
-      templateUrl: configuration.baseUrl + "/templates/users.html",
+      templateUrl: configuration.baseUrl + "/users.html",
       controller:'Users',
     })
     .when('/validationEvent', {
-      templateUrl: configuration.baseUrl + "/templates/validationEvent.html",
+      templateUrl: configuration.baseUrl + "/validationEvent.html",
       controller:'ValidationEvent',
     })
     .when('/validationPost', {
-      templateUrl: configuration.baseUrl + "/templates/validationPost.html",
+      templateUrl: configuration.baseUrl + "/validationPost.html",
       controller:'ValidationPost',
     })
     .when('/validationAssociation', {
-      templateUrl: configuration.baseUrl + "/templates/validationAssociation.html",
+      templateUrl: configuration.baseUrl + "/validationAssociation.html",
       controller:'ValidationAssociation',
     })
     .when('/createAssociation', {
-      templateUrl: configuration.baseUrl + "/templates/createAssociation.html",
+      templateUrl: configuration.baseUrl + "/createAssociation.html",
       controller:'CreateAssociation',
     })
     .otherwise({
@@ -175,3 +182,19 @@ app.directive('search', function() {
     });
   };
 });
+
+app.controller('NavigationController', ['$scope', 'session', '$location', 'configuration', function($scope, session, $location, configuration) {
+  $scope.master = null;
+  $scope.baseUrl = configuration.baseUrl
+  $scope.isLoggedIn = isLoggedIn()
+  session.setLoggedInCallback(isLoggedIn)
+
+  function isLoggedIn(){
+    $scope.master = (session.getMaster() == 'true')
+    $scope.loggedIn = session.getAssociation() != null
+  }
+
+  $scope.isActive = function (viewLocation) {
+    return $location.path().indexOf(viewLocation) > -1
+  };
+}]);
