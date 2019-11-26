@@ -74,21 +74,19 @@ function liveReload() {
 /*
 * Build production ready minified JS/CSS files into dist/ folder.
 */
-function build() {
-    series(html, pack, () => {
-        const html = src("build/index.html")
-            .pipe(dest('./dist/'));
+function dist() {
+    const html = src("build/index.html")
+        .pipe(dest('./dist/'));
 
-        const js = gulp.src("build/main.js")
-            .pipe(uglify())
-            .pipe(dest('./dist/'))
+    const js = src("build/main.js")
+        .pipe(uglify())
+        .pipe(dest('./dist/'))
 
-        return merge(html, js)
-    })
+    return merge(html, js)
 }
 
 module.exports = {
     default: parallel(moveHtml, buildViews, buildJs, liveReload),
     build: parallel(buildViews, buildJs),
-    buildProduction: build
+    dist: parallel(buildViews, buildJs, dist),
 }
