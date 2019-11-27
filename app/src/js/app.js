@@ -1,7 +1,9 @@
 import angular from 'angular'
+
 import config from './config/app.config'
 
 import './config/app.templates'
+import './layout'
 
 import 'angular-route'
 import 'angular-resource'
@@ -22,7 +24,7 @@ const requires = [
   'ngLoadingOverlay'
 ]
 
-var app = angular.module('insapp', requires)
+var app = angular.module('app', requires)
 
 app.constant('configuration', config)
 
@@ -45,23 +47,23 @@ app.factory('session', function() {
       loggedInCallback = f
     },
 
-    getAssociation: function () {
+    getAssociation: function() {
       associationID = window.localStorage.getItem("associationID");
       return associationID;
     },
 
-    setAssociation: function (a) {
+    setAssociation: function(a) {
       window.localStorage.setItem("associationID", a);
       associationID = a;
     },
 
-    setMaster: function(m){
+    setMaster: function(m) {
       window.localStorage.setItem("master", m);
       master = m;
       loggedInCallback()
     },
 
-    getMaster: function(){
+    getMaster: function() {
       master = window.localStorage.getItem("master");
       return master;
     }
@@ -178,7 +180,7 @@ app.config(($httpProvider, $stateProvider, $urlRouterProvider) => {
   'ngInject'
 
   // Auth middleware
-  $httpProvider.interceptors.push(($window, $q) => {   
+  $httpProvider.interceptors.push(($window, $q) => {
     return {
       // Handle 401
       responseError: rejection => {
@@ -224,4 +226,8 @@ app.run((configuration, $rootScope) => {
 
     $rootScope.pageTitle += configuration.appName
   }
+})
+
+angular.bootstrap(document, ['app'], {
+  strictDi: true
 })

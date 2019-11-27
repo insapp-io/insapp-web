@@ -12,8 +12,8 @@ const merge         = require('merge-stream')
 const log           = require('fancy-log')
 
 // Where our files are located
-const jsFiles   = "src/js/*.js"
-const viewFiles = "src/js/*.html"
+const jsFiles   = "src/js/**/*.js"
+const viewFiles = "src/js/**/*.html"
 
 const interceptErrors = function(error) {
     const args = Array.prototype.slice.call(arguments)
