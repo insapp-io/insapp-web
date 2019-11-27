@@ -53,15 +53,15 @@ export default class User {
       deferred.resolve(true)
     } else {
       this._$http({
-        url: this._AppConstants.api + '/me',
+        url: this._AppConstants.api + '/association',
         method: 'GET'
       }).then(
-        (res) => {
+        res => {
           this.current = res.data.user
           deferred.resolve(true)
         },
 
-        (err) => {
+        err => {
           deferred.resolve(false)
         }
       )

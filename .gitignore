@@ -1,6 +1,7 @@
 build/
 dist/
 app.templates.js
+app.config.js
 
 .DS_Store
 
