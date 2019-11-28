@@ -3,6 +3,7 @@ import angular from 'angular'
 import './config/app.templates'
 import './layout'
 import './directives'
+import './components'
 import './services'
 import './posts'
 import './auth'
@@ -29,6 +30,7 @@ const requires = [
   'app.layout',
   'app.services',
   'app.directives',
+  'app.components',
   'app.auth',
   'app.posts',
 ]
@@ -43,12 +45,12 @@ function AppConfig($httpProvider, $stateProvider, $urlRouterProvider) {
   'ngInject'
 
   // Auth middleware
-  $httpProvider.interceptors.push(($state, $window, $q) => {
+  $httpProvider.interceptors.push(($state, $q) => {
     return {
       // Handle 401
       responseError: rejection => {
-        if (rejection.status === 401) {
-          this._$state.go('app.login')
+        if (rejection.status === 401 || rejection.status === 403) {
+          $state.go('app.login')
         }
 
         return $q.reject(rejection)
@@ -66,7 +68,7 @@ function AppConfig($httpProvider, $stateProvider, $urlRouterProvider) {
     }
   })
 
-  $urlRouterProvider.otherwise('/')
+  $urlRouterProvider.otherwise('/login')
 }
 
 function AppRun(AppConstants, $rootScope) {

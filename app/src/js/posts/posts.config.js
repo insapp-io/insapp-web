@@ -2,7 +2,7 @@ function PostsConfig($stateProvider) {
   'ngInject'
 
   $stateProvider.state('app.posts', {
-    url: '/',
+    url: '/myPosts',
     controller: 'PostsController',
     controllerAs: '$controller',
     templateUrl: '/posts/myPosts.html',

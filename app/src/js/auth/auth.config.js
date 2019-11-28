@@ -7,7 +7,7 @@ function AuthConfig($stateProvider, $httpProvider) {
       url: '/login',
       controller: 'AuthController as $controller',
       templateUrl: '/auth/auth.html',
-      title: 'Sign in',
+      title: 'Login',
       resolve: {
         auth: User => {
           return User.ensureAuthIs(false)

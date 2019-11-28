@@ -10,6 +10,22 @@ export default class User {
     this.current = null
   }
 
+  attemptAuth(credentials) {
+    return this._$http({
+      url: this._AppConstants.api + '/login/association',
+      method: 'POST',
+      data: {
+        username: credentials.username,
+        password: credentials.password
+      }
+    }).then(
+      res => {
+        this.current = res.data.user
+        return res
+      }
+    )
+  }
+
   verifyAuth() {
     let deferred = this._$q.defer()
 
@@ -49,21 +65,6 @@ export default class User {
     })
 
     return deferred.promise
-  }
-  
-  attemptAuth(credentials) {
-    return this._$http({
-      url: this._AppConstants.api + '/login/association',
-      method: 'POST',
-      data: {
-        user: credentials
-      }
-    }).then(
-      (res) => {
-        this.current = res.data.user
-        return res
-      }
-    )
   }
 
   logout() {
