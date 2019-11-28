@@ -9,46 +9,11 @@ export default class User {
 
     this.current = null
   }
-  
-  attemptAuth(type, credentials) {
-    let route = (type === 'login') ? '/login' : ''
 
-    return this._$http({
-      url: this._AppConstants.api + '/users' + route,
-      method: 'POST',
-      data: {
-        user: credentials
-      }
-    }).then(
-      (res) => {
-        this.current = res.data.user
-        return res;
-      }
-    )
-  }
-  
-  update(fields) {
-    return this._$http({
-      url:  this._AppConstants.api + '/user',
-      method: 'PUT',
-      data: { user: fields }
-    }).then(
-      (res) => {
-        this.current = res.data.user
-        return res.data.user
-      }
-    )
-  }
-
-  logout() {
-    this.current = null
-    this._JWT.destroy()
-    this._$state.go(this._$state.$current, null, { reload: true })
-  }
-  
   verifyAuth() {
     let deferred = this._$q.defer()
 
+    /*
     if (this.current) {
       deferred.resolve(true)
     } else {
@@ -66,6 +31,8 @@ export default class User {
         }
       )
     }
+    */
+    deferred.resolve(true)
 
     return deferred.promise
   }
@@ -83,5 +50,27 @@ export default class User {
     })
 
     return deferred.promise
+  }
+  
+  attemptAuth(type, credentials) {
+    let route = (type === 'login') ? '/login' : ''
+
+    return this._$http({
+      url: this._AppConstants.api + '/users' + route,
+      method: 'POST',
+      data: {
+        user: credentials
+      }
+    }).then(
+      (res) => {
+        this.current = res.data.user
+        return res
+      }
+    )
+  }
+
+  logout() {
+    this.current = null
+    this._$state.go(this._$state.$current, null, { reload: true })
   }
 }

@@ -1,20 +1,20 @@
 function PostsConfig($stateProvider) {
   'ngInject'
 
-  $stateProvider.state('app.posts.list', {
-    url: '/',
-    controller: 'PostsController',
-    controllerAs: '$controller',
-    templateUrl: 'posts/myPosts.html',
-    title: 'Mes posts'
-  })
-
-  $stateProvider.state('app.posts.list', {
+  $stateProvider.state('app.posts', {
     url: '/myPosts',
     controller: 'PostsController',
     controllerAs: '$controller',
     templateUrl: 'posts/myPosts.html',
-    title: 'Mes posts'
+    title: 'Mes posts',
+    resolve: {
+      article: function(Posts, $state, $stateParams) {
+        return Posts.query().then(
+          (posts) => posts,
+          (err) => $state.go('app.posts')
+        )
+      }
+    }
   })
 
   $stateProvider.state('app.posts.view', {

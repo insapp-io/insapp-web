@@ -6,4 +6,7 @@ let servicesModule = angular.module('app.services', [])
 import UserService from './user.service'
 servicesModule.service('User', UserService)
 
+import PostsService from './posts.service'
+servicesModule.service('Posts', PostsService)
+
 export default servicesModule

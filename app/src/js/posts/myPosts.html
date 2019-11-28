@@ -1,4 +1,14 @@
+<article-preview article="article" ng-repeat="article in $controller.list">
+</article-preview>
 
+<div class="article-preview" ng-hide="!$controller.loading">
+  Loading articles...
+</div>
+
+<div class="article-preview" ng-show="!$controller.loading && !$ctrl.list.length">
+  No articles are here... yet.
+</div>
+<!--
   <div ng-controller="MyPosts"style="padding:30px">
     <a href="{{ baseUrl + '/#/createPost' }}"><button class="btn btn-success" style="margin-bottom:10px" ng-show="isAllSetUp">Créer un post</button></a>
     </br>
@@ -20,3 +30,4 @@
     <h2 ng-show="allPosts.length == 0 && isAllSetUp" style="text-align:center;color:#AAAAAA">Il n'y a aucun Post, créez en un vite ;)</h2>
     <h2 ng-show="!isAllSetUp" style="text-align:center;color:#AAAAAA">Customise d'abord ta page association avant de créer un post :) </h2>
   </div>
+-->

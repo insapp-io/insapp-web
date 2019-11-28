@@ -4,6 +4,7 @@ import './config/app.templates'
 import './layout'
 import './directives'
 import './services'
+import './posts'
 
 import 'angular-route'
 import 'angular-resource'
@@ -26,21 +27,15 @@ const requires = [
   'app.layout',
   'app.services',
   'app.directives',
+  'app.posts',
 ]
 
-var app = angular.module('app', requires)
+let app = angular.module('app', requires)
 
 app.constant('AppConstants', AppConstants)
 app.config(AppConfig)
 app.run(AppRun)
 
-angular.bootstrap(document, ['app'], {
-  strictDi: true
-})
-
-/*
- *
- */
 function AppConfig($httpProvider, $stateProvider, $urlRouterProvider) {
   'ngInject'
 
@@ -63,7 +58,7 @@ function AppConfig($httpProvider, $stateProvider, $urlRouterProvider) {
     abstract: true,
     templateUrl: 'layout/app-view.html',
     resolve: {
-      auth: function(User) {
+      auth: User => {
         return User.verifyAuth()
       }
     }
@@ -72,9 +67,6 @@ function AppConfig($httpProvider, $stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/')
 }
 
-/*
- *
- */
 function AppRun(AppConstants, $rootScope) {
   'ngInject'
 
