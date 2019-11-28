@@ -20,7 +20,7 @@ export default class User {
       }
     }).then(
       res => {
-        this.current = res.data.user
+        this.current = res.data
         return res
       }
     )

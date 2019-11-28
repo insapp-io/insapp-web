@@ -10,14 +10,15 @@ class AuthController {
 
   submitForm() {
     this.isSubmitting = true
+    this.errors = []
 
     this._User.attemptAuth(this.formData).then(
-      (res) => {
+      res => {
         this._$state.go('app.posts')
       },
-      (err) => {
+      err => {
         this.isSubmitting = false
-        this.errors = err.data.errors
+        this.errors.push(err.data.error)
       }
     )
   }
