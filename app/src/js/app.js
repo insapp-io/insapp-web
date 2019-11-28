@@ -5,6 +5,7 @@ import './layout'
 import './directives'
 import './services'
 import './posts'
+import './auth'
 
 import 'angular-route'
 import 'angular-resource'
@@ -28,6 +29,7 @@ const requires = [
   'app.layout',
   'app.services',
   'app.directives',
+  'app.auth',
   'app.posts',
 ]
 
@@ -41,13 +43,12 @@ function AppConfig($httpProvider, $stateProvider, $urlRouterProvider) {
   'ngInject'
 
   // Auth middleware
-  $httpProvider.interceptors.push(($window, $q) => {
+  $httpProvider.interceptors.push(($state, $window, $q) => {
     return {
       // Handle 401
       responseError: rejection => {
         if (rejection.status === 401) {
-          // Hard page refresh
-          $window.location.reload()
+          this._$state.go('app.login')
         }
 
         return $q.reject(rejection)

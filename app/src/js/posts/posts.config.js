@@ -8,7 +8,7 @@ function PostsConfig($stateProvider) {
     templateUrl: '/posts/myPosts.html',
     title: 'Mes posts',
     resolve: {
-      article: function(Posts, $state, $stateParams) {
+      posts: (Posts, $state, $stateParams) => {
         return Posts.query().then(
           (posts) => posts,
           (err) => $state.go('app.posts')

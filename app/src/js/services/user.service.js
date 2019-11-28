@@ -51,11 +51,9 @@ export default class User {
     return deferred.promise
   }
   
-  attemptAuth(type, credentials) {
-    let route = (type === 'login') ? '/login' : ''
-
+  attemptAuth(credentials) {
     return this._$http({
-      url: this._AppConstants.api + '/users' + route,
+      url: this._AppConstants.api + '/login/association',
       method: 'POST',
       data: {
         user: credentials
