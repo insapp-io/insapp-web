@@ -13,7 +13,7 @@ class AppHeaderController {
 
 let AppHeader = {
   controller: AppHeaderController,
-  templateUrl: 'layout/header.html'
+  templateUrl: '/layout/header.html'
 }
 
 export default AppHeader

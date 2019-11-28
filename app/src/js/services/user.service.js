@@ -13,7 +13,6 @@ export default class User {
   verifyAuth() {
     let deferred = this._$q.defer()
 
-    /*
     if (this.current) {
       deferred.resolve(true)
     } else {
@@ -31,7 +30,7 @@ export default class User {
         }
       )
     }
-    */
+    
     deferred.resolve(true)
 
     return deferred.promise

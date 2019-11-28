@@ -2,10 +2,10 @@ function PostsConfig($stateProvider) {
   'ngInject'
 
   $stateProvider.state('app.posts', {
-    url: '/myPosts',
+    url: '/',
     controller: 'PostsController',
     controllerAs: '$controller',
-    templateUrl: 'posts/myPosts.html',
+    templateUrl: '/posts/myPosts.html',
     title: 'Mes posts',
     resolve: {
       article: function(Posts, $state, $stateParams) {
@@ -21,7 +21,7 @@ function PostsConfig($stateProvider) {
     url: '/myPosts/:id',
     controller: 'PostsController',
     controllerAs: '$controller',
-    templateUrl: 'posts/myPostsReader.html',
+    templateUrl: '/posts/myPostsReader.html',
     title: 'Mon post'
   })
 
@@ -29,7 +29,7 @@ function PostsConfig($stateProvider) {
     url: '/createPost',
     controller: 'PostsController',
     controllerAs: '$controller',
-    templateUrl: 'posts/createPost.html',
+    templateUrl: '/posts/createPost.html',
     title: 'Créer un post'
   })
 
@@ -37,7 +37,7 @@ function PostsConfig($stateProvider) {
     url: '/validationPost',
     controller: 'PostsController',
     controllerAs: '$controller',
-    templateUrl: 'posts/validationPost.html',
+    templateUrl: '/posts/validationPost.html',
     title: 'Valider un post'
   })
 }
