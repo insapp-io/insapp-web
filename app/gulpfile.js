@@ -86,7 +86,7 @@ function dist() {
 }
 
 module.exports = {
-    default: parallel(moveHtml, buildViews, buildJs, liveReload),
-    build: parallel(buildViews, buildJs),
-    dist: parallel(buildViews, buildJs, dist),
+    default: parallel(moveHtml, buildViews, buildJs),
+    dev: parallel(moveHtml, buildViews, buildJs, liveReload),
+    dist: parallel(moveHtml, buildViews, buildJs, dist),
 }
