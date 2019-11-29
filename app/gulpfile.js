@@ -34,7 +34,7 @@ function moveHtml() {
         .pipe(dest('./build/'))
 }
 
-function buildViews() {
+function buildTemplates() {
     return src(viewFiles)
         .pipe(templateCache({
             standalone: true
@@ -86,7 +86,7 @@ function dist() {
 }
 
 module.exports = {
-    default: parallel(moveHtml, buildViews, buildJs),
-    dev: parallel(moveHtml, buildViews, buildJs, liveReload),
-    dist: parallel(moveHtml, buildViews, buildJs, dist),
+    default: series(buildTemplates, parallel(moveHtml, buildJs)),
+    dev: series(buildTemplates, parallel(moveHtml, buildJs), liveReload),
+    dist: series(buildTemplates, parallel(moveHtml, buildJs), dist),
 }
