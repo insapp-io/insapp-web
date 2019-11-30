@@ -37,7 +37,7 @@ export default class User {
         method: 'GET'
       }).then(
         res => {
-          this.current = res.data.user
+          this.current = res.data
           deferred.resolve(true)
         },
 

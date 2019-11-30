@@ -1,0 +1,33 @@
+<a ui-sref="app.posts">
+  <button class="btn btn-success" style="margin-bottom: 10px" ng-show="isAllSetUp">Créer un post</button>
+</a>
+
+</br>
+<!--<input type="text" style="margin-bottom:10px" placeholder="Rechercher" search ng-show="allPosts.length > 0 && isAllSetUp">-->
+
+<div class="article-preview" ng-show="$controller.loading">
+  Chargements des posts en cours...
+</div>
+
+<div ng-show="!$controller.loading && $controller.list.length">
+  <table class="table table-striped table-hover">
+    <tr>
+      <th>Nom</th>
+      <th>Date</th>
+      <th>Likes</th>
+      <th>Commentaires</th>
+    </tr>
+    <tr ng-repeat="post in $controller.list" ng-click='onclick(post)'>
+      <td style="vertical-align: middle" ng-bind="$controller.post.title"></td>
+      <td style="vertical-align: middle" ng-binf="$controller.post.date"></td>
+      <td style="vertical-align: middle" ng-bind="$controller.post.nbLikes"></td>
+      <td style="vertical-align: middle" ng-bind="$controller.post.nbComments"></td>
+    </tr>
+  </table>
+</div>
+
+<div ng-show="!$controller.loading && !$controller.list.length">
+  <h2 style="text-align:center; color:#AAA">Il n'y a aucun post, créez en un vite 🙂</h2>
+</div>
+
+<h2 ng-show="!isAllSetUp" style="text-align:center; color:#AAA">Customise d'abord ta page association avant de créer un post 🙂</h2>

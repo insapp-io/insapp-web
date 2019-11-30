@@ -1,3 +1,16 @@
+class PostController {
+  constructor(post, $rootScope) {
+    'ngInject'
+
+    this.post = post
+
+    $rootScope.setPageTitle(this.post.title)
+  }
+}
+
+export default PostController
+
+/*
 app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'session', '$location', 'ngDialog', 'configuration', function($scope, $resource, $routeParams, session, $location, ngDialog, configuration) {
   var Post = $resource(configuration.api + '/posts/:id', null, { 'update': { method:'PUT' }});
   var Comment = $resource(configuration.api + '/posts/:id/comment/:commentId');
@@ -192,3 +205,4 @@ app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'session
     });
   }
 }]);
+*/

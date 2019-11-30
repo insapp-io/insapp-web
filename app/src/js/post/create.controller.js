@@ -1,3 +1,4 @@
+/*
 app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload', 'session', '$location', 'ngDialog', '$loadingOverlay', 'configuration', '$window', function($scope, $resource, $routeParams, fileUpload, session, $location, ngDialog, $loadingOverlay, configuration, $window) {
   var Post = $resource(configuration.api + '/posts');
 
@@ -221,3 +222,4 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
     });
   }
 }]);
+*/
