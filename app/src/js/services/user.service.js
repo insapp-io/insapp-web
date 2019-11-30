@@ -40,7 +40,6 @@ export default class User {
           this.current = res.data
           deferred.resolve(true)
         },
-
         err => {
           deferred.resolve(false)
         }
@@ -48,7 +47,6 @@ export default class User {
     }
     
     deferred.resolve(true)
-
     return deferred.promise
   }
   

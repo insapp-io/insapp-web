@@ -1,8 +1,9 @@
 class PostListController {
-  constructor(Posts, $scope) {
+  constructor(Posts, User) {
     'ngInject'
 
     this._Posts = Posts
+    this.currentUser = User.current
 
     this.runQuery()
   }
@@ -11,7 +12,9 @@ class PostListController {
     this.loading = true
 
     this._Posts
-      .query()
+      .query({
+        association: this.currentUser.association
+      })
       .then(
         (res) => {
           this.loading = false
