@@ -14,7 +14,7 @@ class AuthController {
 
     this._User.attemptAuth(this.formData).then(
       res => {
-        this._$state.go('app.posts')
+        this._$state.go('app.post')
       },
       err => {
         this.isSubmitting = false

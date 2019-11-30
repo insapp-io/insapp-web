@@ -57,7 +57,7 @@ export default class User {
 
     this.verifyAuth().then((authValid) => {
       if (authValid !== bool) {
-        this._$state.go('app.home')
+        this._$state.go('app.login')
         deferred.resolve(false)
       } else {
         deferred.resolve(true)
