@@ -9,28 +9,26 @@
       </button>
       <a class="navbar-brand" ui-sref="app.post">Insapp</a>
     </div>
-  </div>
-  <div class="collapse navbar-collapse" id="example-navbar-collapse">
-    <ul show-authed="true" class="nav navbar-nav">
-      <li><a ui-sref="app.post">Mes posts</a></li>
-      <li><a ui-sref="">Mes événements</a></li>
-      <li><a ui-sref="">Mon association</a></li>
-      <!--
-      <li ng-class="{ active: isActive('/users')}" ng-show="master" ng-click="isLoggedIn()"><a href="{{ baseUrl }}/#/users">Utilisateurs</a></li>
-      <li ng-class="{ active: isActive('/validation')}" ng-show="master" ng-click="isLoggedIn()"class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-              <li ng-show="master" ng-click="isLoggedIn()"><a href="{{ baseUrl }}/#/validationAssociation">Associations</a></li>
-              <li ng-show="master" ng-click="isLoggedIn()"><a href="{{ baseUrl }}/#/validationEvent">Event</a></li>
-              <li ng-show="master" ng-click="isLoggedIn()"><a href="{{ baseUrl }}/#/validationPost">Posts</a></li>
-          </ul>
-      </li>
-      <li ng-class="{ active: isActive('/createAssociation')}" ng-show="master" ng-click="isLoggedIn()"><a href="{{ baseUrl }}/#/createAssociation">Créer une association</a></li>
-      -->
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a ui-sref=""><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
-    </ul>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+      <ul show-authed="true" class="nav navbar-nav">
+        <li><a ui-sref="app.post">Mes posts</a></li>
+        <li><a ui-sref="">Mes événements</a></li>
+        <li><a ui-sref="">Mon association</a></li>
+        <li show-admin="true"><a ui-sref="">Utilisateurs</a></li>
+        <li show-admin="true" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a ui-sref="">Associations</a></li>
+                <li><a ui-sref="">Event</a></li>
+                <li><a ui-sref="">Posts</a></li>
+            </ul>
+        </li>
+        <li show-admin="true"><a ui-sref="">Créer une association</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a ui-sref=""><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+      </ul>
+    </div>
   </div>
 </nav>
 
