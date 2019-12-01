@@ -42,7 +42,7 @@ app.constant('AppConstants', AppConstants)
 app.config(AppConfig)
 app.run(AppRun)
 
-function AppConfig($httpProvider, $stateProvider, $urlRouterProvider) {
+function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterProvider) {
   'ngInject'
 
   // Auth middleware
@@ -58,6 +58,8 @@ function AppConfig($httpProvider, $stateProvider, $urlRouterProvider) {
       }
     }
   })
+
+  //$locationProvider.html5Mode(true)
 
   $stateProvider.state('app', {
     abstract: true,

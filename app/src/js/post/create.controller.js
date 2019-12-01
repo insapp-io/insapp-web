@@ -3,65 +3,58 @@ class PostCreateController {
     'ngInject'
 
     this.currentUser = User.current
-  }
-}
 
-export default PostCreateController
+    this.promotionNames = [
+      "CDTI",
+      "EII",
+      "GM",
+      "GMA",
+      "GCU",
+      "INFO",
+      "SGM",
+      "SRC",
+      "STPI",
+      "STAFF"
+    ]
+    
+    this.promotions = {
+      "1STPI": true,
+      "2STPI": true,
+      "3CDTI": true,
+      "4CDTI": true,
+      "5CDTI": true,
+      "3EII": true,
+      "4EII": true,
+      "5EII": true,
+      "3GM": true,
+      "4GM": true,
+      "5GM": true,
+      "3GMA": true,
+      "4GMA": true,
+      "5GMA": true,
+      "3GCU": true,
+      "4GCU": true,
+      "5GCU": true,
+      "3INFO": true,
+      "4INFO": true,
+      "5INFO": true,
+      "3SGM": true,
+      "4SGM": true,
+      "5SGM": true,
+      "3SRC": true,
+      "4SRC": true,
+      "5SRC": true,
+      "STAFF": true
+    }
 
-/*
-app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload', 'session', '$location', 'ngDialog', '$loadingOverlay', 'configuration', '$window', function($scope, $resource, $routeParams, fileUpload, session, $location, ngDialog, $loadingOverlay, configuration, $window) {
-  var Post = $resource(configuration.api + '/posts');
+    this.plateforms = {
+      "android": true,
+      "iOS": true,
+    }
 
-  $scope.isActive = function (viewLocation) {
-      return viewLocation === "myPosts";
-  };
-
-  String.prototype.isPromotion = function(str){
-    var lastIndex = this.lastIndexOf(str);
-    return (lastIndex == 1 && str.length == this.length-1)|| (lastIndex == 0 && str.length == this.length)
-  }
-
-  $scope.promotionNames = ["CDTI", "EII", "GM", "GMA", "GCU", "INFO", "SGM", "SRC", "STPI", "STAFF"]
-  $scope.showAdvancedSettings = false
-  $scope.promotions = {
-    "1STPI": true,
-    "2STPI": true,
-    "3CDTI": true,
-    "4CDTI": true,
-    "5CDTI": true,
-    "3EII": true,
-    "4EII": true,
-    "5EII": true,
-    "3GM": true,
-    "4GM": true,
-    "5GM": true,
-    "3GMA": true,
-    "4GMA": true,
-    "5GMA": true,
-    "3GCU": true,
-    "4GCU": true,
-    "5GCU": true,
-    "3INFO": true,
-    "4INFO": true,
-    "5INFO": true,
-    "3SGM": true,
-    "4SGM": true,
-    "5SGM": true,
-    "3SRC": true,
-    "4SRC": true,
-    "5SRC": true,
-    "STAFF": true
-  }
-
-  $scope.plateforms = {
-    "android": true,
-    "iOS": true,
-  }
-
-
-  $scope.currentPost = {
+    this.post = {
       title       : "",
-      association : session.getAssociation(),
+      association : this.currentUser.association,
       description : "",
       image       : "",
       imageSize   : {},
@@ -70,14 +63,125 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
       promotions  : [],
       likes       : [],
       enableNotification: true
-  }
-
-  $scope.monitorLength = function (field, maxLength) {
-    if ($scope.currentPost[field] && $scope.currentPost[field].length && $scope.currentPost[field].length > maxLength) {
-      $scope.currentPost[field] = $scope.currentPost[field].substring(0, maxLength);
     }
   }
 
+  isPromotion(key, str) {
+    const lastIndex = key.lastIndexOf(str)
+    return (lastIndex == 1 && str.length == key.length-1)|| (lastIndex == 0 && str.length == key.length)
+  }
+
+  select(promotion) {
+    Object.keys(this.promotions).forEach(key => {
+      if (this.isPromotion(key, promotion)) {
+        this.promotions[key] = true
+      }
+    })
+  }
+
+  deselect(promotion) {
+    Object.keys(this.promotions).forEach(key => {
+      if (this.isPromotion(key, promotion)) {
+        this.promotions[key] = false
+      }
+    })
+  }
+
+  selectYear(year) {
+    // year equals 1, 2, or 3
+    Object.keys(this.promotions).forEach(key => {
+      if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
+        this.promotions[key] = true
+      }
+    })
+  }
+
+  deselectYear(year) {
+    // year equals 1, 2, or 3
+    Object.keys(this.promotions).forEach(key => {
+      if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
+        this.promotions[key] = false
+      }
+    })
+  }
+
+  selectAllPromo(selected) {
+    Object.keys(this.promotions).forEach(key => {
+      this.promotions[key] = selected
+    })
+  }
+
+  invertPromo() {
+    Object.keys(this.promotions).forEach(key => {
+      this.promotions[key] = !this.promotions[key]
+    })
+  }
+
+  monitorLength(field, maxLength) {
+    if (this.post[field] && this.post[field].length && this.post[field].length > maxLength) {
+      this.post[field] = this.post[field].substring(0, maxLength);
+    }
+  }
+
+  createPost() {
+    this.post.nonotification = !this.post.enableNotification
+
+    let promotions = Object.keys($scope.promotions).filter(promotion => {
+      return this.promotions[promotion]
+    })
+
+    this.post.promotions = []
+    for (i in promotions) {
+      promotion = promotions[i]
+      this.post.promotions.push(promotion.toUpperCase())
+    }
+
+    this.post.plateforms = Object.keys($scope.plateforms).filter(plateform => {
+      return this.plateforms[plateform]
+    })
+
+    if (this.post.plateforms.length == 0 || this.post.promotions.length == 0) {
+      ngDialog.open({
+        template: "<h2 style='text-align:center;'>Choisis au moins 1 promotion et 1 plateforme</h2>",
+        plain: true,
+        className: 'ngdialog-theme-default'
+      })
+      return
+    }
+
+    /*
+    $loadingOverlay.show()
+    $("html, body").animate({ scrollTop: 0 }, "slow")
+
+    Post.save({}, this.currentPost, post => {
+      ngDialog.open({
+        template: "<h2 style='text-align:center;'>Le post a bien été créé</h2>",
+        plain: true,
+        className: 'ngdialog-theme-default'
+      })
+      $loadingOverlay.hide()
+      $scope.currentPost = post
+      $location.path('/myPosts')
+    }, function(error) {
+      displayError = error.status + " " + error.statusText
+      if(error.data.error){
+        displayError += " -- " + error.data.error
+      }
+
+      ngDialog.open({
+        template: "<h3 style='text-align:center;'>Une erreur est survenue :\n" + displayError + "</h3>",
+        plain: true,
+        className: 'ngdialog-theme-default'
+      })
+      $loadingOverlay.hide()
+    })
+    */
+  }
+}
+
+export default PostCreateController
+
+/*
   $scope.$watch('postImageFile', function() {
     if ($scope.postImageFile){
       var preview = document.querySelector('#postImage');
@@ -108,52 +212,6 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
     $scope.postImageFile = null
   }
 
-  $scope.select = function(promotion){
-      Object.keys($scope.promotions).forEach(function (key) {
-          if (key.isPromotion(promotion)) {
-              $scope.promotions[key] = true
-          }
-      })
-  }
-
-  $scope.deselect = function(promotion){
-      Object.keys($scope.promotions).forEach(function (key) {
-          if (key.isPromotion(promotion)) {
-              $scope.promotions[key] = false
-          }
-      })
-  }
-
-  $scope.selectYear = function(year){
-    // year equals 1, 2, or 3
-    Object.keys($scope.promotions).forEach(function (key) {
-        if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
-            $scope.promotions[key] = true
-        }
-    })
-  }
-
-  $scope.deselectYear = function(year){
-    // year equals 1, 2, or 3
-    Object.keys($scope.promotions).forEach(function (key) {
-        if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
-            $scope.promotions[key] = false
-        }
-    })
-  }
-
-  $scope.selectAllPromo = function(selected){
-    Object.keys($scope.promotions).forEach(function (key) {
-      $scope.promotions[key] = selected
-    })
-  }
-
-  $scope.invertPromo = function(){
-    Object.keys($scope.promotions).forEach(function (key) {
-      $scope.promotions[key] = !$scope.promotions[key]
-    })
-  }
-
   $scope.searchGif = function(){
       $window.open('http://giphy.com', '_blank');
   }
@@ -177,59 +235,4 @@ app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload
       }
     });
   }
-
-  $scope.createPost = function() {
-
-      $scope.currentPost.nonotification = !$scope.currentPost.enableNotification
-
-    var promotions = Object.keys($scope.promotions).filter(function(promotion){
-        return $scope.promotions[promotion]
-    })
-
-    $scope.currentPost.promotions = []
-    for (i in promotions) {
-        promotion = promotions[i]
-        $scope.currentPost.promotions.push(promotion.toUpperCase())
-    }
-
-    $scope.currentPost.plateforms = Object.keys($scope.plateforms).filter(function(plateform){
-        return $scope.plateforms[plateform]
-    })
-
-
-    if ($scope.currentPost.plateforms.length == 0 || $scope.currentPost.promotions.length == 0) {
-        ngDialog.open({
-            template: "<h2 style='text-align:center;'>Choisis au moins 1 promotion et 1 plateforme</h2>",
-            plain: true,
-            className: 'ngdialog-theme-default'
-        });
-        return
-    }
-
-    $loadingOverlay.show()
-    $("html, body").animate({ scrollTop: 0 }, "slow");
-    console.log($scope.currentPost)
-    Post.save({}, $scope.currentPost, function(post) {
-      ngDialog.open({
-          template: "<h2 style='text-align:center;'>Le post a bien été créé</h2>",
-          plain: true,
-          className: 'ngdialog-theme-default'
-      });
-      $loadingOverlay.hide()
-      $scope.currentPost = post
-      $location.path('/myPosts')
-    }, function(error) {
-      displayError = error.status + " " + error.statusText
-      if(error.data.error){
-        displayError += " -- " + error.data.error
-      }
-      ngDialog.open({
-          template: "<h3 style='text-align:center;'>Une erreur est survenue :\n" + displayError + "</h3>",
-          plain: true,
-          className: 'ngdialog-theme-default'
-      });
-      $loadingOverlay.hide()
-    });
-  }
-}]);
 */

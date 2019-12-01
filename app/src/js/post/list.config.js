@@ -2,7 +2,7 @@ function PostListConfig($stateProvider) {
   'ngInject'
 
   $stateProvider.state('app.postlist', {
-    url: '/post/list',
+    url: '/',
     controller: 'PostListController as $controller',
     templateUrl: '/post/list.html',
     title: 'Mes posts',

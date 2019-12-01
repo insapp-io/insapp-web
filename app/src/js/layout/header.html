@@ -16,16 +16,16 @@
         <li><a ui-sref="">Mon association</a></li>
         <li show-admin="true"><a ui-sref="">Utilisateurs</a></li>
         <li show-admin="true" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-                <li><a ui-sref="">Associations</a></li>
-                <li><a ui-sref="">Event</a></li>
-                <li><a ui-sref="">Posts</a></li>
-            </ul>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+              <li><a ui-sref="">Associations</a></li>
+              <li><a ui-sref="">Event</a></li>
+              <li><a ui-sref="">Posts</a></li>
+          </ul>
         </li>
         <li show-admin="true"><a ui-sref="">Créer une association</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
+      <ul show-authed="true" class="nav navbar-nav navbar-right">
         <li><a ui-sref=""><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
       </ul>
     </div>
