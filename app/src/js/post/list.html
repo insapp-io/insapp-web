@@ -1,11 +1,11 @@
-<!--
-<a ui-sref="app.post.create">
-  <button class="btn btn-success" style="margin-bottom: 10px" ng-show="isAllSetUp">Créer un post</button>
-</a>
-<input type="text" style="margin-bottom:10px" placeholder="Rechercher" search ng-show="allPosts.length > 0 && isAllSetUp">
--->
-
 <div style="padding: 30px">
+  <a ui-sref="app.postcreate">
+    <button class="btn btn-success" style="margin-bottom: 10px">Créer un post</button>
+  </a>
+  <!--
+  <input type="text" style="margin-bottom:10px" placeholder="Rechercher" search ng-show="allPosts.length > 0 && isAllSetUp">
+  -->
+
   <div class="article-preview" ng-show="$controller.loading">
     Chargements des posts en cours...
   </div>

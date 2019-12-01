@@ -1,13 +1,17 @@
 function PostCreateConfig($stateProvider) {
-    'ngInject'
+  'ngInject'
+
+  $stateProvider.state('app.postcreate', {
+    url: '/post/create',
+    controller: 'PostCreateController as $controller',
+    templateUrl: '/post/create.html',
+    title: 'Créer un post',
+    resolve: {
+      auth: User => {
+        return User.ensureAuthIs(true)
+      }
+    }
+  })
+}
   
-    $stateProvider.state('app.post.create', {
-      url: '/createPost',
-      controller: 'PostCreateController',
-      controllerAs: '$controller',
-      templateUrl: '/post/create.html',
-      title: 'Créer un post'
-    })
-  }
-  
-  export default PostCreateConfig
+export default PostCreateConfig

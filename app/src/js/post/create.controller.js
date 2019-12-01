@@ -1,3 +1,13 @@
+class PostCreateController {
+  constructor(User) {
+    'ngInject'
+
+    this.currentUser = User.current
+  }
+}
+
+export default PostCreateController
+
 /*
 app.controller('CreatePost', ['$scope', '$resource', '$routeParams', 'fileUpload', 'session', '$location', 'ngDialog', '$loadingOverlay', 'configuration', '$window', function($scope, $resource, $routeParams, fileUpload, session, $location, ngDialog, $loadingOverlay, configuration, $window) {
   var Post = $resource(configuration.api + '/posts');

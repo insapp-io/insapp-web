@@ -1,14 +1,24 @@
 import angular from 'angular'
 
-// Create the module where our functionality can attach to
-let postListModule = angular.module('app.post', [])
+// Post list module
+let postListModule = angular.module('app.postlist', [])
 
-// Include our UI-Router config settings
 import PostListConfig from './list.config'
 postListModule.config(PostListConfig)
 
-// Controllers
 import PostListController from './list.controller'
 postListModule.controller('PostListController', PostListController)
 
-export default postListModule
+// Post create module
+let postCreateModule = angular.module('app.postcreate', [])
+
+import PostCreateConfig from './create.config'
+postCreateModule.config(PostCreateConfig)
+
+import PostCreateController from './create.controller'
+postCreateModule.controller('PostCreateController', PostCreateController)
+
+export { 
+    postCreateModule,
+    postListModule
+}
