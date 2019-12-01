@@ -5,6 +5,8 @@ class PostListController {
     this._Posts = Posts
     this.currentUser = User.current
 
+    this.isAllSetUp = true
+
     this.runQuery()
   }
   
@@ -36,42 +38,9 @@ app.controller('MyPosts', ['$scope', '$resource', '$location', 'session', 'confi
   };
 
   $scope.isAllSetUp = false
-  $scope.baseUrl = configuration.baseUrl
-
-  Association.get({id:session.getAssociation()}, function(assos) {
-    $scope.allPosts = []
-    $scope.isAllSetUp = (assos.profile && assos.profile != "")
-    assos.posts = (assos.posts == null ? [] : assos.posts)
-    for (postId of assos.posts){
-      Post.get({id:postId}, function(post) {
-        post.nbLikes = (post.likes != null ? post.likes.length : 0)
-        post.nbComments = (post.comments != null ? post.comments.length : 0)
-        post.associationName = assos.name
-        $scope.allPosts.push(post)
-        $scope.allPosts.sort(function(a, b){return new Date(a.date).getTime()-new Date(b.date).getTime()});
-        $scope.myPosts = $scope.allPosts
-      });
-    }
-  }, function(error) {
-      session.destroyCredentials()
-      $location.path('/login')
-  });
 
   $scope.onclick = function(post) {
       $location.path('/myPosts/' + post.ID)
    };
-
-   $scope.search= function(val) {
-     var results = $scope.allPosts
-     if(val.length >= 1) {
-       results = results.filter(function(post){
-         return post.title.toLowerCase().includes(val.toLowerCase()) || post.associationName.toLowerCase().includes(val.toLowerCase())
-       })
-     }
-     $scope.$apply(function () {
-       $scope.myPosts = results
-     });
-   }
-
 }]);
 */
