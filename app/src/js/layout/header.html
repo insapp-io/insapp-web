@@ -11,10 +11,18 @@
     </div>
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
       <ul show-authed="true" class="nav navbar-nav">
-        <li><a ui-sref="app.post">Mes posts</a></li>
-        <li><a ui-sref="">Mes événements</a></li>
-        <li><a ui-sref="">Mon association</a></li>
-        <li show-admin="true"><a ui-sref="">Utilisateurs</a></li>
+        <li>
+          <a ui-sref="app.postlist" ui-sref-active="active">Mes posts</a>
+        </li>
+        <li>
+          <a ui-sref="">Mes événements</a>
+        </li>
+        <li>
+          <a ui-sref="">Mon association</a>
+        </li>
+        <li show-admin="true">
+          <a ui-sref="">Utilisateurs</a>
+        </li>
         <li show-admin="true" class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation<span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -23,13 +31,17 @@
               <li><a ui-sref="">Posts</a></li>
           </ul>
         </li>
-        <li show-admin="true"><a ui-sref="">Créer une association</a></li>
+        <li show-admin="true">
+          <a ui-sref="">Créer une association</a>
+        </li>
       </ul>
       <ul show-authed="true" class="nav navbar-nav navbar-right">
-        <li><a ui-sref=""><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+        <li>
+          <a ui-sref=""><span class="glyphicon glyphicon-log-out"></span>Logout</a>
+        </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<div style="padding: 50px"></div>
+<div style="padding: 30px"></div>

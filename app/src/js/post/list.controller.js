@@ -1,11 +1,11 @@
 class PostListController {
-  constructor(Posts, User) {
+  constructor(Association, Posts) {
     'ngInject'
 
+    this._Association = Association
     this._Posts = Posts
-    this.currentUser = User.current
 
-    this.isAllSetUp = true
+    this.isAllSetUp = (this._Association.current.profile && this._Association.current.profile != '')
 
     this.runQuery()
   }
@@ -15,7 +15,7 @@ class PostListController {
 
     this._Posts
       .query({
-        association: this.currentUser.association
+        association: this._Association.current.ID
       })
       .then(
         (res) => {
@@ -27,13 +27,3 @@ class PostListController {
 }
 
 export default PostListController
-
-/*
-  $scope.isActive = function (viewLocation) {
-      return viewLocation === $location.path();
-  }
-
-  $scope.onclick = function(post) {
-      $location.path('/myPosts/' + post.ID)
-   }
-*/

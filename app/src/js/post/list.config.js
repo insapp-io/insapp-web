@@ -10,8 +10,8 @@ function PostListConfig($stateProvider) {
       auth: User => {
         return User.ensureAuthIs(true)
       },
-      association: auth => {
-
+      association: (auth, Association) => {
+        return Association.getCurrent()
       }
     }
   })
