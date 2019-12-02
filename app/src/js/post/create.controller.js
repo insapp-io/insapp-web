@@ -1,8 +1,10 @@
 class PostCreateController {
-  constructor(User) {
+  constructor(AppConstants, User, $window) {
     'ngInject'
 
-    this.currentUser = User.current
+    this._AppConstants = AppConstants
+    this._User = User
+    this.window = $window
 
     this.promotionNames = [
       "CDTI",
@@ -54,7 +56,7 @@ class PostCreateController {
 
     this.post = {
       title       : "",
-      association : this.currentUser.association,
+      association : this._User.current.association,
       description : "",
       image       : "",
       imageSize   : {},
@@ -68,7 +70,7 @@ class PostCreateController {
 
   isPromotion(key, str) {
     const lastIndex = key.lastIndexOf(str)
-    return (lastIndex == 1 && str.length == key.length-1)|| (lastIndex == 0 && str.length == key.length)
+    return (lastIndex == 1 && str.length == key.length-1) || (lastIndex == 0 && str.length == key.length)
   }
 
   select(promotion) {
@@ -121,6 +123,39 @@ class PostCreateController {
     if (this.post[field] && this.post[field].length && this.post[field].length > maxLength) {
       this.post[field] = this.post[field].substring(0, maxLength);
     }
+  }
+
+  removeFile() {
+    let preview = document.querySelector('#postImage')
+    preview.src = null
+
+    this.postImageFile = null
+  }
+
+  searchGif() {
+    this.window.open('http://giphy.com', '_blank')
+  }
+
+  uploadImage(file, fileName, completion) {
+    const uploadUrl = this._AppConstants.api + '/images' + (fileName && fileName.length > 10 ? "/" + fileName : "")
+
+    /*
+    $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
+      $loadingOverlay.hide()
+      console.log(success)
+      if(success){
+        completion(response)
+      }else{
+        $scope.removeFile()
+        ngDialog.open({
+            template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2><p>" + response + "</p>",
+            plain: true,
+            className: 'ngdialog-theme-default'
+        })
+      }
+    })
+    */
+   console.log(uploadUrl)
   }
 
   createPost() {
@@ -180,59 +215,3 @@ class PostCreateController {
 }
 
 export default PostCreateController
-
-/*
-  $scope.$watch('postImageFile', function() {
-    if ($scope.postImageFile){
-      var preview = document.querySelector('#postImage');
-      var file    = $scope.postImageFile
-      var reader  = new FileReader();
-
-      $("#postImage").on('load',function(){
-        $scope.uploadImage($scope.postImageFile, null, function(response) {
-          console.log(response)
-          $scope.currentPost.image = response.file
-          $scope.currentPost.imageSize = response.size
-        })
-      });
-
-      reader.onloadend = function () {
-        preview.src = reader.result
-      }
-
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    }
-  });
-
-  $scope.removeFile = function(){
-    var preview = document.querySelector('#postImage');
-    preview.src = null
-    $scope.postImageFile = null
-  }
-
-  $scope.searchGif = function(){
-      $window.open('http://giphy.com', '_blank');
-  }
-
-  $scope.uploadImage = function (file, fileName, completion) {
-    $loadingOverlay.show()
-    $("html, body").animate({ scrollTop: 0 }, "slow");
-    var uploadUrl = configuration.api + '/images' + (fileName && fileName.length > 10 ? "/" + fileName : "");
-    $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
-      $loadingOverlay.hide()
-      console.log(success)
-      if(success){
-        completion(response)
-      }else{
-        $scope.removeFile()
-        ngDialog.open({
-            template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2><p>" + response + "</p>",
-            plain: true,
-            className: 'ngdialog-theme-default'
-        });
-      }
-    });
-  }
-*/
