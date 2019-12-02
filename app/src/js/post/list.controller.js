@@ -29,18 +29,11 @@ class PostListController {
 export default PostListController
 
 /*
-app.controller('MyPosts', ['$scope', '$resource', '$location', 'session', 'configuration', function($scope, $resource, $location, session, configuration) {
-  var Association = $resource(configuration.api + '/associations/:id');
-  var Post = $resource(configuration.api + '/posts/:id');
-
   $scope.isActive = function (viewLocation) {
       return viewLocation === $location.path();
-  };
-
-  $scope.isAllSetUp = false
+  }
 
   $scope.onclick = function(post) {
       $location.path('/myPosts/' + post.ID)
-   };
-}]);
+   }
 */

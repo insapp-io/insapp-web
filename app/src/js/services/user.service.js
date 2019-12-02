@@ -46,7 +46,6 @@ export default class User {
       )
     }
     
-    deferred.resolve(true)
     return deferred.promise
   }
   

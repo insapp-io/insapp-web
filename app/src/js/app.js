@@ -71,7 +71,7 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
     }
   })
 
-  $urlRouterProvider.otherwise('/login')
+  $urlRouterProvider.otherwise('/')
 }
 
 function AppRun(AppConstants, $rootScope) {

@@ -9,6 +9,9 @@ function PostListConfig($stateProvider) {
     resolve: {
       auth: User => {
         return User.ensureAuthIs(true)
+      },
+      association: auth => {
+
       }
     }
   })
