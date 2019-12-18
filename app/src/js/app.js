@@ -33,7 +33,8 @@ const requires = [
   'app.components',
   'app.auth',
   'app.postcreate',
-  'app.postlist'
+  'app.postlist',
+  'app.postview'
 ]
 
 let app = angular.module('app', requires)

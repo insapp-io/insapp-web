@@ -1,13 +1,23 @@
 function PostViewConfig($stateProvider) {
-    'ngInject'
+  'ngInject'
   
-    $stateProvider.state('app.post.view', {
-      url: '/myPosts/:id',
-      controller: 'PostController',
-      controllerAs: '$controller',
-      templateUrl: '/post/view.html',
-      title: 'Mon post'
-    })
-  }
-  
-  export default PostViewConfig
+  $stateProvider.state('app.postview', {
+    url: '/post/:id',
+    controller: 'PostViewController as $controller',
+    templateUrl: '/post/view.html',
+    title: 'Mon post',
+    resolve: {
+      auth: User => {
+        return User.ensureAuthIs(true)
+      },
+      post: (Posts, $state, $stateParams) => {
+        return Posts.get($stateParams.id).then(
+          post => post,
+          err => $state.go('app.postlist')
+        )
+      }
+    }
+  })
+}
+
+export default PostViewConfig

@@ -1,113 +1,129 @@
-class PostController {
-  constructor(post, $rootScope) {
+class PostViewController {
+  constructor(AppConstants, User, Posts, Upload, $window, $state, post) {
     'ngInject'
 
-    this.post = post
+    this._AppConstants = AppConstants
+    this._User = User
+    this._Posts = Posts
+    this._Upload = Upload
+    this._window = $window
+    this._state = $state
 
-    $rootScope.setPageTitle(this.post.title)
+    this.promotionNames = [
+      "CDTI",
+      "EII",
+      "GM",
+      "GMA",
+      "GCU",
+      "INFO",
+      "SGM",
+      "SRC",
+      "STPI",
+      "STAFF"
+    ]
+    
+    this.promotions = {
+      "1STPI": true,
+      "2STPI": true,
+      "3CDTI": true,
+      "4CDTI": true,
+      "5CDTI": true,
+      "3EII": true,
+      "4EII": true,
+      "5EII": true,
+      "3GM": true,
+      "4GM": true,
+      "5GM": true,
+      "3GMA": true,
+      "4GMA": true,
+      "5GMA": true,
+      "3GCU": true,
+      "4GCU": true,
+      "5GCU": true,
+      "3INFO": true,
+      "4INFO": true,
+      "5INFO": true,
+      "3SGM": true,
+      "4SGM": true,
+      "5SGM": true,
+      "3SRC": true,
+      "4SRC": true,
+      "5SRC": true,
+      "STAFF": true
+    }
+
+    this.plateforms = {
+      "android": true,
+      "iOS": true,
+    }
+
+    this.post = {
+      ...post,
+      imageUrl: this._AppConstants.cdn + '' + post.image
+    }
   }
-}
 
-export default PostController
-
-/*
-app.controller('MyPostsReader', ['$scope', '$resource', '$routeParams', 'session', '$location', 'ngDialog', 'configuration', function($scope, $resource, $routeParams, session, $location, ngDialog, configuration) {
-  var Post = $resource(configuration.api + '/posts/:id', null, { 'update': { method:'PUT' }});
-  var Comment = $resource(configuration.api + '/posts/:id/comment/:commentId');
-
-  $scope.master = (session.getMaster() == 'true')
-
-  $scope.isActive = function (viewLocation) {
-    return viewLocation === "myPosts";
-  };
-
-  String.prototype.isPromotion = function(str){
-    var lastIndex = this.lastIndexOf(str);
-    return (lastIndex == 1 && str.length == this.length-1) || (lastIndex == 0 && str.length == this.length)
+  isPromotion(key, str) {
+    const lastIndex = key.lastIndexOf(str)
+    return (lastIndex == 1 && str.length == key.length-1) || (lastIndex == 0 && str.length == key.length)
   }
 
-  $scope.promotionNames = ["CDTI", "EII", "GM", "GMA", "GCU", "INFO", "SGM", "SRC", "STPI", "STAFF"]
-  $scope.showAdvancedSettings = false
-  $scope.promotions = {
-    "1STPI": true,
-    "2STPI": true,
-    "3CDTI": true,
-    "4CDTI": true,
-    "5CDTI": true,
-    "3EII": true,
-    "4EII": true,
-    "5EII": true,
-    "3GM": true,
-    "4GM": true,
-    "5GM": true,
-    "3GMA": true,
-    "4GMA": true,
-    "5GMA": true,
-    "3GCU": true,
-    "4GCU": true,
-    "5GCU": true,
-    "3INFO": true,
-    "4INFO": true,
-    "5INFO": true,
-    "3SGM": true,
-    "4SGM": true,
-    "5SGM": true,
-    "3SRC": true,
-    "4SRC": true,
-    "5SRC": true,
-    "STAFF": true
-  }
-
-  $scope.plateforms = {
-    "android": true,
-    "iOS": true,
-  }
-
-  $scope.select = function(promotion) {
-    Object.keys($scope.promotions).forEach(function (key) {
-      if (key.isPromotion(promotion)) {
-          $scope.promotions[key] = true
+  select(promotion) {
+    Object.keys(this.promotions).forEach(key => {
+      if (this.isPromotion(key, promotion)) {
+        this.promotions[key] = true
       }
     })
   }
 
-  $scope.deselect = function(promotion) {
-    Object.keys($scope.promotions).forEach(function (key) {
-        if (key.isPromotion(promotion)) {
-            $scope.promotions[key] = false
-        }
+  deselect(promotion) {
+    Object.keys(this.promotions).forEach(key => {
+      if (this.isPromotion(key, promotion)) {
+        this.promotions[key] = false
+      }
     })
   }
 
-  $scope.selectYear = function(year){
-    // year equals 1, 2 or 3
-    Object.keys($scope.promotions).forEach(function (key) {
-        if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
-            $scope.promotions[key] = true
-        }
+  selectYear(year) {
+    // year equals 1, 2, or 3
+    Object.keys(this.promotions).forEach(key => {
+      if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
+        this.promotions[key] = true
+      }
     })
   }
 
-  $scope.deselectYear = function(year){
-    // year equals 1, 2 or 3
-    Object.keys($scope.promotions).forEach(function (key) {
-        if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
-            $scope.promotions[key] = false
-        }
+  deselectYear(year) {
+    // year equals 1, 2, or 3
+    Object.keys(this.promotions).forEach(key => {
+      if ((key.includes(year) && year != 3) || key.includes(year+2) || (year == 1 && key == "STAFF")) {
+        this.promotions[key] = false
+      }
     })
   }
 
-  $scope.selectAllPromo = function(selected) {
-    Object.keys($scope.promotions).forEach(function (key) {
-      $scope.promotions[key] = selected
+  selectAllPromo(selected) {
+    Object.keys(this.promotions).forEach(key => {
+      this.promotions[key] = selected
     })
   }
 
-  $scope.invertPromo = function() {
-    Object.keys($scope.promotions).forEach(function (key) {
-      $scope.promotions[key] = !$scope.promotions[key]
+  invertPromo() {
+    Object.keys(this.promotions).forEach(key => {
+      this.promotions[key] = !this.promotions[key]
     })
   }
+
+  monitorLength(field, maxLength) {
+    if (this.post[field] && this.post[field].length && this.post[field].length > maxLength) {
+      this.post[field] = this.post[field].substring(0, maxLength);
+    }
+  }
+}
+
+export default PostViewController
+
+/*
 
   Post.get({id:$routeParams.id}, function(post) {
     post.nbLikes = (post.likes != null ? post.likes.length : 0)
