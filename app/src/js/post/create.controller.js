@@ -1,9 +1,10 @@
 class PostCreateController {
-  constructor(AppConstants, User, $window) {
+  constructor(AppConstants, User, Upload, $window) {
     'ngInject'
 
     this._AppConstants = AppConstants
     this._User = User
+    this._Upload = Upload
     this.window = $window
 
     this.promotionNames = [
@@ -64,7 +65,7 @@ class PostCreateController {
       plateforms  : [],
       promotions  : [],
       likes       : [],
-      enableNotification: true
+      nonotification: false
     }
   }
 
@@ -126,91 +127,46 @@ class PostCreateController {
   }
 
   removeFile() {
-    let preview = document.querySelector('#postImage')
-    preview.src = null
-
-    this.postImageFile = null
+    
   }
 
   searchGif() {
     this.window.open('http://giphy.com', '_blank')
   }
 
-  uploadImage(file, fileName, completion) {
-    const uploadUrl = this._AppConstants.api + '/images' + (fileName && fileName.length > 10 ? "/" + fileName : "")
+  upload(file) {
+    const uploadUrl = this._AppConstants.api + '/images'
 
-    /*
-    $scope.promise = fileUpload.uploadFileToUrl(file, uploadUrl, function(success, response){
-      $loadingOverlay.hide()
-      console.log(success)
-      if(success){
-        completion(response)
-      }else{
-        $scope.removeFile()
-        ngDialog.open({
-            template: "<h2 style='text-align:center;'>Une erreur s'est produite :/</h2><p>" + response + "</p>",
-            plain: true,
-            className: 'ngdialog-theme-default'
-        })
+    this._Upload.upload({
+      url: uploadUrl,
+      data: {
+        file
       }
+    }).then(res => {
+      this.post.image = res.data.file
+      this.post.imageSize = res.data.size
+      //console.log('Success ' + res.config.data.file.name + 'uploaded')
+      //console.log('Response: ' + JSON.stringify(res.data))
+    }, res => {
+      console.log('Error status: ' + res.status)
     })
-    */
-   console.log(uploadUrl)
   }
 
   createPost() {
-    this.post.nonotification = !this.post.enableNotification
-
-    let promotions = Object.keys($scope.promotions).filter(promotion => {
+    const promotions = Object.keys(this.promotions).filter(promotion => {
       return this.promotions[promotion]
     })
 
     this.post.promotions = []
-    for (i in promotions) {
-      promotion = promotions[i]
+    for (const promotion of promotions) {
       this.post.promotions.push(promotion.toUpperCase())
     }
 
-    this.post.plateforms = Object.keys($scope.plateforms).filter(plateform => {
+    this.post.plateforms = Object.keys(this.plateforms).filter(plateform => {
       return this.plateforms[plateform]
     })
 
-    if (this.post.plateforms.length == 0 || this.post.promotions.length == 0) {
-      ngDialog.open({
-        template: "<h2 style='text-align:center;'>Choisis au moins 1 promotion et 1 plateforme</h2>",
-        plain: true,
-        className: 'ngdialog-theme-default'
-      })
-      return
-    }
-
-    /*
-    $loadingOverlay.show()
-    $("html, body").animate({ scrollTop: 0 }, "slow")
-
-    Post.save({}, this.currentPost, post => {
-      ngDialog.open({
-        template: "<h2 style='text-align:center;'>Le post a bien été créé</h2>",
-        plain: true,
-        className: 'ngdialog-theme-default'
-      })
-      $loadingOverlay.hide()
-      $scope.currentPost = post
-      $location.path('/myPosts')
-    }, function(error) {
-      displayError = error.status + " " + error.statusText
-      if(error.data.error){
-        displayError += " -- " + error.data.error
-      }
-
-      ngDialog.open({
-        template: "<h3 style='text-align:center;'>Une erreur est survenue :\n" + displayError + "</h3>",
-        plain: true,
-        className: 'ngdialog-theme-default'
-      })
-      $loadingOverlay.hide()
-    })
-    */
+    console.log(JSON.stringify(this.post))
   }
 }
 
