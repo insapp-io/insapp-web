@@ -21,6 +21,16 @@ export default class Posts {
       url
     }
 
-    return this._$http(request).then((res) => res.data)
+    return this._$http(request).then(res => res.data)
+  }
+
+  save(post) {
+    const request = {
+      method: 'POST',
+      url: this._AppConstants.api + '/posts',
+      data: post
+    }
+
+    return this._$http(request).then(res => res.data)
   }
 }

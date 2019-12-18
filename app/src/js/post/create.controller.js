@@ -1,11 +1,13 @@
 class PostCreateController {
-  constructor(AppConstants, User, Upload, $window) {
+  constructor(AppConstants, User, Posts, Upload, $window, $state) {
     'ngInject'
 
     this._AppConstants = AppConstants
     this._User = User
+    this._Posts = Posts
     this._Upload = Upload
-    this.window = $window
+    this._window = $window
+    this._state = $state
 
     this.promotionNames = [
       "CDTI",
@@ -131,7 +133,7 @@ class PostCreateController {
   }
 
   searchGif() {
-    this.window.open('http://giphy.com', '_blank')
+    this._window.open('http://giphy.com', '_blank')
   }
 
   upload(file) {
@@ -166,7 +168,9 @@ class PostCreateController {
       return this.plateforms[plateform]
     })
 
-    console.log(JSON.stringify(this.post))
+    this._Posts.save(this.post).then(post => {
+      this._state.go('app.postlist')
+    })
   }
 }
 
