@@ -61,6 +61,10 @@ class PostViewController {
       ...post,
       imageUrl: this._AppConstants.cdn + '' + post.image
     }
+
+    for (const promotion of Object.keys(this.promotions)) {
+      this.promotions[promotion] = this.post.promotions.includes(promotion.toUpperCase())
+    }
   }
 
   isPromotion(key, str) {
@@ -124,33 +128,6 @@ class PostViewController {
 export default PostViewController
 
 /*
-
-  Post.get({id:$routeParams.id}, function(post) {
-    post.nbLikes = (post.likes != null ? post.likes.length : 0)
-    post.nbComments = (post.comments != null ? post.comments.length : 0)
-      $scope.currentPost = post
-      $scope.currentPost.imageUrl = configuration.cdn + post.image
-      $scope.currentPost.enableNotification = !$scope.currentPost.nonotification
-
-      for (promo in $scope.promotions) {
-          $scope.promotions[promo] = $scope.currentPost.promotions.includes(promo.toUpperCase())
-      }
-
-      for (plateform in $scope.plateforms) {
-          $scope.plateforms[plateform] = $scope.currentPost.plateforms.includes(plateform)
-      }
-
-    }, function(error) {
-        session.destroyCredentials()
-        $location.path('/login')
-    });
-
-  $scope.monitorLength = function (field, maxLength) {
-    if ($scope.currentPost[field] && $scope.currentPost[field].length && $scope.currentPost[field].length > maxLength) {
-      $scope.currentPost[field] = $scope.currentPost[field].substring(0, maxLength);
-    }
-  }
-
   $scope.deleteComment = function(commentId) {
     Comment.remove({id:$scope.currentPost.ID, commentId: commentId}, function(post) {
         post.nbLikes = (post.likes != null ? post.likes.length : 0)
