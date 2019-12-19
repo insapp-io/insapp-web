@@ -62,8 +62,11 @@ class PostViewController {
       imageUrl: this._AppConstants.cdn + '' + post.image
     }
 
-    for (const promotion of Object.keys(this.promotions)) {
-      this.promotions[promotion] = this.post.promotions.includes(promotion.toUpperCase())
+    // legacy posts don't contain this field
+    if (this.post.promotions) {
+      for (const promotion of Object.keys(this.promotions)) {
+        this.promotions[promotion] = this.post.promotions.includes(promotion.toUpperCase())
+      }
     }
   }
 
