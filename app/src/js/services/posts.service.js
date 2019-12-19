@@ -39,12 +39,35 @@ export default class Posts {
   }
 
   save(post) {
-    const request = {
-      method: 'POST',
-      url: this._AppConstants.api + '/posts',
-      data: post
+    let request = {}
+
+    if (post.ID) {
+      request.url = `${this._AppConstants.api}/posts/${post.ID}`
+      request.method = 'PUT'
+
+      delete post.imageUrl
+      delete post.ID
+    } else {
+      request.url = `${this._AppConstants.api}/posts`
+      request.method = 'POST'
     }
 
+    request.data = post
+
     return this._$http(request).then(res => res.data)
+  }
+
+  delete(post) {
+    let deferred = this._$q.defer()
+
+    this._$http({
+      url: `${this._AppConstants.api}/posts/${post.ID}`,
+      method: 'DELETE'
+    }).then(
+      res => deferred.resolve(res.data),
+      err => deferred.reject(err)
+    )
+
+    return deferred.promise
   }
 }

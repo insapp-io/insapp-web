@@ -123,6 +123,33 @@ class PostViewController {
       this.post[field] = this.post[field].substring(0, maxLength);
     }
   }
+
+  updatePost() {
+    const promotions = Object.keys(this.promotions).filter(promotion => {
+      return this.promotions[promotion]
+    })
+
+    this.post.promotions = []
+    for (const promotion of promotions) {
+      this.post.promotions.push(promotion.toUpperCase())
+    }
+
+    this.post.plateforms = Object.keys(this.plateforms).filter(plateform => {
+      return this.plateforms[plateform]
+    })
+
+    console.log(JSON.stringify(this.post))
+
+    this._Posts.save(this.post).then(post => {
+      this._state.go('app.postlist')
+    })
+  }
+
+  deletePost() {
+    this._Posts.delete(this.post).then(post => {
+      this._state.go('app.postlist')
+    })
+  }
 }
 
 export default PostViewController
@@ -145,57 +172,4 @@ export default PostViewController
         $location.path('/login')
     });
   }
-
-  $scope.updatePost = function() {
-
-    $scope.currentPost.nonotification = !$scope.currentPost.enableNotification
-
-    var promotions = Object.keys($scope.promotions).filter(function(promotion) {
-      return $scope.promotions[promotion]
-    })
-
-    $scope.currentPost.promotions = []
-    for (i in promotions) {
-      var promotion = promotions[i]
-      $scope.currentPost.promotions.push(promotion.toUpperCase())
-    }
-
-    $scope.currentPost.plateforms = Object.keys($scope.plateforms).filter(function(plateform){
-      return $scope.plateforms[plateform]
-    })
-
-    if ($scope.currentPost.plateforms.length == 0 || $scope.currentPost.promotions.length == 0) {
-        ngDialog.open({
-            template: "<h2 style='text-align:center;'>Choisis au moins 1 promotion et 1 plateforme</h2>",
-            plain: true,
-            className: 'ngdialog-theme-default'
-        });
-        return
-    }
-    Post.update({id:$scope.currentPost.ID}, $scope.currentPost, function(post) {
-      ngDialog.open({
-          template: "<h2 style='text-align:center;'>Le post a été mis à jour</h2>",
-          plain: true,
-          className: 'ngdialog-theme-default'
-      });
-    }, function(error) {
-        session.destroyCredentials()
-        $location.path('/login')
-    });
-  }
-
-  $scope.deletePost = function() {
-    Post.remove({id:$scope.currentPost.ID}, function(post) {
-      ngDialog.open({
-          template: "<h2 style='text-align:center;'>Le post a été supprimé</h2>",
-          plain: true,
-          className: 'ngdialog-theme-default'
-      });
-      $location.path('/myPosts')
-    }, function(error) {
-        session.destroyCredentials()
-        $location.path('/login')
-    });
-  }
-}]);
 */
