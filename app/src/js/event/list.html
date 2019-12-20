@@ -1,0 +1,73 @@
+<div style="padding: 30px">
+  <div ng-show="!$controller.isAllSetUp">
+    <h2 style="text-align:center; color:#AAA">Personnalise ta page association avant de créer un évènement 🙂</h2>
+  </div>
+
+  <div ng-show="$controller.isAllSetUp">
+    <a ui-sref="app.eventcreate">
+      <button class="btn btn-success" style="margin-bottom: 10px">Créer un évènement</button>
+    </a>
+
+    <div ng-show="$controller.loading">
+      <div class="article-preview">
+        <h2 style="text-align:center; color:#AAA">Chargements des évènements en cours...</h2>
+      </div>
+    </div>
+
+    <div ng-show="!$controller.loading">
+      <div ng-show="!$controller.list.length">
+        <h2 style="text-align:center; color:#AAA">Il n'y a aucun évènement, crées-en un vite 🙂</h2>
+      </div>
+
+      <div ng-show="$controller.list.length">
+        <label>Rechercher : <input ng-model="searchText" style="margin-bottom: 10px"></label>
+    
+        <h3>Évènements à venir</h3>
+    
+        <table class="table table-striped table-hover">
+          <tr>
+            <th>Nom</th>
+            <th>Début</th>
+            <th>Fin</th>
+            <th>J'y vais</th>
+            <th>Peut-être</th>
+            <th>J'y vais pas</th>
+            <th>Commentaires</th>
+          </tr>
+          <tr ng-repeat="event in myEvents" ng-click='onclick(event)'>
+            <td style="vertical-align: middle"> {{ event.name }} </td>
+            <td style="vertical-align: middle"> {{ event.dateStart | date:'yyyy-MM-dd HH:mm' }} </td>
+            <td style="vertical-align: middle"> {{ event.dateEnd | date:'yyyy-MM-dd HH:mm' }} </td>
+            <td style="vertical-align: middle"> {{ event.nbParticipant }} </td>
+            <td style="vertical-align: middle"> {{ event.nbMaybe }} </td>
+            <td style="vertical-align: middle"> {{ event.nbNotgoing }} </td>
+            <td style="vertical-align: middle"> {{ event.nbComments }} </td>
+          </tr>
+        </table>
+    
+        <h3>Évènements passés</h3>
+    
+        <table class="table table-striped table-hover">
+          <tr>
+            <th>Nom</th>
+            <th>Début</th>
+            <th>Fin</th>
+            <th>J'y vais</th>
+            <th>Peut-être</th>
+            <th>J'y vais pas</th>
+            <th>Commentaires</th>
+          </tr>
+          <tr ng-repeat="event in pastEvents" ng-click='onclick(event)'>
+            <td style="vertical-align: middle"> {{ event.name }} </td>
+            <td style="vertical-align: middle"> {{ event.dateStart | date:'yyyy-MM-dd HH:mm' }} </td>
+            <td style="vertical-align: middle"> {{ event.dateEnd | date:'yyyy-MM-dd HH:mm' }} </td>
+            <td style="vertical-align: middle"> {{ event.nbParticipant }} </td>
+            <td style="vertical-align: middle"> {{ event.nbMaybe }} </td>
+            <td style="vertical-align: middle"> {{ event.nbNotgoing }} </td>
+            <td style="vertical-align: middle"> {{ event.nbComments }} </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,6 +11,9 @@ servicesModule.service('Association', AssociationService)
 import PostsService from './posts.service'
 servicesModule.service('Posts', PostsService)
 
+import EventsService from './events.service'
+servicesModule.service('Events', EventsService)
+
 import CommentsService from './comments.service'
 servicesModule.service('Comments', CommentsService)
 

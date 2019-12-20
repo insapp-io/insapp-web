@@ -58,7 +58,7 @@ class PostViewController {
       "iOS": true,
     }
 
-    this.post = sanitize(post)
+    this.post = this.sanitize(post)
   }
 
   sanitize(post) {
@@ -68,9 +68,9 @@ class PostViewController {
     }
 
     // legacy posts don't contain this field
-    if (this.post.promotions) {
+    if (post.promotions) {
       for (const promotion of Object.keys(this.promotions)) {
-        this.promotions[promotion] = this.post.promotions.includes(promotion.toUpperCase())
+        this.promotions[promotion] = post.promotions.includes(promotion.toUpperCase())
       }
     }
 

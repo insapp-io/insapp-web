@@ -10,9 +10,6 @@ export default class Comments {
   delete(post, comment) {
     let deferred = this._$q.defer()
 
-    console.log(JSON.stringify(post))
-    console.log(JSON.stringify(comment))
-
     this._$http({
       url: `${this._AppConstants.api}/posts/${post.ID}/comment/${comment.ID}`,
       method: 'DELETE'
