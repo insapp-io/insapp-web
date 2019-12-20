@@ -1,6 +1,5 @@
 import angular from 'angular'
 
-// Create the module where our functionality can attach to
 let servicesModule = angular.module('app.services', [])
 
 import UserService from './user.service'
@@ -11,5 +10,8 @@ servicesModule.service('Association', AssociationService)
 
 import PostsService from './posts.service'
 servicesModule.service('Posts', PostsService)
+
+import CommentsService from './comments.service'
+servicesModule.service('Comments', CommentsService)
 
 export default servicesModule

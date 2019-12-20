@@ -117,7 +117,7 @@
           <tr ng-repeat="comment in $controller.post.comments">
             <td>{{ comment.content }}</td>
             <td>{{ comment.date | date: 'yyyy-MM-dd HH:mm' }}</td>
-            <td><button class="btn btn-danger" ng-click="$controller.deleteComment(comment.ID)">Supprimer</button></td>
+            <td><button class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer ce commentaire?" confirmed-click="$controller.deleteComment($controller.post, comment)">Supprimer</button></td>
           </tr>
         </table>
       </div>

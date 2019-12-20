@@ -1,10 +1,11 @@
 class PostViewController {
-  constructor(AppConstants, User, Posts, Upload, $window, $state, post) {
+  constructor(AppConstants, User, Posts, Comments, Upload, $window, $state, post) {
     'ngInject'
 
     this._AppConstants = AppConstants
     this._User = User
     this._Posts = Posts
+    this._Comments = Comments
     this._Upload = Upload
     this._window = $window
     this._state = $state
@@ -57,7 +58,11 @@ class PostViewController {
       "iOS": true,
     }
 
-    this.post = {
+    this.post = sanitize(post)
+  }
+
+  sanitize(post) {
+    post = {
       ...post,
       imageUrl: this._AppConstants.cdn + '' + post.image
     }
@@ -68,6 +73,8 @@ class PostViewController {
         this.promotions[promotion] = this.post.promotions.includes(promotion.toUpperCase())
       }
     }
+
+    return post
   }
 
   isPromotion(key, str) {
@@ -141,8 +148,6 @@ class PostViewController {
       return this.plateforms[plateform]
     })
 
-    console.log(JSON.stringify(this.post))
-
     this._Posts.save(this.post).then(post => {
       this._state.go('app.postlist')
     })
@@ -153,26 +158,12 @@ class PostViewController {
       this._state.go('app.postlist')
     })
   }
+
+  deleteComment(post, comment) {
+    this._Comments.delete(post, comment).then(post => {
+      this.post = sanitize(post)
+    })
+  }
 }
 
 export default PostViewController
-
-/*
-  $scope.deleteComment = function(commentId) {
-    Comment.remove({id:$scope.currentPost.ID, commentId: commentId}, function(post) {
-        post.nbLikes = (post.likes != null ? post.likes.length : 0)
-        post.nbComments = (post.comments != null ? post.comments.length : 0)
-        post.image = configuration.cdn + post.photourl
-        $scope.currentPost = post
-        $scope.currentPost.enableNotification = !$scope.currentPost.nonotification
-      ngDialog.open({
-          template: "<h2 style='text-align:center;'>Le commentaire a été supprimé</h2>",
-          plain: true,
-          className: 'ngdialog-theme-default'
-      });
-    }, function(error) {
-        session.destroyCredentials()
-        $location.path('/login')
-    });
-  }
-*/
