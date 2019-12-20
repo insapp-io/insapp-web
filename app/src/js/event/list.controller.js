@@ -6,6 +6,9 @@ class EventListController {
       this._Events = Events
   
       this.isAllSetUp = (this._Association.current.profile && this._Association.current.profile != '')
+
+      this.allEvents = []
+      this.allPastEvents = []
   
       this.runQuery()
     }
@@ -19,8 +22,30 @@ class EventListController {
         })
         .then(
           (res) => {
-            this.loading = false
             this.list = res
+
+            let allPastEvents = []
+            let allEvents = []
+
+            for (const event of this.list) {              
+              if (new Date(event.dateEnd).getTime() >= new Date().getTime()) {
+                allEvents.push(event)
+              } else {
+                allPastEvents.push(event)
+              }
+
+              allEvents.sort((a, b) => {
+                return new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime()
+              })
+              allPastEvents.sort((a, b) => {
+                return new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime()
+              })
+            }
+
+            this.events = allEvents
+            this.pastEvents = allPastEvents
+
+            this.loading = false
           }
         )
     }

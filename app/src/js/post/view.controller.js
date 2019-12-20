@@ -64,7 +64,7 @@ class PostViewController {
   sanitize(post) {
     post = {
       ...post,
-      imageUrl: this._AppConstants.cdn + '' + post.image
+      imageUrl: this._AppConstants.cdn + post.image
     }
 
     // legacy posts don't contain this field

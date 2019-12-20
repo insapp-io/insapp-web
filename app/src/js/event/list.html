@@ -34,14 +34,14 @@
             <th>J'y vais pas</th>
             <th>Commentaires</th>
           </tr>
-          <tr ng-repeat="event in myEvents" ng-click='onclick(event)'>
+          <tr ng-repeat="event in $controller.events | filter: searchText">
             <td style="vertical-align: middle"> {{ event.name }} </td>
-            <td style="vertical-align: middle"> {{ event.dateStart | date:'yyyy-MM-dd HH:mm' }} </td>
-            <td style="vertical-align: middle"> {{ event.dateEnd | date:'yyyy-MM-dd HH:mm' }} </td>
-            <td style="vertical-align: middle"> {{ event.nbParticipant }} </td>
-            <td style="vertical-align: middle"> {{ event.nbMaybe }} </td>
-            <td style="vertical-align: middle"> {{ event.nbNotgoing }} </td>
-            <td style="vertical-align: middle"> {{ event.nbComments }} </td>
+            <td style="vertical-align: middle"> {{ event.dateStart | date: 'dd/MM/yyyy HH:mm' }} </td>
+            <td style="vertical-align: middle"> {{ event.dateEnd | date: 'dd/MM/yyyy HH:mm' }} </td>
+            <td style="vertical-align: middle"> {{ event.participants.length }} </td>
+            <td style="vertical-align: middle"> {{ event.maybe.length }} </td>
+            <td style="vertical-align: middle"> {{ event.notgoing.length }} </td>
+            <td style="vertical-align: middle"> {{ event.comments.length }} </td>
           </tr>
         </table>
     
@@ -57,14 +57,14 @@
             <th>J'y vais pas</th>
             <th>Commentaires</th>
           </tr>
-          <tr ng-repeat="event in pastEvents" ng-click='onclick(event)'>
+          <tr ng-repeat="event in $controller.pastEvents | filter: searchText">
             <td style="vertical-align: middle"> {{ event.name }} </td>
-            <td style="vertical-align: middle"> {{ event.dateStart | date:'yyyy-MM-dd HH:mm' }} </td>
-            <td style="vertical-align: middle"> {{ event.dateEnd | date:'yyyy-MM-dd HH:mm' }} </td>
-            <td style="vertical-align: middle"> {{ event.nbParticipant }} </td>
-            <td style="vertical-align: middle"> {{ event.nbMaybe }} </td>
-            <td style="vertical-align: middle"> {{ event.nbNotgoing }} </td>
-            <td style="vertical-align: middle"> {{ event.nbComments }} </td>
+            <td style="vertical-align: middle"> {{ event.dateStart | date: 'dd/MM/yyyy HH:mm' }} </td>
+            <td style="vertical-align: middle"> {{ event.dateEnd | date: 'dd/MM/yyyy HH:mm' }} </td>
+            <td style="vertical-align: middle"> {{ event.participants.length }} </td>
+            <td style="vertical-align: middle"> {{ event.maybe.length }} </td>
+            <td style="vertical-align: middle"> {{ event.notgoing.length }} </td>
+            <td style="vertical-align: middle"> {{ event.comments.length }} </td>
           </tr>
         </table>
       </div>

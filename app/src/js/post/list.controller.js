@@ -19,8 +19,8 @@ class PostListController {
       })
       .then(
         (res) => {
-          this.loading = false
           this.list = res
+          this.loading = false
         }
       )
   }
