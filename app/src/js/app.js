@@ -36,7 +36,8 @@ const requires = [
   'app.postlist',
   'app.postcreate',
   'app.postview',
-  'app.eventlist'
+  'app.eventlist',
+  'app.eventcreate'
 ]
 
 let app = angular.module('app', requires)
