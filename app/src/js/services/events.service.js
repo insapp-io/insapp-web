@@ -38,30 +38,30 @@ export default class Events {
     return deferred.promise
   }
 
-  save(post) {
+  save(event) {
     let request = {}
 
-    if (post.ID) {
-      request.url = `${this._AppConstants.api}/events/${post.ID}`
+    if (event.ID) {
+      request.url = `${this._AppConstants.api}/events/${event.ID}`
       request.method = 'PUT'
 
-      delete post.imageUrl
-      delete post.ID
+      delete event.imageUrl
+      delete event.ID
     } else {
       request.url = `${this._AppConstants.api}/events`
       request.method = 'POST'
     }
 
-    request.data = post
+    request.data = event
 
     return this._$http(request).then(res => res.data)
   }
 
-  delete(post) {
+  delete(event) {
     let deferred = this._$q.defer()
 
     this._$http({
-      url: `${this._AppConstants.api}/events/${post.ID}`,
+      url: `${this._AppConstants.api}/events/${event.ID}`,
       method: 'DELETE'
     }).then(
       res => deferred.resolve(res.data),

@@ -33,15 +33,17 @@
             <th>Peut-être</th>
             <th>J'y vais pas</th>
             <th>Commentaires</th>
+            <th>Actions</th>
           </tr>
           <tr ng-repeat="event in $controller.events | filter: searchText">
-            <td style="vertical-align: middle"> {{ event.name }} </td>
-            <td style="vertical-align: middle"> {{ event.dateStart | date: 'dd/MM/yyyy HH:mm' }} </td>
-            <td style="vertical-align: middle"> {{ event.dateEnd | date: 'dd/MM/yyyy HH:mm' }} </td>
-            <td style="vertical-align: middle"> {{ event.participants.length || 0 }} </td>
-            <td style="vertical-align: middle"> {{ event.maybe.length || 0 }} </td>
-            <td style="vertical-align: middle"> {{ event.notgoing.length || 0 }} </td>
-            <td style="vertical-align: middle"> {{ event.comments.length }} </td>
+            <td>{{ event.name }}</td>
+            <td>{{ event.dateStart | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ event.dateEnd | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ event.participants.length || 0 }}</td>
+            <td>{{ event.maybe.length || 0 }}</td>
+            <td>{{ event.notgoing.length || 0 }}</td>
+            <td>{{ event.comments.length }}</td>
+            <td><a ui-sref="app.eventview({ id: event.ID})"><button class="btn btn-info">Modifier</button></a></td>
           </tr>
         </table>
     
@@ -56,15 +58,17 @@
             <th>Peut-être</th>
             <th>J'y vais pas</th>
             <th>Commentaires</th>
+            <th>Actions</th>
           </tr>
           <tr ng-repeat="event in $controller.pastEvents | filter: searchText">
-            <td style="vertical-align: middle"> {{ event.name }} </td>
-            <td style="vertical-align: middle"> {{ event.dateStart | date: 'dd/MM/yyyy HH:mm' }} </td>
-            <td style="vertical-align: middle"> {{ event.dateEnd | date: 'dd/MM/yyyy HH:mm' }} </td>
-            <td style="vertical-align: middle"> {{ event.participants.length || 0 }} </td>
-            <td style="vertical-align: middle"> {{ event.maybe.length || 0 }} </td>
-            <td style="vertical-align: middle"> {{ event.notgoing.length || 0 }} </td>
-            <td style="vertical-align: middle"> {{ event.comments.length }} </td>
+            <td>{{ event.name }}</td>
+            <td>{{ event.dateStart | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ event.dateEnd | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ event.participants.length || 0 }}</td>
+            <td>{{ event.maybe.length || 0 }}</td>
+            <td>{{ event.notgoing.length || 0 }}</td>
+            <td>{{ event.comments.length }}</td>
+            <td><a ui-sref="app.eventview({ id: event.ID})"><button class="btn btn-info">Modifier</button></a></td>
           </tr>
         </table>
       </div>
