@@ -71,6 +71,12 @@ class PostCreateController {
     }
   }
 
+  noPromotionSelected() {
+    return Object.keys(this.promotions).every(promotion => {
+      return !this.promotions[promotion]
+    })
+  }
+
   isPromotion(key, str) {
     const lastIndex = key.lastIndexOf(str)
     return (lastIndex == 1 && str.length == key.length-1) || (lastIndex == 0 && str.length == key.length)

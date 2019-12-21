@@ -57,10 +57,7 @@
         <label class="control-label">Début</label>
       </div>
       <div class="col-sm-10">
-        <fieldset disabled>
-          <input type="text" class="form-control" placeholder="{{ $controller.event.dateStart | date: 'dd/MM/yyyy HH:mm' }}">
-        </fieldset>
-        <datetimepicker data-ng-model="$controller.event.dateStart"></datetimepicker>
+        <datetimepicker ng-model="$controller.event.dateStart" date-format="dd/MM/yyyy HH:mm" show-meridian="false"></datetimepicker>
       </div>
     </div>
     <div class="form-group">
@@ -68,10 +65,7 @@
         <label class="control-label">Fin</label>
       </div>
       <div class="col-sm-10">
-        <fieldset disabled>
-          <input type="text" class="form-control" placeholder="{{ $controller.event.dateEnd | date: 'dd/MM/yyyy HH:mm' }}">
-        </fieldset>
-        <datetimepicker data-ng-model="$controller.event.dateEnd"></datetimepicker>
+        <datetimepicker ng-model="$controller.event.dateEnd" date-format="dd/MM/yyyy HH:mm" show-meridian="false"></datetimepicker>
       </div>
     </div>
     <div class="form-group">
@@ -89,27 +83,27 @@
           <tr ng-repeat="promo in $controller.promotionNames">
             <td><a ng-click="$controller.select(promo)">Tous</a>/<a ng-click="$controller.deselect(promo)">Aucun</a></td>
             <td colspan="1" ng-show="promo == 'STPI'">
-              <input id="1{{ promo }}" type="checkbox" ng-model="promotions['1'+promo]"/>
+              <input id="1{{ promo }}" type="checkbox" ng-model="$controller.promotions['1'+promo]"/>
               1{{ promo }}
             </td>
             <td colspan="2" ng-show="promo == 'STPI'">
-              <input id="2{{ promo }}" type="checkbox" ng-model="promotions['2'+promo]"/>
+              <input id="2{{ promo }}" type="checkbox" ng-model="$controller.promotions['2'+promo]"/>
               2{{ promo }}
             </td>
             <td ng-show="promo != 'STPI' && promo != 'STAFF'">
-              <input id="3{{ promo }}" type="checkbox" ng-model="promotions['3'+promo]"/>
+              <input id="3{{ promo }}" type="checkbox" ng-model="$controller.promotions['3'+promo]"/>
               3{{ promo }}
             </td>
             <td ng-show="promo != 'STPI' && promo != 'STAFF'">
-              <input id="4{{ promo }}" type="checkbox" ng-model="promotions['4'+promo]"/>
+              <input id="4{{ promo }}" type="checkbox" ng-model="$controller.promotions['4'+promo]"/>
               4{{ promo }}
             </td>
             <td ng-show="promo != 'STPI' && promo != 'STAFF'">
-              <input id="5{{ promo }}" type="checkbox" ng-model="promotions['5'+promo]"/>
+              <input id="5{{ promo }}" type="checkbox" ng-model="$controller.promotions['5'+promo]"/>
               5{{ promo }}
             </td>
             <td colspan="3" ng-show="promo == 'STAFF'">
-              <input id="{{ promo }}" type="checkbox" ng-model="promotions[promo]"/>
+              <input id="{{ promo }}" type="checkbox" ng-model="$controller.promotions[promo]"/>
               {{ promo }}
             </td>
           </tr>
@@ -139,7 +133,7 @@
         <label class="control-label"></label>
       </div>
       <div class="col-sm-10">
-        <button class="btn btn-success" type="submit" ng-disabled="!$controller.event.dateEnd || !$controller.event.dateStart">Valider</button>
+        <button class="btn btn-success" type="submit" ng-disabled="!$controller.event.image || !$controller.event.name || !$controller.event.description || !$controller.event.dateEnd || !$controller.event.dateStart || $controller.noPromotionSelected()">Valider</button>
       </div>
     </div>
   </form>

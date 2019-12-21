@@ -76,6 +76,12 @@ class EventCreateController {
 
     this.paletteGenerated = false
   }
+
+  noPromotionSelected() {
+    return Object.keys(this.promotions).every(promotion => {
+      return !this.promotions[promotion]
+    })
+  }
   
   isPromotion(key, str) {
     const lastIndex = key.lastIndexOf(str)

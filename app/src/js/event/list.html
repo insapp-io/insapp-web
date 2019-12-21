@@ -38,9 +38,9 @@
             <td style="vertical-align: middle"> {{ event.name }} </td>
             <td style="vertical-align: middle"> {{ event.dateStart | date: 'dd/MM/yyyy HH:mm' }} </td>
             <td style="vertical-align: middle"> {{ event.dateEnd | date: 'dd/MM/yyyy HH:mm' }} </td>
-            <td style="vertical-align: middle"> {{ event.participants.length }} </td>
-            <td style="vertical-align: middle"> {{ event.maybe.length }} </td>
-            <td style="vertical-align: middle"> {{ event.notgoing.length }} </td>
+            <td style="vertical-align: middle"> {{ event.participants.length || 0 }} </td>
+            <td style="vertical-align: middle"> {{ event.maybe.length || 0 }} </td>
+            <td style="vertical-align: middle"> {{ event.notgoing.length || 0 }} </td>
             <td style="vertical-align: middle"> {{ event.comments.length }} </td>
           </tr>
         </table>
@@ -61,9 +61,9 @@
             <td style="vertical-align: middle"> {{ event.name }} </td>
             <td style="vertical-align: middle"> {{ event.dateStart | date: 'dd/MM/yyyy HH:mm' }} </td>
             <td style="vertical-align: middle"> {{ event.dateEnd | date: 'dd/MM/yyyy HH:mm' }} </td>
-            <td style="vertical-align: middle"> {{ event.participants.length }} </td>
-            <td style="vertical-align: middle"> {{ event.maybe.length }} </td>
-            <td style="vertical-align: middle"> {{ event.notgoing.length }} </td>
+            <td style="vertical-align: middle"> {{ event.participants.length || 0 }} </td>
+            <td style="vertical-align: middle"> {{ event.maybe.length || 0 }} </td>
+            <td style="vertical-align: middle"> {{ event.notgoing.length || 0 }} </td>
             <td style="vertical-align: middle"> {{ event.comments.length }} </td>
           </tr>
         </table>
