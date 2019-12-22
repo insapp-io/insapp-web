@@ -1,11 +1,11 @@
 class PostListController {
-  constructor(Association, Posts) {
+  constructor(Posts, association) {
     'ngInject'
 
-    this._Association = Association
     this._Posts = Posts
+    this._association = association
 
-    this.isAllSetUp = (this._Association.current.profile && this._Association.current.profile != '')
+    this.isAllSetUp = (this._association.profile && this._association.profile !== '')
 
     this.runQuery()
   }
@@ -15,7 +15,7 @@ class PostListController {
 
     this._Posts
       .query({
-        association: this._Association.current.ID
+        association: this._association.ID
       })
       .then(
         (res) => {

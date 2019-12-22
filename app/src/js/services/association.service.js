@@ -18,8 +18,28 @@ export default class Association {
     }).then(
       res => {
         this.current = res.data
-        return res
+        return this.current
       }
     )
+  }
+
+  save(association) {
+    let request = {}
+
+    if (association.ID) {
+      request.url = `${this._AppConstants.api}/associations/${association.ID}`
+      request.method = 'PUT'
+
+      delete association.coverPictureUrl
+      delete association.profilePictureUrl
+      delete association.ID
+    } else {
+      request.url = `${this._AppConstants.api}/associations`
+      request.method = 'POST'
+    }
+
+    request.data = association
+
+    return this._$http(request).then(res => res.data)
   }
 }

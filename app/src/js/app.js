@@ -7,6 +7,7 @@ import './components'
 import './services'
 import './post'
 import './event'
+import './association'
 import './auth'
 
 import 'angular-route'
@@ -38,7 +39,8 @@ const requires = [
   'app.postview',
   'app.eventlist',
   'app.eventcreate',
-  'app.eventview'
+  'app.eventview',
+  'app.associationview'
 ]
 
 let app = angular.module('app', requires)
