@@ -8,6 +8,7 @@ import './services'
 import './post'
 import './event'
 import './association'
+import './user'
 import './auth'
 
 import 'angular-route'
@@ -40,7 +41,8 @@ const requires = [
   'app.eventlist',
   'app.eventcreate',
   'app.eventview',
-  'app.associationview'
+  'app.associationview',
+  'app.userlist'
 ]
 
 let app = angular.module('app', requires)
@@ -78,7 +80,7 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
     }
   })
 
-  $urlRouterProvider.otherwise('/')
+  $urlRouterProvider.otherwise('/posts')
 }
 
 function AppRun(AppConstants, $rootScope) {

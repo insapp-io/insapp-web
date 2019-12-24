@@ -10,9 +10,18 @@ export default class User {
     this.current = null
   }
 
+  query() {
+    const request = {
+      url: `${this._AppConstants.api}/users`,
+      method: 'GET'
+    }
+
+    return this._$http(request).then(res => res.data)
+  }
+
   attemptAuth(credentials) {
     return this._$http({
-      url: this._AppConstants.api + '/login/association',
+      url: `${this._AppConstants.api}/login/association`,
       method: 'POST',
       data: {
         username: credentials.username,
@@ -33,7 +42,7 @@ export default class User {
       deferred.resolve(true)
     } else {
       this._$http({
-        url: this._AppConstants.api + '/association',
+        url: `${this._AppConstants.api}/association`,
         method: 'GET'
       }).then(
         res => {

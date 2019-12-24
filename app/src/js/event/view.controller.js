@@ -1,10 +1,10 @@
 class EventViewController {
-  constructor(AppConstants, User, Events, Upload, $window, $state, event) {
+  constructor(AppConstants, User, Event, Upload, $window, $state, event) {
     'ngInject'
 
     this._AppConstants = AppConstants
     this._User = User
-    this._Events = Events
+    this._Event = Event
     this._Upload = Upload
     this._window = $window
     this._state = $state
@@ -208,13 +208,13 @@ class EventViewController {
       return this.plateforms[plateform]
     })
 
-    this._Events.save(this.event).then(event => {
+    this._Event.save(this.event).then(event => {
       this._state.go('app.eventlist')
     })
   }
 
   deleteEvent() {
-    this._Events.delete(this.event).then(event => {
+    this._Event.delete(this.event).then(event => {
       this._state.go('app.eventlist')
     })
   }

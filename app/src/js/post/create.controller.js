@@ -1,10 +1,10 @@
 class PostCreateController {
-  constructor(AppConstants, User, Posts, Upload, $window, $state) {
+  constructor(AppConstants, User, Post, Upload, $window, $state) {
     'ngInject'
 
     this._AppConstants = AppConstants
     this._User = User
-    this._Posts = Posts
+    this._Post = Post
     this._Upload = Upload
     this._window = $window
     this._state = $state
@@ -174,7 +174,7 @@ class PostCreateController {
       return this.plateforms[plateform]
     })
 
-    this._Posts.save(this.post).then(post => {
+    this._Post.save(this.post).then(post => {
       this._state.go('app.postlist')
     })
   }

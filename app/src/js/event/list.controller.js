@@ -1,12 +1,12 @@
 class EventListController {
-    constructor(Association, Events, association) {
+    constructor(Association, Event, association) {
       'ngInject'
   
       this._Association = Association
-      this._Events = Events
+      this._Event = Event
       this.association = association
   
-      this.isAllSetUp = (this.association.profile && this.association.profile != '')
+      this.isAllSetUp = (this.association.profileuploaded && this.association.profileuploaded !== '')
 
       this.allEvents = []
       this.allPastEvents = []
@@ -17,7 +17,7 @@ class EventListController {
     runQuery() {
       this.loading = true
   
-      this._Events
+      this._Event
         .query({
           association: this.association.ID
         })

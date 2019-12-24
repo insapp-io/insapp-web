@@ -10,8 +10,8 @@ function PostViewConfig($stateProvider) {
       auth: User => {
         return User.ensureAuthIs(true)
       },
-      post: (Posts, $state, $stateParams) => {
-        return Posts.get($stateParams.id).then(
+      post: (Post, $state, $stateParams) => {
+        return Post.get($stateParams.id).then(
           post => post,
           err => $state.go('app.postlist')
         )

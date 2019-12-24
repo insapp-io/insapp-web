@@ -10,8 +10,8 @@ function EventViewConfig($stateProvider) {
       auth: User => {
         return User.ensureAuthIs(true)
       },
-      event: (Events, $state, $stateParams) => {
-        return Events.get($stateParams.id).then(
+      event: (Event, $state, $stateParams) => {
+        return Event.get($stateParams.id).then(
           event => event,
           err => $state.go('app.eventlist')
         )

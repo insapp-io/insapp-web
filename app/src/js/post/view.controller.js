@@ -1,11 +1,11 @@
 class PostViewController {
-  constructor(AppConstants, User, Posts, Comments, Upload, $window, $state, post) {
+  constructor(AppConstants, User, Post, Comment, Upload, $window, $state, post) {
     'ngInject'
 
     this._AppConstants = AppConstants
     this._User = User
-    this._Posts = Posts
-    this._Comments = Comments
+    this._Post = Post
+    this._Comment = Comment
     this._Upload = Upload
     this._window = $window
     this._state = $state
@@ -148,19 +148,19 @@ class PostViewController {
       return this.plateforms[plateform]
     })
 
-    this._Posts.save(this.post).then(post => {
+    this._Post.save(this.post).then(post => {
       this._state.go('app.postlist')
     })
   }
 
   deletePost() {
-    this._Posts.delete(this.post).then(post => {
+    this._Post.delete(this.post).then(post => {
       this._state.go('app.postlist')
     })
   }
 
   deleteComment(post, comment) {
-    this._Comments.delete(post, comment).then(post => {
+    this._Comment.delete(post, comment).then(post => {
       this.post = sanitize(post)
     })
   }

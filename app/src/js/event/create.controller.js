@@ -1,10 +1,10 @@
 class EventCreateController {
-  constructor(AppConstants, User, Events, Upload, $window, $state) {
+  constructor(AppConstants, User, Event, Upload, $window, $state) {
     'ngInject'
 
     this._AppConstants = AppConstants
     this._User = User
-    this._Events = Events
+    this._Event = Event
     this._Upload = Upload
     this._window = $window
     this._state = $state

@@ -8,13 +8,13 @@ servicesModule.service('User', UserService)
 import AssociationService from './association.service'
 servicesModule.service('Association', AssociationService)
 
-import PostsService from './posts.service'
-servicesModule.service('Posts', PostsService)
+import PostService from './post.service'
+servicesModule.service('Post', PostService)
 
-import EventsService from './events.service'
-servicesModule.service('Events', EventsService)
+import EventService from './event.service'
+servicesModule.service('Event', EventService)
 
-import CommentsService from './comments.service'
-servicesModule.service('Comments', CommentsService)
+import CommentService from './comment.service'
+servicesModule.service('Comment', CommentService)
 
 export default servicesModule

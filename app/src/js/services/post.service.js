@@ -1,4 +1,4 @@
-export default class Posts {
+export default class Post {
   constructor(AppConstants, $http, $q) {
     'ngInject'
 
@@ -11,14 +11,14 @@ export default class Posts {
     let url
 
     if (config.association) {
-      url = this._AppConstants.api + '/associations/' + config.association + '/posts'
+      url = `${this._AppConstants.api}/associations/${config.association}/posts`
     } else {
-      url = this._AppConstants.api + '/posts'
+      url = `${this._AppConstants.api}/posts`
     }
 
     const request = {
-      method: 'GET',
-      url
+      url,
+      method: 'GET'
     }
 
     return this._$http(request).then(res => res.data)
