@@ -26,6 +26,12 @@ class UserListController {
         }
       )
   }
+
+  deleteUser(user) {
+    this._User.delete(user).then(user => {
+      this.runQuery()
+    })
+  }
 }
 
 export default UserListController
