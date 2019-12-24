@@ -207,7 +207,7 @@ class EventCreateController {
       return this.plateforms[plateform]
     })
 
-    this._Events.save(this.event).then(event => {
+    this._Event.save(this.event).then(event => {
       this._state.go('app.eventlist')
     })
   }

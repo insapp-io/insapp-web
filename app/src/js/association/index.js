@@ -9,6 +9,16 @@ associationViewModule.config(AssociationViewConfig)
 import AssociationViewController from './view.controller'
 associationViewModule.controller('AssociationViewController', AssociationViewController)
 
+// Association create module
+let associationCreateModule = angular.module('app.associationcreate', [])
+
+import AssociationCreateConfig from './create.config'
+associationCreateModule.config(AssociationCreateConfig)
+
+import AssociationCreateController from './create.controller'
+associationCreateModule.controller('AssociationCreateController', AssociationCreateController)
+
 export {
-  associationViewModule
+  associationViewModule,
+  associationCreateModule
 }
