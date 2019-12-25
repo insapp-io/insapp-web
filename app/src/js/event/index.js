@@ -27,8 +27,18 @@ eventViewModule.config(EventViewConfig)
 import EventViewController from './view.controller'
 eventViewModule.controller('EventViewController', EventViewController)
 
+// Event validate module
+let eventValidateModule = angular.module('app.eventvalidate', [])
+
+import EventValidateConfig from './validate.config'
+eventValidateModule.config(EventValidateConfig)
+
+import EventValidateController from './validate.controller'
+eventValidateModule.controller('EventValidateController', EventValidateController)
+
 export { 
   eventListModule,
   eventCreateModule,
-  eventViewModule
+  eventViewModule,
+  eventValidateModule
 }

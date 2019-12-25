@@ -1,22 +1,19 @@
-class EventListController {
-  constructor(Association, Event, association) {
+class EventValidateController {
+  constructor(Event, Association) {
     'ngInject'
 
-    this._Association = Association
     this._Event = Event
-    this._association = association
-
-    this.isAllSetUp = (this._association.profileuploaded && this._association.profileuploaded !== '')
+    this._Association = Association
 
     this.runQuery()
   }
-    
+
   runQuery() {
     this.loading = true
 
     this._Event
       .query({
-        association: this._association.ID
+        count: 100
       })
       .then(
         (res) => {
@@ -26,6 +23,10 @@ class EventListController {
           let allEvents = []
 
           for (const event of this.list) {
+            this._Association.get(event.association).then(association => {
+              event.associationName = association.name
+            })
+
             if (new Date(event.dateEnd).getTime() >= new Date().getTime()) {
               allEvents.push(event)
             } else {
@@ -49,4 +50,4 @@ class EventListController {
   }
 }
 
-export default EventListController
+export default EventValidateController

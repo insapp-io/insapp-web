@@ -1,0 +1,71 @@
+<div style="padding: 30px">
+  <div ng-show="$controller.loading">
+    <div class="article-preview">
+      <h2 style="text-align:center; color:#AAA">Chargements des évènements en cours...</h2>
+    </div>
+  </div>
+
+  <div ng-show="!$controller.loading">
+    <div ng-show="!$controller.list.length">
+      <h2 style="text-align:center; color:#AAA">Il n'y a aucun évènement</h2>
+    </div>
+
+    <div ng-show="$controller.list.length">
+      <label>Rechercher : <input ng-model="searchText" style="margin-bottom: 10px"></label>
+  
+      <h3>Évènements à venir</h3>
+
+      <table class="table table-striped table-hover">
+        <tr>
+          <th>Association</th>
+          <th>Nom</th>
+          <th>Début</th>
+          <th>Fin</th>
+          <th>J'y vais</th>
+          <th>Peut-être</th>
+          <th>J'y vais pas</th>
+          <th>Commentaires</th>
+          <th>Actions</th>
+        </tr>
+        <tr ng-repeat="event in $controller.events | filter: searchText">
+          <td>{{ event.associationName }}</td>
+          <td>{{ event.name }}</td>
+          <td>{{ event.dateStart | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ event.dateEnd | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ event.participants.length || 0 }}</td>
+          <td>{{ event.maybe.length || 0 }}</td>
+          <td>{{ event.notgoing.length || 0 }}</td>
+          <td>{{ event.comments.length || 0 }}</td>
+          <td><a ui-sref="app.eventview({ id: event.ID})"><button class="btn btn-info">Modifier</button></a></td>
+        </tr>
+      </table>
+
+      <h3>Évènements passés</h3>
+
+      <table class="table table-striped table-hover">
+        <tr>
+          <th>Association</th>
+          <th>Nom</th>
+          <th>Début</th>
+          <th>Fin</th>
+          <th>J'y vais</th>
+          <th>Peut-être</th>
+          <th>J'y vais pas</th>
+          <th>Commentaires</th>
+          <th>Actions</th>
+        </tr>
+        <tr ng-repeat="event in $controller.pastEvents | filter: searchText">
+          <td>{{ event.associationName }}</td>
+          <td>{{ event.name }}</td>
+          <td>{{ event.dateStart | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ event.dateEnd | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ event.participants.length || 0 }}</td>
+          <td>{{ event.maybe.length || 0 }}</td>
+          <td>{{ event.notgoing.length || 0 }}</td>
+          <td>{{ event.comments.length || 0 }}</td>
+          <td><a ui-sref="app.eventview({ id: event.ID})"><button class="btn btn-info">Modifier</button></a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
