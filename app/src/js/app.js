@@ -38,6 +38,7 @@ const requires = [
   'app.postlist',
   'app.postcreate',
   'app.postview',
+  'app.postvalidate',
   'app.eventlist',
   'app.eventcreate',
   'app.eventview',

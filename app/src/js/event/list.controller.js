@@ -28,7 +28,7 @@ class EventListController {
             let allPastEvents = []
             let allEvents = []
 
-            for (const event of this.list) {              
+            for (const event of this.list) {
               if (new Date(event.dateEnd).getTime() >= new Date().getTime()) {
                 allEvents.push(event)
               } else {

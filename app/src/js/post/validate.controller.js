@@ -1,49 +1,34 @@
-app.controller('ValidationPost', ['$scope', '$resource', '$location', 'session', 'configuration',function($scope, $resource, $location, session, configuration) {
-  var MyAssociations = $resource(configuration.api + '/associations/:id/myassociations');
-  var Association = $resource(configuration.api + '/associations/:id');
-  var Post = $resource(configuration.api + '/posts/:id');
+class PostValidateController {
+  constructor(Post, Association) {
+    'ngInject'
 
-  $scope.isActive = function (viewLocation) {
-    return viewLocation === $location.path();
-  };
+    this._Post = Post
+    this._Association = Association
 
-  $scope.allPosts = []
-  $scope.myPosts = []
-
-  MyAssociations.query({id:session.getAssociation()}, function(assosId) {
-    for (assoId of assosId){
-      Association.get({id:assoId}, function(association){
-        var posts = (association.posts != null ? association.posts : [])
-        for (postId of posts){
-          Post.get({id:postId}, function(post){
-            post.nbLikes = (post.likes != null ? post.likes.length : 0)
-            post.nbComments = (post.comments != null ? post.comments.length : 0)
-            post.associationName = association.name
-            $scope.allPosts.push(post)
-            $scope.allPosts.sort(function(a, b){return new Date(b.date).getTime()-new Date(a.date).getTime()});
-            $scope.myPosts = $scope.allPosts
-          });
-        }
-      });
-    }
-  }, function(error) {
-      $location.path('/login')
-  });
-
-  $scope.onclick = function(post) {
-      $location.path('/myPosts/' + post.ID)
-  };
-
-  $scope.search= function(val) {
-    var results = $scope.allPosts
-    if(val.length >= 1) {
-      results = results.filter(function(post){
-        return post.title.toLowerCase().includes(val.toLowerCase()) || post.associationName.toLowerCase().includes(val.toLowerCase())
-      })
-    }
-    $scope.$apply(function () {
-      $scope.myPosts = results
-    });
+    this.runQuery()
   }
 
-}]);
+  runQuery() {
+    this.loading = true
+
+    this._Post
+      .query({
+        count: 100
+      })
+      .then(
+        (res) => {
+          this.list = res
+
+          for (const post of this.list) {
+            this._Association.get(post.association).then(association => {
+              post.associationName = association.name
+            })
+          }
+
+          this.loading = false
+        }
+      )
+  }
+}
+
+export default PostValidateController

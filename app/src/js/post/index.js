@@ -27,8 +27,18 @@ postViewModule.config(PostViewConfig)
 import PostViewController from './view.controller'
 postViewModule.controller('PostViewController', PostViewController)
 
+// Post validate module
+let postValidateModule = angular.module('app.postvalidate', [])
+
+import PostValidateConfig from './validate.config'
+postValidateModule.config(PostValidateConfig)
+
+import PostValidateController from './validate.controller'
+postValidateModule.controller('PostValidateController', PostValidateController)
+
 export { 
   postListModule,
   postCreateModule,
-  postViewModule
+  postViewModule,
+  postValidateModule
 }

@@ -10,10 +10,14 @@ export default class Post {
   query(config) {
     let url
 
-    if (config.association) {
+    if (config && config.association) {
       url = `${this._AppConstants.api}/associations/${config.association}/posts`
     } else {
       url = `${this._AppConstants.api}/posts`
+
+      if (config && config.count) {
+        url += `?range=[0,${config.count}]`
+      }
     }
 
     const request = {
@@ -28,7 +32,7 @@ export default class Post {
     let deferred = this._$q.defer()
 
     this._$http({
-      url: this._AppConstants.api + '/posts/' + id,
+      url: `${this._AppConstants.api}/posts/${id}`,
       method: 'GET'
     }).then(
       res => deferred.resolve(res.data),

@@ -23,6 +23,20 @@ export default class Association {
     )
   }
 
+  get(id) {
+    let deferred = this._$q.defer()
+
+    this._$http({
+      url: `${this._AppConstants.api}/associations/${id}`,
+      method: 'GET'
+    }).then(
+      res => deferred.resolve(res.data),
+      err => deferred.reject(err)
+    )
+
+    return deferred.promise
+  }
+
   save(association) {
     let request = {}
 

@@ -23,12 +23,18 @@
         <li show-admin="true" ui-sref-active="active">
           <a ui-sref="app.userlist">Utilisateurs</a>
         </li>
-        <li show-admin="true" class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation<span class="caret"></span></a>
+        <li show-admin="true" ui-sref-active="{'active': 'app.*validate'}" class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown">Validation<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a ui-sref="">Posts</a></li>
-            <li><a ui-sref="">Évènements</a></li>
-            <li><a ui-sref="">Associations</a></li>
+            <li ui-sref-active="active">
+              <a ui-sref="app.postvalidate">Posts</a>
+            </li >
+            <li>
+              <a ui-sref="">Évènements</a>
+            </li>
+            <li>
+              <a ui-sref="">Associations</a>
+            </li>
           </ul>
         </li>
         <li show-admin="true" ui-sref-active="active">
