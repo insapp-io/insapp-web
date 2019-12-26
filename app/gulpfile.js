@@ -29,7 +29,7 @@ const interceptErrors = function(error) {
 }
 
 function moveHtml() {
-    return src("src/index.html")
+    return src(["src/index.html", "src/icon.png"])
         .on('error', interceptErrors)
         .pipe(dest('./build/'))
 }

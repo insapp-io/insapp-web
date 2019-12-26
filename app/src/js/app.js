@@ -87,23 +87,16 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
   $urlRouterProvider.otherwise('/posts')
 }
 
-function AppRun(AppConstants, $rootScope) {
+function AppRun($transitions, $window) {
   'ngInject'
 
-  // Change page title based on state
-  $rootScope.$on('$stateChangeSuccess', toState => {
-    $rootScope.setPageTitle(toState.title)
-  })
-
-  // Helper method for setting the page title
-  $rootScope.setPageTitle = (title) => {
-    $rootScope.pageTitle = ''
-
+  $transitions.onSuccess({}, (transition) => {
+    let title = transition.to().title
     if (title) {
-      $rootScope.pageTitle += title;
-      $rootScope.pageTitle += ' \u2014 '
+      if (title instanceof Function) {
+          title = title.call(transition.to(), transition.params())
+      }
+      $window.document.title = title
     }
-
-    $rootScope.pageTitle += AppConstants.appName
-  }
+  })
 }
