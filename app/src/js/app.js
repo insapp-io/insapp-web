@@ -43,8 +43,9 @@ const requires = [
   'app.eventcreate',
   'app.eventview',
   'app.eventvalidate',
-  'app.associationview',
   'app.associationcreate',
+  'app.associationview',
+  'app.associationvalidate',
   'app.userlist'
 ]
 

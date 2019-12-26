@@ -11,9 +11,18 @@ export default class Association {
     this.current = null
   }
 
+  query() {
+    const request = {
+      url: `${this._AppConstants.api}/associations`,
+      method: 'GET'
+    }
+
+    return this._$http(request).then(res => res.data)
+  }
+
   getCurrent() {
     return this._$http({
-      url: this._AppConstants.api + '/associations/' + this._User.current.association,
+      url: `${this._AppConstants.api}/associations/${this._User.current.association}`,
       method: 'GET'
     }).then(
       res => {

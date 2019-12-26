@@ -18,22 +18,22 @@
           <a ui-sref="app.eventlist">Mes évènements</a>
         </li>
         <li ui-sref-active="active">
-          <a ui-sref="app.associationview">Mon association</a>
+          <a ui-sref="app.myassociationview">Mon association</a>
         </li>
         <li show-admin="true" ui-sref-active="active">
           <a ui-sref="app.userlist">Utilisateurs</a>
         </li>
-        <li show-admin="true" ui-sref-active="{'active': 'app.*validate'}" class="dropdown">
+        <li show-admin="true" class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown">Validation<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li ui-sref-active="active">
               <a ui-sref="app.postvalidate">Posts</a>
             </li >
-            <li>
+            <li ui-sref-active="active">
               <a ui-sref="app.eventvalidate">Évènements</a>
             </li>
-            <li>
-              <a ui-sref="">Associations</a>
+            <li ui-sref-active="active">
+              <a ui-sref="app.associationvalidate">Associations</a>
             </li>
           </ul>
         </li>

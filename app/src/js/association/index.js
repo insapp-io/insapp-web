@@ -18,7 +18,17 @@ associationCreateModule.config(AssociationCreateConfig)
 import AssociationCreateController from './create.controller'
 associationCreateModule.controller('AssociationCreateController', AssociationCreateController)
 
+// Association validate module
+let associationValidateModule = angular.module('app.associationvalidate', [])
+
+import AssociationValidateConfig from './validate.config'
+associationValidateModule.config(AssociationValidateConfig)
+
+import AssociationValidateController from './validate.controller'
+associationValidateModule.controller('AssociationValidateController', AssociationValidateController)
+
 export {
   associationViewModule,
-  associationCreateModule
+  associationCreateModule,
+  associationValidateModule
 }
