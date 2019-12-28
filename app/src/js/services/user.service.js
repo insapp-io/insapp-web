@@ -89,6 +89,12 @@ export default class User {
 
   logout() {
     this.current = null
-    this._$state.go(this._$state.$current, null, { reload: true })
+
+    this._$http({
+      url: `${this._AppConstants.api}/logout/association`,
+      method: 'POST'
+    }).then(
+      res => this._$state.go(this._$state.$current, null, { reload: true })
+    )
   }
 }

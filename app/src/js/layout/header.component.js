@@ -8,6 +8,8 @@ class AppHeaderController {
     $scope.$watch('User.current', (newUser) => {
       this.currentUser = newUser
     })
+
+    this.logout = User.logout.bind(User)
   }
 }
 
