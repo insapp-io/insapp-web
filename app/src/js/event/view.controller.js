@@ -1,5 +1,5 @@
 class EventViewController {
-  constructor(AppConstants, User, Event, Upload, $window, $state, event) {
+  constructor(AppConstants, User, Event, Upload, $window, $state, $scope, event) {
     'ngInject'
 
     this._AppConstants = AppConstants
@@ -8,6 +8,7 @@ class EventViewController {
     this._Upload = Upload
     this._window = $window
     this._state = $state
+    this._$scope = $scope
   
     this.promotionNames = [
       "CDTI",
@@ -160,16 +161,13 @@ class EventViewController {
     let fgColor = (d1 > d2 ? [51, 51, 51] : [255, 255, 255])
 
     this.event.selectedcolor = radio
-    this.event.bgColor = this.rgbToHex(bgColor[0], bgColor[1], bgColor[2])
-    this.event.fgColor = this.rgbToHex(fgColor[0], fgColor[1], fgColor[2])
-  }
-  
-  rgbToHex(r, g, b) {
-    return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
-  }
 
-  removeFile() {
-    
+    function rgbToHex(r, g, b) {
+      return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+    }
+
+    this.event.bgColor = rgbToHex(bgColor[0], bgColor[1], bgColor[2])
+    this.event.fgColor = rgbToHex(fgColor[0], fgColor[1], fgColor[2])
   }
   
   upload(file) {
@@ -184,14 +182,21 @@ class EventViewController {
       this.event.image = res.data.file
       this.event.imageSize = res.data.size
       this.event.palette = res.data.colors
-      //console.log('Success ' + res.config.data.file.name + 'uploaded')
-      //console.log('Response: ' + JSON.stringify(res.data))
-
       this.selectColor(0)
       this.paletteGenerated = true
     }, res => {
       console.log('Error status: ' + res.status)
     })
+  }
+
+  removeFile() {
+    this._$scope.file = undefined
+
+    this.event.imageUrl = undefined
+    this.event.image = undefined
+    this.event.imageSize = undefined
+    this.event.palette = undefined
+    this.paletteGenerated = false
   }
     
   updateEvent() {

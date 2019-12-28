@@ -1,5 +1,5 @@
 class PostViewController {
-  constructor(AppConstants, User, Post, Comment, Upload, $window, $state, post) {
+  constructor(AppConstants, User, Post, Comment, Upload, $window, $state, $scope, post) {
     'ngInject'
 
     this._AppConstants = AppConstants
@@ -9,6 +9,7 @@ class PostViewController {
     this._Upload = Upload
     this._window = $window
     this._state = $state
+    this._$scope = $scope
 
     this.promotionNames = [
       "CDTI",
@@ -132,6 +133,31 @@ class PostViewController {
     if (this.post[field] && this.post[field].length && this.post[field].length > maxLength) {
       this.post[field] = this.post[field].substring(0, maxLength);
     }
+  }
+
+  upload(file) {
+    const uploadUrl = `${this._AppConstants.api}/images`
+
+    this._Upload.upload({
+      url: uploadUrl,
+      data: {
+        file
+      }
+    }).then(res => {
+      this.post.image = res.data.file
+      this.post.imageSize = res.data.size
+    }, err => {
+      this.removeFile()
+      console.log('Error status: ' + err.status)
+    })
+  }
+
+  removeFile() {
+    this._$scope.file = undefined
+    
+    this.post.imageUrl = undefined
+    this.post.image = undefined
+    this.post.imageSize = undefined
   }
 
   updatePost() {

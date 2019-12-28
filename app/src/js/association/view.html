@@ -6,17 +6,21 @@
         <label class="control-label">Cover Image</label>
       </div>
       <div class="col-sm-10">
-        <div ng-hide="$controller.association.coverPictureUrl" ngf-drop ng-model="coverPictureFile" style="background: #F8F8F8; border: 5px dashed #DDD; height: 300px; text-align: center; padding: 50px 10px;" ngf-accept="'image/jpeg,image/png'" ngf-pattern="'.jpeg,.jpg,.png'" ngf-max-size="5MB" ngf-min-height="100" ngf-fix-orientation="true">Déposer une image ici</div>
-        <img id="coverPicture" ng-show="$controller.association.coverPictureUrl" class="img-rounded" height="300" ng-src="{{ $controller.association.coverPictureUrl }}">
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-2">
-        <label class="control-label"></label>
-      </div>
-      <div class="col-sm-10">
-        <div ng-hide="$controller.association.coverPictureUrl" class="btn btn-success" ng-model="coverPictureFile" ngf-select="upload($coverPictureFile)" ngf-accept="'image/jpeg,image/png'" ngf-pattern="'.jpeg,.jpg,.png'" ngf-max-size="5MB" ngf-min-height="100" ngf-fix-orientation="true">Selectionner</div>
-        <div ng-show="$controller.association.coverPictureUrl" class="btn btn-danger" ng-click="$controller.removeCoverPicture()">Supprimer</div>
+        <div ng-hide="coverPictureFile || $controller.association.coverPictureUrl">
+          <input type="file" ngf-select="$controller.uploadCoverPicture($file)" ng-model="coverPictureFile" accept="image/*" ngf-max-size="5MB">
+        </div>
+
+        <div ng-show="coverPictureFile">
+          <img ngf-thumbnail="coverPictureFile" height="300" class="img-rounded">
+          <br>
+          <div class="btn btn-danger" ng-click="$controller.removeCoverPictureFile()">Supprimer</div>
+        </div>
+
+        <div ng-show="$controller.association.coverPictureUrl">
+          <img ng-src="{{ $controller.association.coverPictureUrl }}" height=300 class="img-rounded">
+          <br>
+          <div class="btn btn-danger" ng-click="$controller.removeCoverPictureFile()">Supprimer</div>
+        </div>
       </div>
     </div>
     <div class="form-group">
@@ -24,15 +28,21 @@
         <label class="control-label">Profile Image</label>
       </div>
       <div class="col-sm-10">
-        <div ng-hide="$controller.association.profilePictureUrl" ngf-drop ng-model="profilePictureFile" style="background: #F8F8F8; border: 5px dashed #DDD; height: 150px; width: 150px; border-radius: 75px; -webkit-border-radius: 75px; -moz-border-radius: 75px; text-align: center; padding: 50px 10px;" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Déposer une image <u>CARRE</u> ici</div>
-        <img id="profilePicture" ng-show="$controller.association.profilePictureUrl" style="width: 150px; height: 150px; position: relative; overflow: hidden; border-radius: 50%;" ng-src="{{ $controller.association.profilePictureUrl }}">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label"></label>
-      <div class="col-sm-10">
-        <div ng-hide="$controller.association.profilePictureUrl" class="btn btn-success" ng-model="profilePictureFile" ngf-select="$controller.upload($profilePictureFile)" ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" ngf-fix-orientation="true">Selectionner</div>
-        <div ng-show="$controller.association.profilePictureUrl" class="btn btn-danger" ng-click="removeProfilePicture()">Supprimer</div>
+        <div ng-hide="profilePictureFile || $controller.association.profilePictureUrl">
+          <input type="file" ngf-select="$controller.uploadProfilePicture($file)" ng-model="profilePictureFile" accept="image/*" ngf-max-size="5MB">
+        </div>
+
+        <div ng-show="profilePictureFile">
+          <img ngf-thumbnail="profilePictureFile" height="300" class="img-rounded">
+          <br>
+          <div class="btn btn-danger" ng-click="$controller.removeProfilePictureFile()">Supprimer</div>
+        </div>
+
+        <div ng-show="$controller.association.profilePictureUrl">
+          <img ng-src="{{ $controller.association.profilePictureUrl }}" height=300 class="img-rounded">
+          <br>
+          <div class="btn btn-danger" ng-click="$controller.removeProfilePictureFile()">Supprimer</div>
+        </div>
       </div>
     </div>
     <div class="form-group" ng-show="$controller.paletteGenerated">
@@ -74,7 +84,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label"></label>
       <div class="col-sm-10">
-        <button class="btn btn-info" type="submit" ng-disabled="!$controller.association.name || !$controller.association.description">Modifier</button>
+        <button class="btn btn-info" type="submit" ng-disabled="!$controller.association.cover || !$controller.association.profileuploaded || !$controller.association.name || !$controller.association.description">Modifier</button>
       </div>
     </div>
   </form>

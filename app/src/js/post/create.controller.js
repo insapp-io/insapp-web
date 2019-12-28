@@ -1,5 +1,5 @@
 class PostCreateController {
-  constructor(AppConstants, User, Post, Upload, $window, $state) {
+  constructor(AppConstants, User, Post, Upload, $window, $state, $scope) {
     'ngInject'
 
     this._AppConstants = AppConstants
@@ -8,6 +8,7 @@ class PostCreateController {
     this._Upload = Upload
     this._window = $window
     this._state = $state
+    this._$scope = $scope
 
     this.promotionNames = [
       "CDTI",
@@ -134,16 +135,12 @@ class PostCreateController {
     }
   }
 
-  removeFile() {
-    
-  }
-
   searchGif() {
     this._window.open('http://giphy.com', '_blank')
   }
 
   upload(file) {
-    const uploadUrl = this._AppConstants.api + '/images'
+    const uploadUrl = `${this._AppConstants.api}/images`
 
     this._Upload.upload({
       url: uploadUrl,
@@ -153,11 +150,17 @@ class PostCreateController {
     }).then(res => {
       this.post.image = res.data.file
       this.post.imageSize = res.data.size
-      //console.log('Success ' + res.config.data.file.name + 'uploaded')
-      //console.log('Response: ' + JSON.stringify(res.data))
-    }, res => {
-      console.log('Error status: ' + res.status)
+    }, err => {
+      this.removeFile()
+      console.log('Error status: ' + err.status)
     })
+  }
+
+  removeFile() {
+    this._$scope.file = undefined
+    
+    this.post.image = undefined
+    this.post.imageSize = undefined
   }
 
   createPost() {
