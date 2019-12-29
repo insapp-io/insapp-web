@@ -13,13 +13,13 @@
         <div ng-show="coverPictureFile">
           <img ngf-thumbnail="coverPictureFile" height="300" class="img-rounded">
           <br>
-          <div class="btn btn-danger" ng-click="$controller.removeCoverPictureFile()">Supprimer</div>
+          <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeCoverPictureFile()">Supprimer</div>
         </div>
 
         <div ng-show="$controller.association.coverPictureUrl">
           <img ng-src="{{ $controller.association.coverPictureUrl }}" height=300 class="img-rounded">
           <br>
-          <div class="btn btn-danger" ng-click="$controller.removeCoverPictureFile()">Supprimer</div>
+          <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeCoverPictureFile()">Supprimer</div>
         </div>
       </div>
     </div>
@@ -35,13 +35,13 @@
         <div ng-show="profilePictureFile">
           <img ngf-thumbnail="profilePictureFile" height="300" class="img-rounded">
           <br>
-          <div class="btn btn-danger" ng-click="$controller.removeProfilePictureFile()">Supprimer</div>
+          <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeProfilePictureFile()">Supprimer</div>
         </div>
 
         <div ng-show="$controller.association.profilePictureUrl">
           <img ng-src="{{ $controller.association.profilePictureUrl }}" height=300 class="img-rounded">
           <br>
-          <div class="btn btn-danger" ng-click="$controller.removeProfilePictureFile()">Supprimer</div>
+          <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeProfilePictureFile()">Supprimer</div>
         </div>
       </div>
     </div>
