@@ -1,9 +1,9 @@
-html,
 body {
-  height: 100%;
+  padding-top: 85px;
 }
 
-body {
+.login-screen {
+  height: 100%;
   display: -ms-flexbox;
   display: -webkit-box;
   display: flex;
