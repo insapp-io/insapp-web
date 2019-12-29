@@ -28,7 +28,7 @@ const interceptErrors = function(error) {
     this.emit('end')
 }
 
-function moveHtml() {
+function moveFiles() {
     const html = src("./src/index.html")
         .on('error', interceptErrors)
         .pipe(dest('./build/'))
@@ -37,7 +37,11 @@ function moveHtml() {
         .on('error', interceptErrors)
         .pipe(dest('./build/'))
 
-    return merge(html, icon)
+    const css = src("./src/style.css")
+        .on('error', interceptErrors)
+        .pipe(dest('./build/'))
+
+    return merge(html, icon, css)
 }
 
 function buildTemplates() {
@@ -84,15 +88,21 @@ function dist() {
     const html = src("./build/index.html")
         .pipe(dest('./dist/'))
 
+    const icon = src("./build/icon.png")
+        .pipe(dest('./dist/'))
+
+    const css = src("./build/style.css")
+        .pipe(dest('./dist/'))
+
     const js = src("./build/main.js")
         .pipe(uglify())
         .pipe(dest('./dist/'))
 
-    return merge(html, js)
+    return merge(html, icon, css, js)
 }
 
 module.exports = {
-    default: series(buildTemplates, parallel(moveHtml, buildJs)),
-    dev: series(buildTemplates, parallel(moveHtml, buildJs), liveReload),
-    dist: series(buildTemplates, parallel(moveHtml, buildJs), dist),
+    default: series(buildTemplates, parallel(moveFiles, buildJs)),
+    dev: series(buildTemplates, parallel(moveFiles, buildJs), liveReload),
+    dist: series(buildTemplates, parallel(moveFiles, buildJs), dist),
 }
