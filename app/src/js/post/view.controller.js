@@ -68,6 +68,12 @@ class PostViewController {
       imageUrl: this._AppConstants.cdn + post.image
     }
 
+    for (const comment of post.comments) {
+      this._User.get(comment.user).then(user => {
+        comment.author = user.username
+      })
+    }
+
     // legacy posts don't contain this field
     if (post.promotions) {
       for (const promotion of Object.keys(this.promotions)) {

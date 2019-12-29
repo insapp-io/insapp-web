@@ -69,6 +69,12 @@ class EventViewController {
       imageUrl: this._AppConstants.cdn + event.image
     }
 
+    for (const comment of event.comments) {
+      this._User.get(comment.user).then(user => {
+        comment.author = user.username
+      })
+    }
+
     // legacy events don't contain this field
     if (event.promotions) {
       for (const promotion of Object.keys(this.promotions)) {

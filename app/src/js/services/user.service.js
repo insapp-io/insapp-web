@@ -19,6 +19,20 @@ export default class User {
     return this._$http(request).then(res => res.data)
   }
 
+  get(id) {
+    let deferred = this._$q.defer()
+
+    this._$http({
+      url: `${this._AppConstants.api}/users/${id}`,
+      method: 'GET'
+    }).then(
+      res => deferred.resolve(res.data),
+      err => deferred.reject(err)
+    )
+
+    return deferred.promise
+  }
+
   delete(user) {
     let deferred = this._$q.defer()
 
