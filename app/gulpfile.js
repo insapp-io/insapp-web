@@ -29,9 +29,15 @@ const interceptErrors = function(error) {
 }
 
 function moveHtml() {
-    return src(["src/index.html", "src/icon.png"])
+    const html = src("./src/index.html")
         .on('error', interceptErrors)
         .pipe(dest('./build/'))
+
+    const icon = src("./src/icon.png")
+        .on('error', interceptErrors)
+        .pipe(dest('./build/'))
+
+    return merge(html, icon)
 }
 
 function buildTemplates() {
@@ -66,7 +72,7 @@ function liveReload() {
         }
     })
 
-    watch("src/index.html", moveHtml)
+    watch("./src/index.html", moveHtml)
     watch(viewFiles, buildViews)
     watch(jsFiles, buildJs)
 }
@@ -75,10 +81,10 @@ function liveReload() {
 * Build production ready minified JS/CSS files into dist/ folder.
 */
 function dist() {
-    const html = src("build/index.html")
-        .pipe(dest('./dist/'));
+    const html = src("./build/index.html")
+        .pipe(dest('./dist/'))
 
-    const js = src("build/main.js")
+    const js = src("./build/main.js")
         .pipe(uglify())
         .pipe(dest('./dist/'))
 

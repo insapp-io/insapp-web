@@ -10,7 +10,10 @@ function AssociationCreateConfig($stateProvider) {
       auth: User => {
         return User.ensureAuthIs(true)
       },
-      association: (auth, Association) => {
+      master: User => {
+        return User.ensureAdminIs(true)
+      },
+      association: (auth, master, Association) => {
         return Association.getCurrent()
       }
     }

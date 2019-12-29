@@ -9,6 +9,9 @@ function UserListConfig($stateProvider) {
     resolve: {
       auth: User => {
         return User.ensureAuthIs(true)
+      },
+      master: User => {
+        return User.ensureAdminIs(true)
       }
     }
   })

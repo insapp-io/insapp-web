@@ -89,12 +89,32 @@ export default class User {
   ensureAuthIs(bool) {
     let deferred = this._$q.defer()
 
-    this.verifyAuth().then((authValid) => {
+    this.verifyAuth().then(authValid => {
       if (authValid !== bool) {
         this._$state.go('app.login')
         deferred.resolve(false)
       } else {
         deferred.resolve(true)
+      }
+    })
+
+    return deferred.promise
+  }
+
+  ensureAdminIs(bool) {
+    let deferred = this._$q.defer()
+
+    this.verifyAuth().then(authValid => {
+      if (authValid !== bool) {
+        this._$state.go('app.login')
+        deferred.resolve(false)
+      } else {
+        if (this.current.master) {
+          deferred.resolve(true)
+        } else {
+          this._$state.go('app.postlist')
+          deferred.resolve(false)
+        }
       }
     })
 
