@@ -159,8 +159,8 @@ class PostCreateController {
   removeFile() {
     this._$scope.file = undefined
     
-    this.post.image = undefined
-    this.post.imageSize = undefined
+    this.post.image = ""
+    this.post.imageSize = {}
   }
 
   createPost() {

@@ -63,10 +63,14 @@ class PostViewController {
   }
 
   sanitize(post) {
-    post = {
-      ...post,
-      imageUrl: this._AppConstants.cdn + post.image
+    if (post.image) {
+      post = {
+        ...post,
+        imageUrl: this._AppConstants.cdn + post.image
+      }
     }
+
+    console.log(post)
 
     for (const comment of post.comments) {
       this._User.get(comment.user).then(user => {
@@ -162,8 +166,8 @@ class PostViewController {
     this._$scope.file = undefined
     
     this.post.imageUrl = undefined
-    this.post.image = undefined
-    this.post.imageSize = undefined
+    this.post.image = ""
+    this.post.imageSize = {}
   }
 
   updatePost() {

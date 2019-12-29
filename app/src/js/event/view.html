@@ -13,13 +13,19 @@
         <div ng-show="file">
           <img ngf-thumbnail="file" height="300" class="img-rounded">
           <br>
+          <div class="btn btn-danger" ng-click="$controller.removeFile()">Supprimer</div>
+          <!--
           <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeFile()">Supprimer</div>
+          -->
         </div>
 
         <div ng-show="$controller.event.imageUrl">
           <img ng-src="{{ $controller.event.imageUrl }}" height=300 class="img-rounded">
           <br>
+          <div class="btn btn-danger" ng-click="$controller.removeFile()">Supprimer</div>
+          <!--
           <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeFile()">Supprimer</div>
+          -->
         </div>
       </div>
     </div>

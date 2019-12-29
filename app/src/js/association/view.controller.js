@@ -80,8 +80,8 @@ class AssociationViewController {
     this._$scope.coverPictureFile = undefined
     
     this.association.coverPictureUrl = undefined
-    this.association.cover = undefined
-    this.association.palette = undefined
+    this.association.cover = ""
+    this.association.palette = []
     this.paletteGenerated = false
   }
 
@@ -105,7 +105,7 @@ class AssociationViewController {
     this._$scope.profilePictureFile = undefined
     
     this.association.profilePictureUrl = undefined
-    this.association.profileuploaded = undefined
+    this.association.profileuploaded = ""
   }
 
   updateAssociation() {

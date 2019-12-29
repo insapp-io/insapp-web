@@ -64,9 +64,11 @@ class EventViewController {
   }
 
   sanitize(event) {
-    event = {
-      ...event,
-      imageUrl: this._AppConstants.cdn + event.image
+    if (event.image) {
+      event = {
+        ...event,
+        imageUrl: this._AppConstants.cdn + event.image
+      }
     }
 
     for (const comment of event.comments) {
@@ -199,9 +201,9 @@ class EventViewController {
     this._$scope.file = undefined
 
     this.event.imageUrl = undefined
-    this.event.image = undefined
-    this.event.imageSize = undefined
-    this.event.palette = undefined
+    this.event.image = ""
+    this.event.imageSize = {}
+    this.event.palette = []
     this.paletteGenerated = false
   }
     

@@ -192,9 +192,9 @@ class EventCreateController {
   removeFile() {
     this._$scope.file = undefined
     
-    this.event.image = undefined
-    this.event.imageSize = undefined
-    this.event.palette = undefined
+    this.event.image = ""
+    this.event.imageSize = {}
+    this.event.palette = []
     this.paletteGenerated = false
   }
   
