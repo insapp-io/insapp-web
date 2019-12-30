@@ -70,8 +70,6 @@ class PostViewController {
       }
     }
 
-    console.log(post)
-
     for (const comment of post.comments) {
       this._User.get(comment.user).then(user => {
         comment.author = user.username
