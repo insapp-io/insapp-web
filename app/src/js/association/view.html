@@ -1,53 +1,44 @@
-<div>
-  <form class="form-horizontal col-md-6" name="form" ng-submit="$controller.updateAssociation()">
-    <h1 style="padding: 10px">@{{ $controller.association.name }}</h1>
+<div class="container">
+  <form ng-submit="$controller.updateAssociation()">
+    <h1 style="padding-bottom: 10px">@{{ $controller.association.name }}</h1>
+
     <div class="form-group">
-      <div class="col-sm-2">
-        <label class="control-label">Cover Image</label>
+      <label>Image de couverture</label>
+      <div ng-hide="coverPictureFile || $controller.association.coverPictureUrl">
+        <input type="file" class="form-control-file" ngf-select="$controller.uploadCoverPicture($file)" ng-model="coverPictureFile" accept="image/*" ngf-max-size="5MB">
       </div>
-      <div class="col-sm-10">
-        <div ng-hide="coverPictureFile || $controller.association.coverPictureUrl">
-          <input type="file" ngf-select="$controller.uploadCoverPicture($file)" ng-model="coverPictureFile" accept="image/*" ngf-max-size="5MB">
-        </div>
-
-        <div ng-show="coverPictureFile">
-          <img ngf-thumbnail="coverPictureFile" height="300" class="img-rounded">
-          <br>
-          <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeCoverPictureFile()">Supprimer</div>
-        </div>
-
-        <div ng-show="$controller.association.coverPictureUrl">
-          <img ng-src="{{ $controller.association.coverPictureUrl }}" height=300 class="img-rounded">
-          <br>
-          <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeCoverPictureFile()">Supprimer</div>
-        </div>
+      <div ng-show="coverPictureFile">
+        <img ngf-thumbnail="coverPictureFile" height="300" class="img-rounded">
+        <br>
+        <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeCoverPictureFile()">Supprimer</div>
+      </div>
+      <div ng-show="$controller.association.coverPictureUrl">
+        <img ng-src="{{ $controller.association.coverPictureUrl }}" height=300 class="img-rounded">
+        <br>
+        <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeCoverPictureFile()">Supprimer</div>
       </div>
     </div>
+
     <div class="form-group">
-      <div class="col-sm-2">
-        <label class="control-label">Profile Image</label>
+      <label>Image de profil</label>
+      <div ng-hide="profilePictureFile || $controller.association.profilePictureUrl">
+        <input type="file" class="form-control-file" ngf-select="$controller.uploadProfilePicture($file)" ng-model="profilePictureFile" accept="image/*" ngf-max-size="5MB">
       </div>
-      <div class="col-sm-10">
-        <div ng-hide="profilePictureFile || $controller.association.profilePictureUrl">
-          <input type="file" ngf-select="$controller.uploadProfilePicture($file)" ng-model="profilePictureFile" accept="image/*" ngf-max-size="5MB">
-        </div>
-
-        <div ng-show="profilePictureFile">
-          <img ngf-thumbnail="profilePictureFile" height="300" class="img-rounded">
-          <br>
-          <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeProfilePictureFile()">Supprimer</div>
-        </div>
-
-        <div ng-show="$controller.association.profilePictureUrl">
-          <img ng-src="{{ $controller.association.profilePictureUrl }}" height=300 class="img-rounded">
-          <br>
-          <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeProfilePictureFile()">Supprimer</div>
-        </div>
+      <div ng-show="profilePictureFile">
+        <img ngf-thumbnail="profilePictureFile" height="300" class="img-rounded">
+        <br>
+        <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeProfilePictureFile()">Supprimer</div>
+      </div>
+      <div ng-show="$controller.association.profilePictureUrl">
+        <img ng-src="{{ $controller.association.profilePictureUrl }}" height=300 class="img-rounded">
+        <br>
+        <div class="btn btn-danger" confirm-click="Êtes-vous sûr de vouloir supprimer cette image ?" confirmed-click="$controller.removeProfilePictureFile()">Supprimer</div>
       </div>
     </div>
+
     <div class="form-group" ng-show="$controller.paletteGenerated">
-      <label class="col-sm-2 control-label">Couleur</label>
-      <div class="col-sm-10">
+      <label>Couleur</label>
+      <div>
         <div class="form-group" ng-style="{'background-color': 'rgb('+$controller.association.palette[0][0]+', '+$controller.association.palette[0][1]+', '+$controller.association.palette[0][2]+')','height':'40px', 'width':'80px', 'display':'inline-block', 'margin-left':'0px'}">
           <input type="radio" name="color" style="margin-top: 13px; margin-left:33px" ng-click="$controller.selectColor(0);" ng-checked="$controller.association.selectedcolor == 0">
         </div>
@@ -65,27 +56,17 @@
         </div>
       </div>
     </div>
+
     <div class="form-group">
-      <div class="col-sm-2">
-        <label class="control-label">Nom ({{ 15 - $controller.association.name.length }})</label>
-      </div>
-      <div class="col-sm-10">
-        <input type="text" ng-model="$controller.association.name" ng-change="$controller.monitorLength('name', 15)" class="form-control">
-      </div>
+      <label class="control-label">Nom ({{ 20 - $controller.association.name.length }})</label>
+      <input type="text" ng-model="$controller.association.name" ng-change="$controller.monitorLength('name', 20)" class="form-control">
     </div>
+
     <div class="form-group">
-      <div class="col-sm-2">
-        <label class="control-label">Description ({{ 500 - $controller.association.description.length }})</label>
-      </div>
-      <div class="col-sm-10">
-        <textarea ng-model="$controller.association.description" ng-change="$controller.monitorLength('description', 500)" rows="3" class="form-control"></textarea>
-      </div>
+      <label>Description ({{ 500 - $controller.association.description.length }})</label>
+      <textarea ng-model="$controller.association.description" ng-change="$controller.monitorLength('description', 500)" rows="10" class="form-control"></textarea>
     </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label"></label>
-      <div class="col-sm-10">
-        <button class="btn btn-info" type="submit" ng-disabled="!$controller.association.cover || !$controller.association.profileuploaded || !$controller.association.name || !$controller.association.description">Modifier</button>
-      </div>
-    </div>
+
+    <button class="btn btn-primary" type="submit" ng-disabled="!$controller.association.cover || !$controller.association.profileuploaded || !$controller.association.name || !$controller.association.description">Modifier</button>
   </form>
 </div>

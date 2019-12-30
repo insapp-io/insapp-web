@@ -1,29 +1,17 @@
-<div>
-  <div style="float: none; margin: 0 auto; padding: 3%">
-    <form class="form-horizontal col-md-6" name="form" ng-submit="$controller.createAssociation()">
-      <h1 style="padding: 10px">@{{ $controller.association.name }}</h1>
-      <div class="form-group">
-        <div class="col-sm-2">
-          <label class="control-label">Nom ({{ 20 - $controller.association.name.length }})</label>
-        </div>
-        <div class="col-sm-10">
-          <input type="text" ng-model="$controller.association.name" ng-change="$controller.monitorLength('name', 20)" class="form-control" required>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-2">
-          <label class="control-label">Email</label>
-        </div>
-        <div class="col-sm-10">
-          <input type="email" ng-model="$controller.association.email" class="form-control" required>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-2 control-label"></label>
-        <div class="col-sm-10">
-          <button class="btn btn-success" type="submit" ng-disabled="!$controller.association.name || !$controller.association.email">Valider</button>
-        </div>
-      </div>
-    </form>
-  </div>
+<div class="container">
+  <form ng-submit="$controller.createAssociation()">
+    <h1 style="padding-bottom: 10px">@{{ $controller.association.name }}</h1>
+
+    <div class="form-group">
+      <label>Nom ({{ 20 - $controller.association.name.length }})</label>
+      <input type="text" ng-model="$controller.association.name" ng-change="$controller.monitorLength('name', 20)" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" ng-model="$controller.association.email" class="form-control" required>
+    </div>
+
+    <button class="btn btn-primary" type="submit" ng-disabled="!$controller.association.name || !$controller.association.email">Valider</button>
+  </form>
 </div>
