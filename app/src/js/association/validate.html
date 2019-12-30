@@ -1,7 +1,7 @@
-<div style="padding: 30px">
-  <div ng-show="$controller.loading">
-    <div class="article-preview">
-      <h2 style="text-align:center; color:#AAA">Chargements des associations en cours...</h2>
+<div class="container">
+  <div ng-show="$controller.loading" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Chargement des associations en cours...</span>
     </div>
   </div>
 
@@ -13,21 +13,25 @@
     <div ng-show="$controller.list.length">
       <label>Rechercher : <input ng-model="searchText" style="margin-bottom: 10px"></label>
 
-      <table class="table table-striped table-hover">
-        <tr>
-          <th>ID</th>
-          <th>Association</th>
-          <th>Posts</th>
-          <th>Évènements</th>
-          <th>Actions</th>
-        </tr>
-        <tr ng-repeat="association in $controller.list | filter: searchText">
-          <td>{{ association.ID }}</td>
-          <td>{{ association.name }}</td>
-          <td>{{ association.posts.length }}</td>
-          <td>{{ association.events.length }}</td>
-          <td><a ui-sref="app.associationview({ id: association.ID})"><button class="btn btn-info">Modifier</button></a></td>
-        </tr>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Association</th>
+            <th>Posts</th>
+            <th>Évènements</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="association in $controller.list | filter: searchText">
+            <td>{{ association.ID }}</td>
+            <td>{{ association.name }}</td>
+            <td>{{ association.posts.length }}</td>
+            <td>{{ association.events.length }}</td>
+            <td><a ui-sref="app.associationview({ id: association.ID})"><button class="btn btn-info">Modifier</button></a></td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
