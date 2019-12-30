@@ -1,6 +1,4 @@
 <div class="login-screen text-center">
-  <list-errors errors="$controller.errors"></list-errors>
-
   <form class="form-signin" ng-submit="$controller.submitForm()">
     <img class="mb-4" src="icon.png" alt="Insapp logo" width="72" height="72">
     
@@ -12,6 +10,8 @@
     <label for="inputPassword" class="sr-only">Mot de passe</label>
     <input type="password" id="inputPassword" ng-model="$controller.formData.password" class="form-control" placeholder="Mot de passe" required="">
     
+    <list-errors errors="$controller.errors"></list-errors>
+
     <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
 
     <p class="mt-5 mb-3 text-muted">
