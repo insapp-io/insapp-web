@@ -9,16 +9,12 @@ function ShowAuthed(User) {
       scope.$watch('User.current', val => {
         // If user detected
         if (val) {
-          if (attrs.showAuthed === 'true') {
-            element.css({ display: 'inherit'})
-          } else {
+          if (attrs.showAuthed !== 'true') {
             element.css({ display: 'none'})
           }
         } else {
           if (attrs.showAuthed === 'true') {
             element.css({ display: 'none'})
-          } else {
-            element.css({ display: 'inherit'})
           }
         }
       })
