@@ -11,7 +11,8 @@
     </div>
 
     <div ng-show="$controller.list.length">
-      <label>Rechercher : <input ng-model="searchText" style="margin-bottom: 10px"></label>
+      <input type="search" class="form-control" placeholder="Filtrer..." ng-model="searchText" style="margin-bottom: 10px">
+      
       <p style="color: #AAA">{{ $controller.list.length }} utilisateurs</p>
 
       <table class="table table-striped">
