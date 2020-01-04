@@ -1,25 +1,29 @@
 function ShowAdmin(User) {
-    'ngInject'
-  
-    return {
-      restrict: 'A',
-      link: (scope, element, attrs) => {
-        scope.User = User
-  
-        scope.$watch('User.current', val => {
-          // If user detected
-          if (val && val.master === true) {
-            if (attrs.showAdmin !== 'true') {
-              element.css({ display: 'none'})
-            }
+  'ngInject'
+
+  return {
+    restrict: 'A',
+    link: (scope, element, attrs) => {
+      scope.User = User
+
+      scope.$watch('User.current', val => {
+        // If user detected
+        if (val && val.master) {
+          if (attrs.showAdmin === 'false') {
+            element.css({ display: 'none'})
           } else {
-            if (attrs.showAdmin === 'true') {
-              element.css({ display: 'none'})
-            }
+            element.css({ display: 'flex'})
           }
-        })
-      }
+        } else {
+          if (attrs.showAdmin === 'true') {
+            element.css({ display: 'none'})
+          } else {
+            element.css({ display: 'flex'})
+          }
+        }
+      })
     }
   }
+}
     
   export default ShowAdmin
