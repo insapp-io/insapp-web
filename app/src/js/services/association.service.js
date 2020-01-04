@@ -21,15 +21,19 @@ export default class Association {
   }
 
   getCurrent() {
-    return this._$http({
-      url: `${this._AppConstants.api}/associations/${this._User.current.association}`,
-      method: 'GET'
-    }).then(
-      res => {
-        this.current = res.data
-        return this.current
-      }
-    )
+    if (this._User.current) {
+      return this._$http({
+        url: `${this._AppConstants.api}/associations/${this._User.current.association}`,
+        method: 'GET'
+      }).then(
+        res => {
+          this.current = res.data
+          return this.current
+        }
+      )
+    }
+
+    return null
   }
 
   get(id) {

@@ -66,22 +66,18 @@ export default class User {
   verifyAuth() {
     let deferred = this._$q.defer()
 
-    if (this.current) {
-      deferred.resolve(true)
-    } else {
-      this._$http({
-        url: `${this._AppConstants.api}/association`,
-        method: 'GET'
-      }).then(
-        res => {
-          this.current = res.data
-          deferred.resolve(true)
-        },
-        err => {
-          deferred.resolve(false)
-        }
-      )
-    }
+    this._$http({
+      url: `${this._AppConstants.api}/association`,
+      method: 'GET'
+    }).then(
+      res => {
+        this.current = res.data
+        deferred.resolve(true)
+      },
+      err => {
+        deferred.resolve(false)
+      }
+    )
     
     return deferred.promise
   }

@@ -55,10 +55,11 @@ app.constant('AppConstants', AppConstants)
 app.config(AppConfig)
 app.run(AppRun)
 
-function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterProvider) {
+function AppConfig($stateProvider, $locationProvider, $urlRouterProvider) {
   'ngInject'
 
   // Auth middleware
+  /*
   $httpProvider.interceptors.push(($state, $q) => {
     return {
       // Handle 401
@@ -71,6 +72,7 @@ function AppConfig($httpProvider, $stateProvider, $locationProvider, $urlRouterP
       }
     }
   })
+  */
 
   //$locationProvider.html5Mode(true)
 
