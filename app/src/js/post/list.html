@@ -27,8 +27,8 @@
             <tr>
               <th>Titre</th>
               <th>Date</th>
-              <th>Likes</th>
-              <th>Commentaires</th>
+              <th class="d-none d-md-table-cell">Likes</th>
+              <th class="d-none d-md-table-cell">Commentaires</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -36,8 +36,8 @@
             <tr ng-repeat="post in $controller.list | filter: searchText">
               <td>{{ post.title }}</a></td>
               <td>{{ post.date | date: 'dd/MM/yyyy HH:mm' }}</td>
-              <td>{{ post.likes.length }}</td>
-              <td>{{ post.comments.length }}</td>
+              <td class="d-none d-md-table-cell">{{ post.likes.length }}</td>
+              <td class="d-none d-md-table-cell">{{ post.comments.length }}</td>
               <td><a ui-sref="app.postview({ id: post.ID})"><button class="btn btn-info">Modifier</button></a></td>
             </tr>
           </tbody>

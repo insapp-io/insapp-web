@@ -19,8 +19,8 @@
             <th>Association</th>
             <th>Titre</th>
             <th>Date</th>
-            <th>Likes</th>
-            <th>Commentaires</th>
+            <th class="d-none d-md-table-cell">Likes</th>
+            <th class="d-none d-md-table-cell">Commentaires</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -29,8 +29,8 @@
             <td>{{ post.associationName }}</td>
             <td>{{ post.title }}</td>
             <td>{{ post.date | date: 'dd/MM/yyyy HH:mm' }}</td>
-            <td>{{ post.likes.length || 0 }}</td>
-            <td>{{ post.comments.length || 0 }}</td>
+            <td class="d-none d-md-table-cell">{{ post.likes.length || 0 }}</td>
+            <td class="d-none d-md-table-cell">{{ post.comments.length || 0 }}</td>
             <td><a ui-sref="app.postview({ id: post.ID})"><button class="btn btn-info">Modifier</button></a></td>
           </tr>
         </tbody>

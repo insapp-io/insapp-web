@@ -22,10 +22,10 @@
             <th>Nom</th>
             <th>Début</th>
             <th>Fin</th>
-            <th>J'y vais</th>
-            <th>Peut-être</th>
-            <th>J'y vais pas</th>
-            <th>Commentaires</th>
+            <th class="d-none d-md-table-cell">J'y vais</th>
+            <th class="d-none d-md-table-cell">Peut-être</th>
+            <th class="d-none d-md-table-cell">J'y vais pas</th>
+            <th class="d-none d-md-table-cell">Commentaires</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -35,10 +35,10 @@
             <td>{{ event.name }}</td>
             <td>{{ event.dateStart | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td>{{ event.dateEnd | date: 'dd/MM/yyyy HH:mm' }}</td>
-            <td>{{ event.participants.length || 0 }}</td>
-            <td>{{ event.maybe.length || 0 }}</td>
-            <td>{{ event.notgoing.length || 0 }}</td>
-            <td>{{ event.comments.length || 0 }}</td>
+            <td class="d-none d-md-table-cell">{{ event.participants.length || 0 }}</td>
+            <td class="d-none d-md-table-cell">{{ event.maybe.length || 0 }}</td>
+            <td class="d-none d-md-table-cell">{{ event.notgoing.length || 0 }}</td>
+            <td class="d-none d-md-table-cell">{{ event.comments.length || 0 }}</td>
             <td><a ui-sref="app.eventview({ id: event.ID})"><button class="btn btn-info">Modifier</button></a></td>
           </tr>
         </tbody>
@@ -53,10 +53,10 @@
             <th>Nom</th>
             <th>Début</th>
             <th>Fin</th>
-            <th>J'y vais</th>
-            <th>Peut-être</th>
-            <th>J'y vais pas</th>
-            <th>Commentaires</th>
+            <th class="d-none d-md-table-cell">J'y vais</th>
+            <th class="d-none d-md-table-cell">Peut-être</th>
+            <th class="d-none d-md-table-cell">J'y vais pas</th>
+            <th class="d-none d-md-table-cell">Commentaires</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -66,10 +66,10 @@
             <td>{{ event.name }}</td>
             <td>{{ event.dateStart | date: 'dd/MM/yyyy HH:mm' }}</td>
             <td>{{ event.dateEnd | date: 'dd/MM/yyyy HH:mm' }}</td>
-            <td>{{ event.participants.length || 0 }}</td>
-            <td>{{ event.maybe.length || 0 }}</td>
-            <td>{{ event.notgoing.length || 0 }}</td>
-            <td>{{ event.comments.length || 0 }}</td>
+            <td class="d-none d-md-table-cell">{{ event.participants.length || 0 }}</td>
+            <td class="d-none d-md-table-cell">{{ event.maybe.length || 0 }}</td>
+            <td class="d-none d-md-table-cell">{{ event.notgoing.length || 0 }}</td>
+            <td class="d-none d-md-table-cell">{{ event.comments.length || 0 }}</td>
             <td><a ui-sref="app.eventview({ id: event.ID})"><button class="btn btn-info">Modifier</button></a></td>
           </tr>
         </tbody>
