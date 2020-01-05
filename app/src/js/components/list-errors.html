@@ -1,7 +1,5 @@
-<ul class="error-messages" ng-show="$controller.errors">
-  <div ng-repeat="(field, errors) in $controller.errors">
-      <li ng-repeat="error in errors">
-      {{field}} {{error}}
-      </li>
+<div ng-show="$ctrl.errors">
+  <div ng-repeat="error in $ctrl.errors" class="alert alert-danger" role="alert">
+    {{ error }}
   </div>
-</ul>
+</div>
