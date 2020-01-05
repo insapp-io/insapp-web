@@ -10,15 +10,15 @@ function ShowAdmin(User) {
         // If user detected
         if (val && val.master) {
           if (attrs.showAdmin === 'false') {
-            element.css({ display: 'none'})
+            element.css({ display: 'none' })
           } else {
-            element.css({ display: 'flex'})
+            element.css({ display: 'inherit' })
           }
         } else {
           if (attrs.showAdmin === 'true') {
-            element.css({ display: 'none'})
+            element.css({ display: 'none' })
           } else {
-            element.css({ display: 'flex'})
+            element.css({ display: 'inherit' })
           }
         }
       })
@@ -26,4 +26,4 @@ function ShowAdmin(User) {
   }
 }
     
-  export default ShowAdmin
+export default ShowAdmin

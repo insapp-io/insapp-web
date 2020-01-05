@@ -1,44 +1,46 @@
-<nav show-authed="true" class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-  <a class="navbar-brand" ui-sref="app.postlist">
-    <img src="icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
-    Insapp
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<div show-authed="true">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" ui-sref="app.postlist">
+      <img src="icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+      Insapp
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item" ui-sref-active="active">
-        <a class="nav-link" ui-sref="app.postlist">Mes posts</a>
-      </li>
-      <li class="nav-item" ui-sref-active="active">
-        <a class="nav-link" ui-sref="app.eventlist">Mes évènements</a>
-      </li>
-      <li class="nav-item" ui-sref-active="active">
-        <a class="nav-link" ui-sref="app.myassociationview">Mon association</a>
-      </li>
-      <li show-admin="true" class="nav-item" ui-sref-active="active">
-        <a class="nav-link" ui-sref="app.userlist">Utilisateurs</a>
-      </li>
-      <li show-admin="true" class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Validation<span class="caret"></span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" ui-sref="app.postvalidate">Posts</a>
-          <a class="dropdown-item" ui-sref="app.eventvalidate">Évènements</a>
-          <a class="dropdown-item" ui-sref="app.associationvalidate">Associations</a>
-        </div>
-      </li>
-      <li show-admin="true" class="nav-item" ui-sref-active="active">
-        <a class="nav-link" ui-sref="app.associationcreate">Créer une association</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="javascript:void(0)" ng-click="$ctrl.logout()">Se déconnecter</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" ui-sref-active="active">
+          <a class="nav-link" ui-sref="app.postlist">Mes posts</a>
+        </li>
+        <li class="nav-item" ui-sref-active="active">
+          <a class="nav-link" ui-sref="app.eventlist">Mes évènements</a>
+        </li>
+        <li class="nav-item" ui-sref-active="active">
+          <a class="nav-link" ui-sref="app.myassociationview">Mon association</a>
+        </li>
+        <li show-admin="true" class="nav-item" ui-sref-active="active">
+          <a class="nav-link" ui-sref="app.userlist">Utilisateurs</a>
+        </li>
+        <li show-admin="true" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Validation<span class="caret"></span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" ui-sref="app.postvalidate">Posts</a>
+            <a class="dropdown-item" ui-sref="app.eventvalidate">Évènements</a>
+            <a class="dropdown-item" ui-sref="app.associationvalidate">Associations</a>
+          </div>
+        </li>
+        <li show-admin="true" class="nav-item" ui-sref-active="active">
+          <a class="nav-link" ui-sref="app.associationcreate">Créer une association</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0)" ng-click="$ctrl.logout()">Se déconnecter</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

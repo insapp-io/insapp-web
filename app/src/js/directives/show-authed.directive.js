@@ -10,15 +10,15 @@ function ShowAuthed(User) {
         // If user detected
         if (val) {
           if (attrs.showAuthed === 'false') {
-            element.css({ display: 'none'})
+            element.css({ display: 'none' })
           } else {
-            element.css({ display: 'flex'})
+            element.css({ display: 'inherit' })
           }
         } else {
           if (attrs.showAuthed === 'true') {
-            element.css({ display: 'none'})
+            element.css({ display: 'none' })
           } else {
-            element.css({ display: 'flex'})
+            element.css({ display: 'inherit' })
           }
         }
       })
