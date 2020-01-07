@@ -19,6 +19,8 @@ import 'ng-dialog'
 import 'ng-file-upload'
 import 'ng-loading-overlay'
 import 'angular-ui-router'
+import 'dark-mode-switch'
+
 import AppConstants from './config/app.config'
 
 const requires = [

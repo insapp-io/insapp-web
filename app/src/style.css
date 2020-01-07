@@ -2,7 +2,6 @@
   padding-top: 70px;
   padding-bottom: 70px;
 }
-
 .login-screen {
   height: 100vh;
   display: -ms-flexbox;
@@ -15,7 +14,6 @@
   -webkit-box-pack: center;
   justify-content: center;
 }
-
 .form-signin {
   width: 100%;
   max-width: 330px;
@@ -44,4 +42,8 @@
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+[data-theme="dark"] {
+  background-color: #111 !important;
+  color: #eee;
 }
