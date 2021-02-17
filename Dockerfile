@@ -18,7 +18,7 @@ RUN npm install
 RUN npx gulp dist
 
 # Nginx application
-FROM nginx
+FROM nginx:1.19
 LABEL maintainer "Thomas Bouvier <contact@thomas-bouvier.io>"
 
 RUN apt-get update \
